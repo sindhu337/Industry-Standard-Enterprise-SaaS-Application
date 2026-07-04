@@ -13,15 +13,17 @@ import reportReducer from '@/features/reports/reportSlice'
 import notificationReducer from '@/features/notifications/notificationSlice'
 import uiReducer from '@/app/store/slices/uiSlice'
 
+const resolvedStorage = storage?.getItem ? storage : storage?.default ?? storage
+
 const authPersistConfig = {
   key: 'egrcp-auth',
-  storage,
+  storage: resolvedStorage,
   whitelist: ['user', 'token', 'isAuthenticated'],
 }
 
 const uiPersistConfig = {
   key: 'egrcp-ui',
-  storage,
+  storage: resolvedStorage,
   whitelist: ['themeMode', 'sidebarCollapsed'],
 }
 
