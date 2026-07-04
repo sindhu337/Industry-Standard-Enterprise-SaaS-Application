@@ -1,6 +1,6 @@
-import { Breadcrumbs as MuiBreadcrumbs, Typography, Link, Box } from '@mui/material'
+import { Breadcrumbs as MuiBreadcrumbs, Typography, Link } from '@mui/material'
 import { useLocation, Link as RouterLink } from 'react-router-dom'
-import { ROUTE_TO_MODULE, MODULE_LABELS } from '@/constants/menus'
+import { routeConfig } from '@/app/router/routeConfig'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 
 export default function Breadcrumbs() {
@@ -18,6 +18,26 @@ export default function Breadcrumbs() {
 
   const segments = pathname.split('/').filter(Boolean)
 
+  const getRouteLabel = (path, segment) => {
+    const match = routeConfig.find((r) => r.path === path)
+    if (match) return match.label
+
+    for (const route of routeConfig) {
+      const pattern = route.path
+        .replace(/:[a-zA-Z0-9_]+/g, '[^/]+')
+        .replace(/\//g, '\\/')
+      const regex = new RegExp(`^${pattern}$`)
+      if (regex.test(path)) {
+        if (route.path.includes('/:')) {
+          return segment
+        }
+        return route.label
+      }
+    }
+
+    return segment.charAt(0).toUpperCase() + segment.slice(1)
+  }
+
   return (
     <MuiBreadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
       <Link
@@ -27,20 +47,15 @@ export default function Breadcrumbs() {
         color="text.secondary"
         variant="body2"
       >
-        Home
+        Dashboard
       </Link>
       {segments.map((segment, index) => {
-        const path = `/${segments.slice(0, index + 1).join('/')}`
-        
-        let label = segment
-        if (ROUTE_TO_MODULE[path]) {
-          label = MODULE_LABELS[ROUTE_TO_MODULE[path]]
-        } else {
-          label = segment.charAt(0).toUpperCase() + segment.slice(1)
-        }
+        if (segment === 'dashboard') return null
 
+        const path = `/${segments.slice(0, index + 1).join('/')}`
+        const label = getRouteLabel(path, segment)
         const isLast = index === segments.length - 1
-        
+
         return isLast ? (
           <Typography key={path} variant="body2" color="text.primary" fontWeight={600}>
             {label}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -33,6 +33,8 @@ import {
 
 import { toggleTheme, toggleSidebar, toggleSidebarCollapse } from '@/app/store/slices/uiSlice'
 import { logout } from '@/features/auth/authSlice'
+import { fetchNotifications } from '@/features/notifications/notificationSlice'
+import NotificationPopover from './NotificationPopover'
 import { ROUTES } from '@/constants/routes'
 import { APP_CONFIG } from '@/constants/appConfig'
 
@@ -44,27 +46,45 @@ export default function Topbar({ height }) {
 
   const { user } = useSelector((state) => state.auth)
   const { themeMode, sidebarCollapsed } = useSelector((state) => state.ui)
+  const { items: notifications } = useSelector((state) => state.notifications)
 
-  const [anchorEl, setAnchorEl] = useState(null)
-  const isMenuOpen = Boolean(anchorEl)
+  const unreadNotificationsCount = notifications.filter((n) => !n.isRead).length
+
+  const [profileAnchorEl, setProfileAnchorEl] = useState(null)
+  const [notifAnchorEl, setNotifAnchorEl] = useState(null)
+
+  const isProfileMenuOpen = Boolean(profileAnchorEl)
+  const isNotifOpen = Boolean(notifAnchorEl)
+
+  useEffect(() => {
+    dispatch(fetchNotifications())
+  }, [dispatch])
 
   const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget)
+    setProfileAnchorEl(event.currentTarget)
   }
 
-  const handleMenuClose = () => {
-    setAnchorEl(null)
+  const handleProfileMenuClose = () => {
+    setProfileAnchorEl(null)
+  }
+
+  const handleNotifOpen = (event) => {
+    setNotifAnchorEl(event.currentTarget)
+  }
+
+  const handleNotifClose = () => {
+    setNotifAnchorEl(null)
   }
 
   const handleLogout = () => {
-    handleMenuClose()
+    handleProfileMenuClose()
     dispatch(logout())
     navigate(ROUTES.LOGIN)
   }
 
   const handleSettingsClick = () => {
-    handleMenuClose()
-    navigate(ROUTES.SETTINGS)
+    handleProfileMenuClose()
+    navigate(ROUTES.ROUTES || ROUTES.SETTINGS)
   }
 
   const handleToggleSidebar = () => {
@@ -137,8 +157,8 @@ export default function Topbar({ height }) {
             {themeMode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
           </IconButton>
 
-          <IconButton color="inherit">
-            <Badge badgeContent={3} color="error">
+          <IconButton color="inherit" onClick={handleNotifOpen}>
+            <Badge badgeContent={unreadNotificationsCount} color="error">
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -161,12 +181,18 @@ export default function Topbar({ height }) {
           </Box>
         </Box>
 
+        <NotificationPopover
+          anchorEl={notifAnchorEl}
+          open={isNotifOpen}
+          onClose={handleNotifClose}
+        />
+
         <Menu
-          anchorEl={anchorEl}
+          anchorEl={profileAnchorEl}
           id="primary-search-account-menu"
           keepMounted
-          open={isMenuOpen}
-          onClose={handleMenuClose}
+          open={isProfileMenuOpen}
+          onClose={handleProfileMenuClose}
           PaperProps={{
             elevation: 3,
             sx: {

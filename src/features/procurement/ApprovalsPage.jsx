@@ -1,8 +1,9 @@
-import { Box, Typography, Paper } from '@mui/material'
+import { Typography, Paper } from '@mui/material'
+import PageContainer from '@/components/common/layout/PageContainer'
 
 export default function ApprovalsPage() {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+    <PageContainer sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
       <Paper sx={{ p: 4, textAlign: 'center', minWidth: 300 }}>
         <Typography variant="h5" fontWeight="bold">
           Approval Workbench
@@ -11,6 +12,6 @@ export default function ApprovalsPage() {
           Placeholder page for approving or rejecting procurement requests.
         </Typography>
       </Paper>
-    </Box>
+    </PageContainer>
   )
 }

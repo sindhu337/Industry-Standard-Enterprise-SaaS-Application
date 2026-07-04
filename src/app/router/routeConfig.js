@@ -70,7 +70,7 @@ export const routeConfig = [
   {
     path: ROUTES.REPORTS,
     key: 'reports',
-    label: 'Reports',
+    label: 'Reporting Center',
     allowedRoles: [ADMIN, PROCUREMENT_MANAGER, COMPLIANCE_OFFICER, AUDITOR],
     lazy: () => import('@/features/reports/ReportPage'),
   },

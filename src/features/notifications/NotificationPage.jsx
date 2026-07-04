@@ -1,8 +1,9 @@
-import { Box, Typography, Paper } from '@mui/material'
+import { Typography, Paper } from '@mui/material'
+import PageContainer from '@/components/common/layout/PageContainer'
 
 export default function NotificationPage() {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+    <PageContainer sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
       <Paper sx={{ p: 4, textAlign: 'center', minWidth: 300 }}>
         <Typography variant="h5" fontWeight="bold">
           Notification Center
@@ -11,6 +12,6 @@ export default function NotificationPage() {
           Placeholder page for alerts, tasks, and system notifications.
         </Typography>
       </Paper>
-    </Box>
+    </PageContainer>
   )
 }

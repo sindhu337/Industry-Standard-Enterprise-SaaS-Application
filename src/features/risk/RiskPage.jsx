@@ -1,8 +1,9 @@
-import { Box, Typography, Paper } from '@mui/material'
+import { Typography, Paper } from '@mui/material'
+import PageContainer from '@/components/common/layout/PageContainer'
 
 export default function RiskPage() {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+    <PageContainer sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
       <Paper sx={{ p: 4, textAlign: 'center', minWidth: 300 }}>
         <Typography variant="h5" fontWeight="bold">
           Risk Center
@@ -11,6 +12,6 @@ export default function RiskPage() {
           Placeholder page for risk matrix, trend, and heatmaps.
         </Typography>
       </Paper>
-    </Box>
+    </PageContainer>
   )
 }
