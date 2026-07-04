@@ -4,36 +4,72 @@ import users from '@/mocks/users.json'
 const simulateDelay = (ms = 800) => new Promise((res) => setTimeout(res, ms))
 const generateToken = (userId) => `mock-jwt-${userId}-${Date.now()}`
 
+const getMergedUsers = () => {
+  try {
+    const localUsers = JSON.parse(localStorage.getItem('egrcp_registered_users') || '[]')
+    return [...users, ...localUsers]
+  } catch {
+    return users
+  }
+}
+
 export const loginUser = createAsyncThunk('auth/login', async ({ email, password }, { rejectWithValue }) => {
   await simulateDelay()
-  const user = users.find((u) => u.email === email && u.password === password)
+  const emailNormalized = email.trim().toLowerCase()
+  const merged = getMergedUsers()
+  
+  const user = merged.find((u) => u.email.trim().toLowerCase() === emailNormalized && u.password === password)
   if (!user) return rejectWithValue('Invalid email or password.')
+  
   const { password: _, ...safeUser } = user
   return { user: safeUser, token: generateToken(user.id) }
 })
 
 export const registerUser = createAsyncThunk('auth/register', async (formData, { rejectWithValue }) => {
   await simulateDelay()
-  const exists = users.find((u) => u.email === formData.email)
+  const emailNormalized = formData.email.trim().toLowerCase()
+  const merged = getMergedUsers()
+  
+  const exists = merged.find((u) => u.email.trim().toLowerCase() === emailNormalized)
   if (exists) return rejectWithValue('An account with this email already exists.')
+  
   const newUser = {
     id: `u${Date.now()}`,
     name: formData.name,
-    email: formData.email,
+    email: formData.email.trim(),
+    password: formData.password,
     role: 'Employee',
     department: 'General',
     status: 'Active',
     createdAt: new Date().toISOString(),
     lastLogin: new Date().toISOString(),
   }
-  return { user: newUser, token: generateToken(newUser.id) }
+  
+  try {
+    const localUsers = JSON.parse(localStorage.getItem('egrcp_registered_users') || '[]')
+    localUsers.push(newUser)
+    localStorage.setItem('egrcp_registered_users', JSON.stringify(localUsers))
+  } catch (err) {
+    return rejectWithValue('Failed to save user credentials locally.')
+  }
+  
+  const { password: _, ...safeUser } = newUser
+  return { user: safeUser }
 })
 
 export const forgotPassword = createAsyncThunk('auth/forgotPassword', async ({ email }, { rejectWithValue }) => {
   await simulateDelay()
-  const user = users.find((u) => u.email === email)
+  const emailNormalized = email.trim().toLowerCase()
+  const merged = getMergedUsers()
+  
+  const user = merged.find((u) => u.email.trim().toLowerCase() === emailNormalized)
   if (!user) return rejectWithValue('No account found with this email address.')
   return { message: 'Password reset link sent to your email.' }
+})
+
+export const resetPassword = createAsyncThunk('auth/resetPassword', async ({ password }, { rejectWithValue }) => {
+  await simulateDelay()
+  return { message: 'Your password has been successfully reset.' }
 })
 
 const initialState = {
@@ -49,7 +85,14 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout: () => initialState,
+    logout: (state) => {
+      state.user = null
+      state.token = null
+      state.isAuthenticated = false
+      state.loading = false
+      state.error = null
+      state.successMessage = null
+    },
     clearError: (state) => { state.error = null },
     clearSuccess: (state) => { state.successMessage = null },
     updateProfile: (state, action) => {
@@ -72,9 +115,7 @@ const authSlice = createSlice({
       .addCase(registerUser.pending, (state) => { state.loading = true; state.error = null })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false
-        state.user = action.payload.user
-        state.token = action.payload.token
-        state.isAuthenticated = true
+        state.successMessage = 'Registration successful! Please login.'
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false
@@ -86,6 +127,15 @@ const authSlice = createSlice({
         state.successMessage = action.payload.message
       })
       .addCase(forgotPassword.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+      })
+      .addCase(resetPassword.pending, (state) => { state.loading = true; state.error = null; state.successMessage = null })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.loading = false
+        state.successMessage = action.payload.message
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
         state.loading = false
         state.error = action.payload
       })

@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, Link as RouterLink } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 import {
   Box,
   Card,
@@ -11,9 +13,9 @@ import {
   Link,
   InputAdornment,
   IconButton,
-  Alert,
-  Divider,
   CircularProgress,
+  FormControlLabel,
+  Checkbox,
 } from '@mui/material'
 import {
   Visibility,
@@ -24,24 +26,51 @@ import {
 } from '@mui/icons-material'
 
 import { loginUser, clearError } from '@/features/auth/authSlice'
+import { showSnackbar } from '@/app/store/slices/uiSlice'
 import { ROUTES } from '@/constants/routes'
 import { APP_CONFIG } from '@/constants/appConfig'
+import { loginSchema } from '@/validations/auth.validation'
 
 export default function LoginPage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { loading, error } = useSelector((state) => state.auth)
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const savedEmail = localStorage.getItem('egrcp_remember_email') || ''
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+    defaultValues: {
+      email: savedEmail,
+      password: '',
+      rememberMe: Boolean(savedEmail),
+    },
+  })
+
+  useEffect(() => {
     dispatch(clearError())
-    const result = await dispatch(loginUser({ email, password }))
+  }, [dispatch])
+
+  const onSubmit = async (data) => {
+    dispatch(clearError())
+    const result = await dispatch(loginUser({ email: data.email, password: data.password }))
     if (loginUser.fulfilled.match(result)) {
+      if (data.rememberMe) {
+        localStorage.setItem('egrcp_remember_email', data.email)
+      } else {
+        localStorage.removeItem('egrcp_remember_email')
+      }
+      dispatch(showSnackbar({ message: 'Welcome back! Login successful.', severity: 'success' }))
       navigate(ROUTES.DASHBOARD, { replace: true })
+    } else {
+      dispatch(showSnackbar({ message: result.payload || 'Login failed.', severity: 'error' }))
     }
   }
 
@@ -49,6 +78,7 @@ export default function LoginPage() {
     <Box
       sx={{
         minHeight: '100vh',
+        width: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -86,7 +116,6 @@ export default function LoginPage() {
           sx={{
             borderRadius: 3,
             boxShadow: '0 24px 64px rgba(0,0,0,0.25)',
-            backdropFilter: 'blur(10px)',
             bgcolor: 'background.paper',
             border: 'none',
           }}
@@ -99,25 +128,18 @@ export default function LoginPage() {
               Enter your credentials to access the platform
             </Typography>
 
-            {error && (
-              <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }} onClose={() => dispatch(clearError())}>
-                {error}
-              </Alert>
-            )}
-
-            <Box component="form" onSubmit={handleSubmit} noValidate>
+            <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
               <TextField
-                id="login-email"
+                {...register('email')}
                 label="Email Address"
                 type="email"
                 fullWidth
                 required
                 autoComplete="email"
-                autoFocus
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                error={Boolean(errors.email)}
+                helperText={errors.email?.message}
                 disabled={loading}
-                sx={{ mb: 2 }}
+                sx={{ mb: 2.5 }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -128,16 +150,16 @@ export default function LoginPage() {
               />
 
               <TextField
-                id="login-password"
+                {...register('password')}
                 label="Password"
                 type={showPassword ? 'text' : 'password'}
                 fullWidth
                 required
                 autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                error={Boolean(errors.password)}
+                helperText={errors.password?.message}
                 disabled={loading}
-                sx={{ mb: 1 }}
+                sx={{ mb: 1.5 }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -147,7 +169,6 @@ export default function LoginPage() {
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
-                        id="toggle-password-visibility"
                         onClick={() => setShowPassword(!showPassword)}
                         edge="end"
                         size="small"
@@ -160,7 +181,11 @@ export default function LoginPage() {
                 }}
               />
 
-              <Box sx={{ textAlign: 'right', mb: 3 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+                <FormControlLabel
+                  control={<Checkbox {...register('rememberMe')} color="primary" />}
+                  label={<Typography variant="body2">Remember me</Typography>}
+                />
                 <Link
                   component={RouterLink}
                   to={ROUTES.FORGOT_PASSWORD}
@@ -173,12 +198,11 @@ export default function LoginPage() {
               </Box>
 
               <Button
-                id="login-submit-btn"
                 type="submit"
                 fullWidth
                 variant="contained"
                 size="large"
-                disabled={loading || !email || !password}
+                disabled={loading}
                 sx={{
                   py: 1.5,
                   borderRadius: 2,
@@ -196,13 +220,7 @@ export default function LoginPage() {
               </Button>
             </Box>
 
-            <Divider sx={{ my: 3 }}>
-              <Typography variant="caption" color="text.secondary">
-                OR
-              </Typography>
-            </Divider>
-
-            <Box sx={{ textAlign: 'center' }}>
+            <Box sx={{ textAlign: 'center', mt: 3 }}>
               <Typography variant="body2" color="text.secondary">
                 Don&apos;t have an account?{' '}
                 <Link

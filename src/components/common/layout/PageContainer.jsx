@@ -5,7 +5,7 @@ export default function PageContainer({ children, sx = {} }) {
     <Box
       sx={{
         width: '100%',
-        maxWidth: 1600,
+        maxWidth: { xs: '100%', md: '90%', lg: '90%', xl: 1800 },
         mx: 'auto',
         flexGrow: 1,
         display: 'flex',
