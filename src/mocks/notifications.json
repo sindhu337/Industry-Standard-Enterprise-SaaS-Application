@@ -1,0 +1,52 @@
+[
+  {
+    "id": "n001",
+    "type": "warning",
+    "title": "Vendor Compliance Certificate Expiring",
+    "message": "GlobalEdge Procurement's ISO 14001 certificate expires in 7 days.",
+    "module": "Vendor",
+    "relatedId": "v002",
+    "isRead": false,
+    "createdAt": "2025-07-04T08:00:00Z"
+  },
+  {
+    "id": "n002",
+    "type": "info",
+    "title": "Procurement Request Submitted",
+    "message": "PR-2025-002 Annual Office Supplies Contract requires your approval.",
+    "module": "Procurement",
+    "relatedId": "PR-2025-002",
+    "isRead": false,
+    "createdAt": "2025-07-04T09:30:00Z"
+  },
+  {
+    "id": "n003",
+    "type": "success",
+    "title": "Risk Mitigation Completed",
+    "message": "Currency Fluctuation Risk (RK-004) has been successfully mitigated.",
+    "module": "Risk",
+    "relatedId": "RK-004",
+    "isRead": true,
+    "createdAt": "2025-07-03T14:00:00Z"
+  },
+  {
+    "id": "n004",
+    "type": "error",
+    "title": "Audit Finding Escalated",
+    "message": "Critical finding in Q2 Internal Audit Report has been escalated to management.",
+    "module": "Audit",
+    "relatedId": "AUD-2025-001",
+    "isRead": false,
+    "createdAt": "2025-07-03T16:00:00Z"
+  },
+  {
+    "id": "n005",
+    "type": "info",
+    "title": "New Vendor Onboarded",
+    "message": "Apex Supplies Co. has completed onboarding and is now Active.",
+    "module": "Vendor",
+    "relatedId": "v005",
+    "isRead": true,
+    "createdAt": "2025-07-02T11:00:00Z"
+  }
+]

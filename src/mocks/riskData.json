@@ -1,0 +1,96 @@
+{
+  "summary": {
+    "total": 24,
+    "critical": 3,
+    "high": 7,
+    "medium": 9,
+    "low": 5
+  },
+  "risks": [
+    {
+      "id": "RK-001",
+      "title": "Third-Party Data Breach",
+      "category": "Cybersecurity",
+      "probability": 4,
+      "impact": 5,
+      "score": 20,
+      "level": "Critical",
+      "owner": "Eva Chen",
+      "status": "Open",
+      "mitigationPlan": "Implement zero-trust architecture and quarterly vendor security audits.",
+      "reviewDate": "2025-08-01",
+      "createdAt": "2025-01-15"
+    },
+    {
+      "id": "RK-002",
+      "title": "Supplier Concentration Risk",
+      "category": "Procurement",
+      "probability": 3,
+      "impact": 5,
+      "score": 15,
+      "level": "High",
+      "owner": "Carol Smith",
+      "status": "In Progress",
+      "mitigationPlan": "Diversify supplier base. Add 2 alternative vendors per critical category.",
+      "reviewDate": "2025-07-15",
+      "createdAt": "2025-02-10"
+    },
+    {
+      "id": "RK-003",
+      "title": "Regulatory Non-Compliance",
+      "category": "Compliance",
+      "probability": 3,
+      "impact": 4,
+      "score": 12,
+      "level": "High",
+      "owner": "David Lee",
+      "status": "Open",
+      "mitigationPlan": "Quarterly compliance training and automated monitoring system.",
+      "reviewDate": "2025-07-30",
+      "createdAt": "2025-03-01"
+    },
+    {
+      "id": "RK-004",
+      "title": "Currency Fluctuation Risk",
+      "category": "Financial",
+      "probability": 2,
+      "impact": 3,
+      "score": 6,
+      "level": "Medium",
+      "owner": "Bob Martinez",
+      "status": "Mitigated",
+      "mitigationPlan": "Hedge foreign currency contracts for amounts over $100K.",
+      "reviewDate": "2025-09-01",
+      "createdAt": "2025-03-20"
+    },
+    {
+      "id": "RK-005",
+      "title": "Key Personnel Departure",
+      "category": "Operational",
+      "probability": 2,
+      "impact": 4,
+      "score": 8,
+      "level": "High",
+      "owner": "Alice Johnson",
+      "status": "Open",
+      "mitigationPlan": "Succession planning for all critical roles. Knowledge transfer documentation.",
+      "reviewDate": "2025-08-15",
+      "createdAt": "2025-04-01"
+    }
+  ],
+  "trendData": [
+    { "month": "Jan", "critical": 5, "high": 8, "medium": 10, "low": 6 },
+    { "month": "Feb", "critical": 4, "high": 9, "medium": 11, "low": 5 },
+    { "month": "Mar", "critical": 4, "high": 8, "medium": 10, "low": 6 },
+    { "month": "Apr", "critical": 3, "high": 8, "medium": 9, "low": 6 },
+    { "month": "May", "critical": 3, "high": 7, "medium": 10, "low": 5 },
+    { "month": "Jun", "critical": 3, "high": 7, "medium": 9, "low": 5 }
+  ],
+  "categoryBreakdown": [
+    { "name": "Cybersecurity", "value": 6 },
+    { "name": "Procurement", "value": 5 },
+    { "name": "Compliance", "value": 5 },
+    { "name": "Financial", "value": 4 },
+    { "name": "Operational", "value": 4 }
+  ]
+}

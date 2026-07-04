@@ -1,0 +1,138 @@
+[
+  {
+    "id": "PR-2025-001",
+    "title": "Enterprise Laptop Fleet Refresh",
+    "description": "Procurement of 150 enterprise laptops for the IT department annual refresh cycle.",
+    "category": "IT Hardware",
+    "vendor": "TechNova Solutions",
+    "vendorId": "v001",
+    "amount": 225000,
+    "currency": "USD",
+    "status": "Approved",
+    "priority": "High",
+    "requestedBy": "Bob Martinez",
+    "requestedById": "u002",
+    "department": "IT",
+    "requestedDate": "2025-06-01",
+    "requiredDate": "2025-07-15",
+    "approvedBy": "Alice Johnson",
+    "approvedDate": "2025-06-10",
+    "comments": [
+      { "author": "Carol Smith", "text": "Verified budget allocation.", "date": "2025-06-05" },
+      { "author": "Alice Johnson", "text": "Approved. Proceed with PO.", "date": "2025-06-10" }
+    ],
+    "attachments": ["laptop_specs.pdf", "budget_approval.pdf"],
+    "auditLog": [
+      { "action": "Created", "by": "Bob Martinez", "date": "2025-06-01T09:00:00Z" },
+      { "action": "Submitted for Approval", "by": "Bob Martinez", "date": "2025-06-01T09:30:00Z" },
+      { "action": "Approved", "by": "Alice Johnson", "date": "2025-06-10T11:00:00Z" }
+    ]
+  },
+  {
+    "id": "PR-2025-002",
+    "title": "Annual Office Supplies Contract",
+    "description": "Renewal of annual office supplies contract for all regional offices.",
+    "category": "Office Supplies",
+    "vendor": "Apex Supplies Co.",
+    "vendorId": "v005",
+    "amount": 48000,
+    "currency": "USD",
+    "status": "Pending Approval",
+    "priority": "Medium",
+    "requestedBy": "Bob Martinez",
+    "requestedById": "u002",
+    "department": "Operations",
+    "requestedDate": "2025-06-20",
+    "requiredDate": "2025-08-01",
+    "approvedBy": null,
+    "approvedDate": null,
+    "comments": [
+      { "author": "Bob Martinez", "text": "Renewal as per previous contract terms.", "date": "2025-06-20" }
+    ],
+    "attachments": ["contract_renewal_draft.pdf"],
+    "auditLog": [
+      { "action": "Created", "by": "Bob Martinez", "date": "2025-06-20T10:00:00Z" },
+      { "action": "Submitted for Approval", "by": "Bob Martinez", "date": "2025-06-20T10:15:00Z" }
+    ]
+  },
+  {
+    "id": "PR-2025-003",
+    "title": "Cybersecurity Audit Tools",
+    "description": "Procurement of enterprise SIEM and vulnerability management platform licenses.",
+    "category": "Software",
+    "vendor": "SecureVault Systems",
+    "vendorId": "v003",
+    "amount": 180000,
+    "currency": "USD",
+    "status": "Draft",
+    "priority": "Critical",
+    "requestedBy": "Eva Chen",
+    "requestedById": "u005",
+    "department": "Internal Audit",
+    "requestedDate": "2025-07-01",
+    "requiredDate": "2025-09-01",
+    "approvedBy": null,
+    "approvedDate": null,
+    "comments": [],
+    "attachments": [],
+    "auditLog": [
+      { "action": "Created", "by": "Eva Chen", "date": "2025-07-01T08:00:00Z" }
+    ]
+  },
+  {
+    "id": "PR-2025-004",
+    "title": "Logistics Management System",
+    "description": "Implementation of new logistics and supply chain management system.",
+    "category": "IT Services",
+    "vendor": "GlobalEdge Procurement",
+    "vendorId": "v002",
+    "amount": 350000,
+    "currency": "USD",
+    "status": "Rejected",
+    "priority": "High",
+    "requestedBy": "Carol Smith",
+    "requestedById": "u003",
+    "department": "Procurement",
+    "requestedDate": "2025-05-15",
+    "requiredDate": "2025-08-30",
+    "approvedBy": "Alice Johnson",
+    "approvedDate": "2025-05-25",
+    "comments": [
+      { "author": "Alice Johnson", "text": "Budget exceeded. Requires board approval for amounts over $300K.", "date": "2025-05-25" }
+    ],
+    "attachments": ["lms_proposal.pdf", "vendor_quote.pdf"],
+    "auditLog": [
+      { "action": "Created", "by": "Carol Smith", "date": "2025-05-15T09:00:00Z" },
+      { "action": "Submitted for Approval", "by": "Carol Smith", "date": "2025-05-16T08:00:00Z" },
+      { "action": "Rejected", "by": "Alice Johnson", "date": "2025-05-25T14:00:00Z" }
+    ]
+  },
+  {
+    "id": "PR-2025-005",
+    "title": "Conference Room AV Equipment",
+    "description": "Upgrade of AV equipment across 8 conference rooms in HQ.",
+    "category": "Facilities",
+    "vendor": "TechNova Solutions",
+    "vendorId": "v001",
+    "amount": 72000,
+    "currency": "USD",
+    "status": "Completed",
+    "priority": "Low",
+    "requestedBy": "David Lee",
+    "requestedById": "u004",
+    "department": "Legal & Compliance",
+    "requestedDate": "2025-04-01",
+    "requiredDate": "2025-05-30",
+    "approvedBy": "Carol Smith",
+    "approvedDate": "2025-04-10",
+    "comments": [
+      { "author": "Carol Smith", "text": "Approved. Standard procurement process applies.", "date": "2025-04-10" }
+    ],
+    "attachments": ["av_specs.pdf", "po_signed.pdf"],
+    "auditLog": [
+      { "action": "Created", "by": "David Lee", "date": "2025-04-01T09:00:00Z" },
+      { "action": "Approved", "by": "Carol Smith", "date": "2025-04-10T11:30:00Z" },
+      { "action": "Completed", "by": "Carol Smith", "date": "2025-05-28T15:00:00Z" }
+    ]
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "u001",
+    "name": "Alice Johnson",
+    "email": "alice@egrcp.com",
+    "password": "Admin@1234",
+    "role": "Administrator",
+    "department": "IT",
+    "avatar": "",
+    "phone": "+1-555-0101",
+    "location": "New York, USA",
+    "status": "Active",
+    "createdAt": "2024-01-10T08:00:00Z",
+    "lastLogin": "2025-07-03T09:15:00Z"
+  },
+  {
+    "id": "u002",
+    "name": "Bob Martinez",
+    "email": "bob@egrcp.com",
+    "password": "Emp@1234",
+    "role": "Employee",
+    "department": "Operations",
+    "avatar": "",
+    "phone": "+1-555-0102",
+    "location": "Chicago, USA",
+    "status": "Active",
+    "createdAt": "2024-02-15T08:00:00Z",
+    "lastLogin": "2025-07-02T14:30:00Z"
+  },
+  {
+    "id": "u003",
+    "name": "Carol Smith",
+    "email": "carol@egrcp.com",
+    "password": "Proc@1234",
+    "role": "Procurement Manager",
+    "department": "Procurement",
+    "avatar": "",
+    "phone": "+1-555-0103",
+    "location": "Los Angeles, USA",
+    "status": "Active",
+    "createdAt": "2024-03-01T08:00:00Z",
+    "lastLogin": "2025-07-04T10:00:00Z"
+  },
+  {
+    "id": "u004",
+    "name": "David Lee",
+    "email": "david@egrcp.com",
+    "password": "Comp@1234",
+    "role": "Compliance Officer",
+    "department": "Legal & Compliance",
+    "avatar": "",
+    "phone": "+1-555-0104",
+    "location": "Houston, USA",
+    "status": "Active",
+    "createdAt": "2024-03-15T08:00:00Z",
+    "lastLogin": "2025-07-03T16:45:00Z"
+  },
+  {
+    "id": "u005",
+    "name": "Eva Chen",
+    "email": "eva@egrcp.com",
+    "password": "Audit@1234",
+    "role": "Auditor",
+    "department": "Internal Audit",
+    "avatar": "",
+    "phone": "+1-555-0105",
+    "location": "San Francisco, USA",
+    "status": "Active",
+    "createdAt": "2024-04-01T08:00:00Z",
+    "lastLogin": "2025-07-04T08:30:00Z"
+  }
+]

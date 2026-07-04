@@ -1,0 +1,51 @@
+{
+  "savedReports": [
+    {
+      "id": "rpt-001",
+      "name": "Q2 2025 Procurement Summary",
+      "type": "Procurement",
+      "createdBy": "Carol Smith",
+      "createdAt": "2025-07-01T10:00:00Z",
+      "filters": { "dateRange": "Q2 2025", "status": "All" }
+    },
+    {
+      "id": "rpt-002",
+      "name": "H1 2025 Vendor Risk Report",
+      "type": "Vendor",
+      "createdBy": "Eva Chen",
+      "createdAt": "2025-07-02T09:00:00Z",
+      "filters": { "dateRange": "H1 2025", "riskLevel": "High,Critical" }
+    },
+    {
+      "id": "rpt-003",
+      "name": "Compliance Violations - June 2025",
+      "type": "Compliance",
+      "createdBy": "David Lee",
+      "createdAt": "2025-07-03T08:30:00Z",
+      "filters": { "dateRange": "Jun 2025", "status": "Non-Compliant" }
+    }
+  ],
+  "procurementStats": [
+    { "month": "Jan", "approved": 12, "rejected": 2, "pending": 3, "totalValue": 480000 },
+    { "month": "Feb", "approved": 9, "rejected": 1, "pending": 4, "totalValue": 320000 },
+    { "month": "Mar", "approved": 15, "rejected": 3, "pending": 2, "totalValue": 610000 },
+    { "month": "Apr", "approved": 11, "rejected": 2, "pending": 5, "totalValue": 420000 },
+    { "month": "May", "approved": 14, "rejected": 1, "pending": 3, "totalValue": 550000 },
+    { "month": "Jun", "approved": 10, "rejected": 4, "pending": 6, "totalValue": 390000 }
+  ],
+  "vendorStats": [
+    { "category": "IT Services", "count": 8, "totalSpend": 3200000 },
+    { "category": "Logistics", "count": 5, "totalSpend": 1870000 },
+    { "category": "Facilities", "count": 4, "totalSpend": 5200000 },
+    { "category": "Cybersecurity", "count": 3, "totalSpend": 980000 },
+    { "category": "Office Supplies", "count": 6, "totalSpend": 320000 }
+  ],
+  "complianceStats": [
+    { "month": "Jan", "compliant": 45, "nonCompliant": 5, "underReview": 8 },
+    { "month": "Feb", "compliant": 47, "nonCompliant": 4, "underReview": 7 },
+    { "month": "Mar", "compliant": 44, "nonCompliant": 6, "underReview": 8 },
+    { "month": "Apr", "compliant": 49, "nonCompliant": 3, "underReview": 6 },
+    { "month": "May", "compliant": 51, "nonCompliant": 2, "underReview": 5 },
+    { "month": "Jun", "compliant": 50, "nonCompliant": 3, "underReview": 5 }
+  ]
+}
