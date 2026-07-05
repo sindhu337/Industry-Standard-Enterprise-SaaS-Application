@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import users from '@/mocks/users.json'
+import { ROLES } from '@/constants/roles'
 
 const simulateDelay = (ms = 800) => new Promise((res) => setTimeout(res, ms))
 const generateToken = (userId) => `mock-jwt-${userId}-${Date.now()}`
@@ -38,7 +39,7 @@ export const registerUser = createAsyncThunk('auth/register', async (formData, {
     name: formData.name,
     email: formData.email.trim(),
     password: formData.password,
-    role: 'Employee',
+    role: ROLES.EMPLOYEE,
     department: 'General',
     status: 'Active',
     createdAt: new Date().toISOString(),

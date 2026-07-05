@@ -9,7 +9,7 @@ export const routeConfig = [
     key: 'dashboard',
     label: 'Dashboard',
     allowedRoles: [ADMIN, EMPLOYEE, PROCUREMENT_MANAGER, COMPLIANCE_OFFICER, AUDITOR],
-    lazy: () => import('@/features/dashboard/DashboardPage'),
+    lazy: () => import('@/features/dashboard/pages/RoleDashboardPage'),
   },
   {
     path: ROUTES.PROCUREMENT,
@@ -29,7 +29,7 @@ export const routeConfig = [
     path: ROUTES.PROCUREMENT_EDIT,
     key: 'procurement-edit',
     label: 'Edit Procurement',
-    allowedRoles: [ADMIN, PROCUREMENT_MANAGER, EMPLOYEE],
+    allowedRoles: [ADMIN, PROCUREMENT_MANAGER],
     lazy: () => import('@/features/procurement/pages/EditProcurementPage'),
   },
   {
