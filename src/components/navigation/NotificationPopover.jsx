@@ -83,12 +83,14 @@ export default function NotificationPopover({ anchorEl, open, onClose }) {
         vertical: 'top',
         horizontal: 'right',
       }}
-      PaperProps={{
-        sx: {
-          width: { xs: '100%', sm: 360 },
-          maxWidth: '100vw',
-          borderRadius: 2,
-          boxShadow: 3,
+      slotProps={{
+        paper: {
+          sx: {
+            width: { xs: '100%', sm: 360 },
+            maxWidth: '100vw',
+            borderRadius: 2,
+            boxShadow: 3,
+          },
         },
       }}
     >

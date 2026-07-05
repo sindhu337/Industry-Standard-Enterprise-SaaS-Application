@@ -81,6 +81,13 @@ export const sidebarConfig = [
     allowedRoles: [ADMIN, PROCUREMENT_MANAGER, COMPLIANCE_OFFICER, AUDITOR],
   },
   {
+    id: 'admin',
+    title: 'Administrator Workspace',
+    icon: 'AdminPanelSettings',
+    route: ROUTES.ADMIN,
+    allowedRoles: [ADMIN],
+  },
+  {
     id: 'notifications',
     title: 'Notifications',
     icon: 'Notifications',

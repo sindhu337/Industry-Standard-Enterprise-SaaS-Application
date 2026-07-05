@@ -75,6 +75,13 @@ export const routeConfig = [
     lazy: () => import('@/features/audit/AuditPage'),
   },
   {
+    path: ROUTES.ADMIN,
+    key: 'admin',
+    label: 'Administrator Workspace',
+    allowedRoles: [ADMIN],
+    lazy: () => import('@/features/admin/AdminWorkspacePage'),
+  },
+  {
     path: ROUTES.REPORTS,
     key: 'reports',
     label: 'Reporting Center',

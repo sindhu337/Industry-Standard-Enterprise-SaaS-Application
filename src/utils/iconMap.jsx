@@ -17,6 +17,7 @@ import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded'
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import ManageAccountsRoundedIcon from '@mui/icons-material/ManageAccountsRounded'
+import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded'
 
 const ICON_MAP = {
   Dashboard: DashboardRoundedIcon,
@@ -38,6 +39,7 @@ const ICON_MAP = {
   Person: PersonRoundedIcon,
   Logout: LogoutRoundedIcon,
   ManageAccounts: ManageAccountsRoundedIcon,
+  AdminPanelSettings: AdminPanelSettingsRoundedIcon,
 }
 
 export function getIcon(name, props = {}) {

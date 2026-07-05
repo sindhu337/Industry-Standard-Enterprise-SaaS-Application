@@ -133,12 +133,14 @@ export default function Topbar({ height }) {
             size="small"
             fullWidth
             placeholder="Global search..."
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon fontSize="small" />
-                </InputAdornment>
-              ),
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon fontSize="small" />
+                  </InputAdornment>
+                ),
+              },
             }}
             sx={{
               '& .MuiOutlinedInput-root': {
@@ -193,12 +195,14 @@ export default function Topbar({ height }) {
           keepMounted
           open={isProfileMenuOpen}
           onClose={handleProfileMenuClose}
-          PaperProps={{
-            elevation: 3,
-            sx: {
-              mt: 1.5,
-              minWidth: 200,
-              borderRadius: 2,
+          slotProps={{
+            paper: {
+              elevation: 3,
+              sx: {
+                mt: 1.5,
+                minWidth: 200,
+                borderRadius: 2,
+              },
             },
           }}
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}

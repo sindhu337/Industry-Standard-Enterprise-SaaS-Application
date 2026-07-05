@@ -91,7 +91,7 @@ export default function Sidebar({ width, collapsedWidth }) {
                     {icon}
                   </ListItemIcon>
                   {(!sidebarCollapsed || isMobile) && (
-                    <ListItemText primary={item.title} primaryTypographyProps={{ fontSize: '0.875rem', fontWeight: active ? 600 : 500 }} />
+                    <ListItemText primary={item.title} sx={{ '& .MuiListItemText-primary': { fontSize: '0.875rem', fontWeight: active ? 600 : 500 } }} />
                   )}
                 </ListItemButton>
               </ListItem>
