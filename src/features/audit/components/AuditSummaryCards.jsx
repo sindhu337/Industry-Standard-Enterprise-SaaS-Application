@@ -1,25 +1,23 @@
 import { Grid, Paper, Typography, Box, Skeleton } from '@mui/material'
 import {
-  Assignment as TotalIcon,
-  FolderOpen as OpenIcon,
-  PlayArrow as ProgressIcon,
-  CheckCircle as ClosedIcon,
-  Error as EscalatedIcon,
+  Assignment as PendingIcon,
+  CheckCircle as CompletedIcon,
+  ReportProblem as ObservationIcon,
+  Percent as CompletionIcon,
 } from '@mui/icons-material'
 
 const cards = [
-  { key: 'total',      label: 'Total Audits', icon: TotalIcon,     color: 'primary.main',  bg: 'primary.light' },
-  { key: 'open',       label: 'Open',         icon: OpenIcon,      color: 'info.main',     bg: '#e3f2fd' },
-  { key: 'inProgress', label: 'In Progress',  icon: ProgressIcon,  color: 'warning.dark',  bg: '#fff3e0' },
-  { key: 'closed',     label: 'Closed',       icon: ClosedIcon,    color: 'success.main',  bg: '#e8f5e9' },
-  { key: 'escalated',  label: 'Escalated',    icon: EscalatedIcon, color: 'error.main',    bg: '#fdecea' },
+  { key: 'pending', label: 'Pending Audits', icon: PendingIcon, color: 'warning.main', bg: '#fff3e0' },
+  { key: 'completed', label: 'Completed Audits', icon: CompletedIcon, color: 'success.main', bg: '#e8f5e9' },
+  { key: 'observations', label: 'Observations Raised', icon: ObservationIcon, color: 'error.main', bg: '#fdecea' },
+  { key: 'completionRate', label: 'Audit Completion Rate', icon: CompletionIcon, color: 'primary.main', bg: 'primary.light' },
 ]
 
 export default function AuditSummaryCards({ summary, loading }) {
   return (
     <Grid container spacing={2}>
       {cards.map(({ key, label, icon: Icon, color, bg }) => (
-        <Grid item xs={6} sm={4} md={2.4} key={key}>
+        <Grid item xs={6} sm={3} md={3} key={key}>
           <Paper
             elevation={0}
             sx={{
@@ -30,17 +28,14 @@ export default function AuditSummaryCards({ summary, loading }) {
               '&:hover': { boxShadow: 4 },
             }}
           >
-            <Box
-              sx={{ width: 40, height: 40, borderRadius: 2, bgcolor: bg,
-                display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >
+            <Box sx={{ width: 40, height: 40, borderRadius: 2, bgcolor: bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Icon sx={{ color, fontSize: 22 }} />
             </Box>
             {loading ? (
               <Skeleton width={40} height={32} />
             ) : (
               <Typography variant="h5" fontWeight={800} color={color}>
-                {summary?.[key] ?? '—'}
+                {key === 'completionRate' ? `${summary?.[key] ?? '—'}%` : summary?.[key] ?? '—'}
               </Typography>
             )}
             <Typography variant="caption" color="text.secondary" fontWeight={600}>

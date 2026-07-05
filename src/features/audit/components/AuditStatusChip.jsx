@@ -1,10 +1,13 @@
 import { Chip } from '@mui/material'
 
 const STATUS_MAP = {
-  'Open':        { color: 'info',    label: 'Open' },
+  'Open': { color: 'info', label: 'Open' },
   'In Progress': { color: 'warning', label: 'In Progress' },
-  'Closed':      { color: 'success', label: 'Closed' },
-  'Escalated':   { color: 'error',   label: 'Escalated' },
+  'Closed': { color: 'success', label: 'Closed' },
+  'Escalated': { color: 'error', label: 'Escalated' },
+  'Pending Audit': { color: 'warning', label: 'Pending Audit' },
+  Audited: { color: 'success', label: 'Audited' },
+  'Observation Raised': { color: 'error', label: 'Observation Raised' },
 }
 
 const TYPE_MAP = {
@@ -15,7 +18,7 @@ const TYPE_MAP = {
   IT:         { color: 'default',   variant: 'outlined' },
 }
 
-export function AuditStatusChip({ status, size = 'small' }) {
+function AuditStatusChip({ status, size = 'small' }) {
   const cfg = STATUS_MAP[status] || { color: 'default', label: status }
   return (
     <Chip
@@ -26,6 +29,8 @@ export function AuditStatusChip({ status, size = 'small' }) {
     />
   )
 }
+
+export default AuditStatusChip
 
 export function AuditTypeChip({ type, size = 'small' }) {
   const cfg = TYPE_MAP[type] || { color: 'default', variant: 'outlined' }

@@ -1,5 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit'
 import { AUDIT_MOCK_DATA, AUDIT_SUMMARY, SYSTEM_LOGS_DATA, USER_ACTIVITY_DATA } from './data/auditMockData'
+import { PROCUREMENT_MOCK_DATA } from '@/features/procurement/data/procurementMockData'
 
 const delay = (ms = 400) => new Promise((res) => setTimeout(res, ms))
 
@@ -25,6 +26,21 @@ export const fetchUserActivities = createAsyncThunk('audit/fetchActivities', asy
   return USER_ACTIVITY_DATA
 })
 
+export const loadAuditorQueue = createAsyncThunk('audit/loadQueue', async () => {
+  await delay(200)
+  return PROCUREMENT_MOCK_DATA.filter((item) => item.status === 'Approved' && item.complianceStatus === 'Compliant').map((item) => ({
+    ...item,
+    auditStatus: 'Pending Audit',
+    observations: [],
+    auditDate: null,
+    auditedBy: null,
+  }))
+})
+
+export const markAuditItemAudited = createAction('audit/markAudited', ({ id, auditedBy, auditDate }) => ({ payload: { id, auditedBy, auditDate } }))
+
+export const addAuditObservation = createAction('audit/addObservation', ({ id, observation, auditorName, auditDate }) => ({ payload: { id, observation, auditorName, auditDate } }))
+
 const auditSlice = createSlice({
   name: 'audit',
   initialState: {
@@ -32,6 +48,7 @@ const auditSlice = createSlice({
     history: [],
     systemLogs: [],
     userActivities: [],
+    queue: [],
     summary: null,
     loading: false,
     error: null,
@@ -57,6 +74,31 @@ const auditSlice = createSlice({
       })
       .addCase(fetchUserActivities.fulfilled, (state, action) => {
         state.userActivities = action.payload
+      })
+      .addCase(loadAuditorQueue.fulfilled, (state, action) => {
+        state.queue = action.payload
+      })
+      .addCase(markAuditItemAudited, (state, action) => {
+        const item = state.queue.find((entry) => entry.id === action.payload.id)
+        if (item) {
+          item.auditStatus = 'Audited'
+          item.auditedBy = action.payload.auditedBy
+          item.auditDate = action.payload.auditDate
+        }
+      })
+      .addCase(addAuditObservation, (state, action) => {
+        const item = state.queue.find((entry) => entry.id === action.payload.id)
+        if (item) {
+          item.auditStatus = 'Observation Raised'
+          item.observations = [
+            ...(item.observations || []),
+            {
+              observation: action.payload.observation,
+              auditorName: action.payload.auditorName,
+              auditDate: action.payload.auditDate,
+            },
+          ]
+        }
       })
   },
 })
