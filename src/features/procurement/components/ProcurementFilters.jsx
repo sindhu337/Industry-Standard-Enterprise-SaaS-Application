@@ -1,43 +1,43 @@
-/**
- * ProcurementFilters – Search bar + status/priority/department/date range filter dropdowns
- */
+
+
+
 import {
   Box,
   TextField,
   MenuItem,
   InputAdornment,
   Tooltip,
-  IconButton,
-} from '@mui/material'
+  IconButton } from
+'@mui/material';
 import {
   Search as SearchIcon,
-  FilterAltOff as ClearIcon,
-} from '@mui/icons-material'
+  FilterAltOff as ClearIcon } from
+'@mui/icons-material';
 
 import {
   PROCUREMENT_STATUSES,
   PROCUREMENT_PRIORITIES,
-  PROCUREMENT_DEPARTMENTS,
-} from '../data/procurementMockData'
+  PROCUREMENT_DEPARTMENTS } from
+'../data/procurementMockData';
 
 export default function ProcurementFilters({ filters, onFilterChange }) {
   const isDirty =
-    filters.search ||
-    filters.status !== 'All' ||
-    filters.priority !== 'All' ||
-    filters.department ||
-    filters.startDate ||
-    filters.endDate
+  filters.search ||
+  filters.status !== 'All' ||
+  filters.priority !== 'All' ||
+  filters.department ||
+  filters.startDate ||
+  filters.endDate;
 
   const handleClear = () =>
-    onFilterChange({
-      search: '',
-      status: 'All',
-      priority: 'All',
-      department: '',
-      startDate: '',
-      endDate: '',
-    })
+  onFilterChange({
+    search: '',
+    status: 'All',
+    priority: 'All',
+    department: '',
+    startDate: '',
+    endDate: ''
+  });
 
   return (
     <Box
@@ -45,10 +45,10 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
         display: 'flex',
         gap: 2,
         flexWrap: 'wrap',
-        alignItems: 'center',
-      }}
-    >
-      {/* Search */}
+        alignItems: 'center'
+      }}>
+      
+      {}
       <TextField
         size="small"
         placeholder="Search by title, ID, vendor, department…"
@@ -56,18 +56,18 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
         onChange={(e) => onFilterChange({ search: e.target.value })}
         slotProps={{
           input: {
-            startAdornment: (
-              <InputAdornment position="start">
+            startAdornment:
+            <InputAdornment position="start">
                 <SearchIcon fontSize="small" color="action" />
               </InputAdornment>
-            ),
-          },
+
+          }
         }}
         sx={{ flexGrow: 1, minWidth: 260 }}
-        id="procurement-search"
-      />
+        id="procurement-search" />
+      
 
-      {/* Status filter */}
+      {}
       <TextField
         select
         size="small"
@@ -75,16 +75,16 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
         value={filters.status}
         onChange={(e) => onFilterChange({ status: e.target.value })}
         sx={{ minWidth: 160 }}
-        id="procurement-filter-status"
-      >
-        {PROCUREMENT_STATUSES.map((s) => (
-          <MenuItem key={s} value={s}>
+        id="procurement-filter-status">
+        
+        {PROCUREMENT_STATUSES.map((s) =>
+        <MenuItem key={s} value={s}>
             {s === 'All' ? 'All Statuses' : s}
           </MenuItem>
-        ))}
+        )}
       </TextField>
 
-      {/* Priority filter */}
+      {}
       <TextField
         select
         size="small"
@@ -92,16 +92,16 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
         value={filters.priority}
         onChange={(e) => onFilterChange({ priority: e.target.value })}
         sx={{ minWidth: 150 }}
-        id="procurement-filter-priority"
-      >
-        {PROCUREMENT_PRIORITIES.map((p) => (
-          <MenuItem key={p} value={p}>
+        id="procurement-filter-priority">
+        
+        {PROCUREMENT_PRIORITIES.map((p) =>
+        <MenuItem key={p} value={p}>
             {p === 'All' ? 'All Priorities' : p}
           </MenuItem>
-        ))}
+        )}
       </TextField>
 
-      {/* Department filter */}
+      {}
       <TextField
         select
         size="small"
@@ -109,17 +109,17 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
         value={filters.department || ''}
         onChange={(e) => onFilterChange({ department: e.target.value })}
         sx={{ minWidth: 160 }}
-        id="procurement-filter-dept"
-      >
+        id="procurement-filter-dept">
+        
         <MenuItem value="">All Departments</MenuItem>
-        {PROCUREMENT_DEPARTMENTS.map((d) => (
-          <MenuItem key={d} value={d}>
+        {PROCUREMENT_DEPARTMENTS.map((d) =>
+        <MenuItem key={d} value={d}>
             {d}
           </MenuItem>
-        ))}
+        )}
       </TextField>
 
-      {/* Date Range Start */}
+      {}
       <TextField
         size="small"
         type="date"
@@ -128,10 +128,10 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
         value={filters.startDate || ''}
         onChange={(e) => onFilterChange({ startDate: e.target.value })}
         sx={{ minWidth: 150 }}
-        id="procurement-filter-start-date"
-      />
+        id="procurement-filter-start-date" />
+      
 
-      {/* Date Range End */}
+      {}
       <TextField
         size="small"
         type="date"
@@ -140,22 +140,22 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
         value={filters.endDate || ''}
         onChange={(e) => onFilterChange({ endDate: e.target.value })}
         sx={{ minWidth: 150 }}
-        id="procurement-filter-end-date"
-      />
+        id="procurement-filter-end-date" />
+      
 
-      {/* Clear filters */}
-      {isDirty && (
-        <Tooltip title="Clear all filters">
+      {}
+      {isDirty &&
+      <Tooltip title="Clear all filters">
           <IconButton
-            size="small"
-            onClick={handleClear}
-            color="error"
-            id="procurement-clear-filters"
-          >
+          size="small"
+          onClick={handleClear}
+          color="error"
+          id="procurement-clear-filters">
+          
             <ClearIcon />
           </IconButton>
         </Tooltip>
-      )}
-    </Box>
-  )
+      }
+    </Box>);
+
 }

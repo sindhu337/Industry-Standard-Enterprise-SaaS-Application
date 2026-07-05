@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, Link as RouterLink } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
   Card,
@@ -12,55 +12,55 @@ import {
   Typography,
   Link,
   InputAdornment,
-  CircularProgress,
-} from '@mui/material'
+  CircularProgress } from
+'@mui/material';
 import {
   EmailOutlined,
   ShieldOutlined,
-  ArrowBack,
-} from '@mui/icons-material'
+  ArrowBack } from
+'@mui/icons-material';
 
-import { forgotPassword, clearError, clearSuccess } from '@/features/auth/authSlice'
-import { showSnackbar } from '@/app/store/slices/uiSlice'
-import { ROUTES } from '@/constants/routes'
-import { APP_CONFIG } from '@/constants/appConfig'
-import { forgotPasswordSchema } from '@/validations/auth.validation'
+import { forgotPassword, clearError, clearSuccess } from '@/features/auth/authSlice';
+import { showSnackbar } from '@/app/store/slices/uiSlice';
+import { ROUTES } from '@/constants/routes';
+import { APP_CONFIG } from '@/constants/appConfig';
+import { forgotPasswordSchema } from '@/validations/auth.validation';
 
 export default function ForgotPasswordPage() {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { loading, successMessage } = useSelector((state) => state.auth)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, successMessage } = useSelector((state) => state.auth);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm({
     resolver: yupResolver(forgotPasswordSchema),
     defaultValues: {
-      email: '',
-    },
-  })
+      email: ''
+    }
+  });
 
   useEffect(() => {
-    dispatch(clearError())
-    dispatch(clearSuccess())
-  }, [dispatch])
+    dispatch(clearError());
+    dispatch(clearSuccess());
+  }, [dispatch]);
 
   const onSubmit = async (data) => {
-    dispatch(clearError())
-    dispatch(clearSuccess())
-    const result = await dispatch(forgotPassword({ email: data.email }))
+    dispatch(clearError());
+    dispatch(clearSuccess());
+    const result = await dispatch(forgotPassword({ email: data.email }));
     if (forgotPassword.fulfilled.match(result)) {
-      dispatch(showSnackbar({ message: result.payload.message || 'Password reset email sent!', severity: 'success' }))
-      // Redirect to Reset Password with dynamic email state
+      dispatch(showSnackbar({ message: result.payload.message || 'Password reset email sent!', severity: 'success' }));
+
       setTimeout(() => {
-        navigate(ROUTES.RESET_PASSWORD, { state: { email: data.email } })
-      }, 1500)
+        navigate(ROUTES.RESET_PASSWORD, { state: { email: data.email } });
+      }, 1500);
     } else {
-      dispatch(showSnackbar({ message: result.payload || 'Failed to process request.', severity: 'error' }))
+      dispatch(showSnackbar({ message: result.payload || 'Failed to process request.', severity: 'error' }));
     }
-  }
+  };
 
   return (
     <Box
@@ -71,9 +71,9 @@ export default function ForgotPasswordPage() {
         alignItems: 'center',
         justifyContent: 'center',
         background: 'linear-gradient(135deg, #0D47A1 0%, #1565C0 40%, #0288D1 100%)',
-        p: 2,
-      }}
-    >
+        p: 2
+      }}>
+      
       <Box sx={{ width: '100%', maxWidth: 440 }}>
         <Box sx={{ textAlign: 'center', mb: 4 }}>
           <Box
@@ -87,9 +87,9 @@ export default function ForgotPasswordPage() {
               bgcolor: 'rgba(255,255,255,0.15)',
               backdropFilter: 'blur(10px)',
               mb: 2,
-              border: '1px solid rgba(255,255,255,0.25)',
-            }}
-          >
+              border: '1px solid rgba(255,255,255,0.25)'
+            }}>
+            
             <ShieldOutlined sx={{ fontSize: 36, color: '#fff' }} />
           </Box>
           <Typography variant="h4" fontWeight={800} color="#fff" letterSpacing="-0.5px">
@@ -121,13 +121,13 @@ export default function ForgotPasswordPage() {
                 disabled={loading}
                 sx={{ mb: 3 }}
                 InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
+                  startAdornment:
+                  <InputAdornment position="start">
                       <EmailOutlined fontSize="small" color="action" />
                     </InputAdornment>
-                  ),
-                }}
-              />
+
+                }} />
+              
 
               <Button
                 type="submit"
@@ -144,11 +144,11 @@ export default function ForgotPasswordPage() {
                   boxShadow: '0 4px 16px rgba(21, 101, 192, 0.4)',
                   '&:hover': {
                     background: 'linear-gradient(135deg, #0D47A1, #0277BD)',
-                    boxShadow: '0 6px 20px rgba(21, 101, 192, 0.5)',
+                    boxShadow: '0 6px 20px rgba(21, 101, 192, 0.5)'
                   },
-                  mb: 2,
-                }}
-              >
+                  mb: 2
+                }}>
+                
                 {loading ? <CircularProgress size={24} color="inherit" /> : 'Send Reset Link'}
               </Button>
             </Box>
@@ -159,14 +159,14 @@ export default function ForgotPasswordPage() {
                 to={ROUTES.LOGIN}
                 color="text.secondary"
                 variant="body2"
-                sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, fontWeight: 600, underline: 'hover' }}
-              >
+                sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, fontWeight: 600, underline: 'hover' }}>
+                
                 <ArrowBack fontSize="inherit" /> Back to Sign In
               </Link>
             </Box>
           </CardContent>
         </Card>
       </Box>
-    </Box>
-  )
+    </Box>);
+
 }

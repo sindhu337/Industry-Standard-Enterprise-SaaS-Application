@@ -1,22 +1,22 @@
-/**
- * ProcurementListPage – Main procurement list/overview page
- */
-import { useEffect } from 'react'
-import { Box, Paper } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
 
-import PageContainer from '@/components/common/layout/PageContainer'
-import ProcurementToolbar from '../components/ProcurementToolbar'
-import ProcurementFilters from '../components/ProcurementFilters'
-import ProcurementTable from '../components/ProcurementTable'
-import { useProcurement } from '../hooks/useProcurement'
-import { showSnackbar } from '@/app/store/slices/uiSlice'
+
+
+import { useEffect } from 'react';
+import { Box, Paper } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+
+import PageContainer from '@/components/common/layout/PageContainer';
+import ProcurementToolbar from '../components/ProcurementToolbar';
+import ProcurementFilters from '../components/ProcurementFilters';
+import ProcurementTable from '../components/ProcurementTable';
+import { useProcurement } from '../hooks/useProcurement';
+import { showSnackbar } from '@/app/store/slices/uiSlice';
 
 export default function ProcurementListPage() {
-  const dispatch = useDispatch()
-  const location = useLocation()
-  const { user: authUser } = useSelector((state) => state.auth)
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const { user: authUser } = useSelector((state) => state.auth);
   const {
     filteredItems,
     loading,
@@ -24,26 +24,26 @@ export default function ProcurementListPage() {
     user,
     loadAll,
     updateFilters,
-    submitDelete,
-  } = useProcurement()
+    submitDelete
+  } = useProcurement();
 
   useEffect(() => {
-    loadAll()
-  }, [loadAll])
+    loadAll();
+  }, [loadAll]);
 
-  const showMyRequests = location.state?.myRequests === true
-  const visibleRows = showMyRequests
-    ? filteredItems.filter((item) => item.requestedById === authUser?.id || item.requestedBy === authUser?.name)
-    : filteredItems
+  const showMyRequests = location.state?.myRequests === true;
+  const visibleRows = showMyRequests ?
+  filteredItems.filter((item) => item.requestedById === authUser?.id || item.requestedBy === authUser?.name) :
+  filteredItems;
 
   const handleExport = () => {
     dispatch(
       showSnackbar({
         message: 'CSV export completed successfully (Demo mode).',
-        severity: 'success',
-      }),
-    )
-  }
+        severity: 'success'
+      })
+    );
+  };
 
   return (
     <PageContainer>
@@ -52,8 +52,8 @@ export default function ProcurementListPage() {
         subtitle={showMyRequests ? 'Requests created by you and currently tracked in the workspace.' : 'Manage corporate purchase requisitions, approval chains, and vendor budget compliance'}
         loading={loading && filteredItems.length === 0}
         onRefresh={loadAll}
-        onExport={handleExport}
-      />
+        onExport={handleExport} />
+      
 
       <Paper
         elevation={0}
@@ -63,9 +63,9 @@ export default function ProcurementListPage() {
           mb: 2.5,
           borderRadius: 3,
           border: '1px solid',
-          borderColor: 'divider',
-        }}
-      >
+          borderColor: 'divider'
+        }}>
+        
         <ProcurementFilters filters={filters} onFilterChange={updateFilters} />
       </Paper>
 
@@ -74,9 +74,9 @@ export default function ProcurementListPage() {
           rows={visibleRows}
           loading={loading}
           user={authUser}
-          onDelete={submitDelete}
-        />
+          onDelete={submitDelete} />
+        
       </Box>
-    </PageContainer>
-  )
+    </PageContainer>);
+
 }

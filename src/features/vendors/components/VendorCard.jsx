@@ -1,16 +1,16 @@
 import {
   Box, Grid, Paper, Typography, Divider, Chip, LinearProgress,
-  List, ListItem, ListItemIcon, ListItemText, Avatar, Skeleton,
-} from '@mui/material'
+  List, ListItem, ListItemIcon, ListItemText, Avatar, Skeleton } from
+'@mui/material';
 import {
   Business as BusinessIcon,
   Email as EmailIcon,
   Phone as PhoneIcon,
   Description as DocIcon,
   Assignment as ContractIcon,
-  Flag as FlagIcon,
-} from '@mui/icons-material'
-import { VendorStatusChip, VendorRiskChip } from './VendorStatusChip'
+  Flag as FlagIcon } from
+'@mui/icons-material';
+import { VendorStatusChip, VendorRiskChip } from './VendorStatusChip';
 
 function Stat({ label, value }) {
   return (
@@ -21,8 +21,8 @@ function Stat({ label, value }) {
       <Typography variant="body2" fontWeight={700}>
         {value ?? '—'}
       </Typography>
-    </Box>
-  )
+    </Box>);
+
 }
 
 export default function VendorCard({ vendor, loading = false }) {
@@ -31,14 +31,14 @@ export default function VendorCard({ vendor, loading = false }) {
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <Skeleton variant="rounded" height={180} />
         <Skeleton variant="rounded" height={180} />
-      </Box>
-    )
+      </Box>);
+
   }
-  if (!vendor) return null
+  if (!vendor) return null;
 
   return (
     <Grid container spacing={3}>
-      {/* Profile */}
+      {}
       <Grid item xs={12} md={5}>
         <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid', borderColor: 'divider', height: '100%' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
@@ -84,22 +84,22 @@ export default function VendorCard({ vendor, loading = false }) {
             <Grid item xs={6}><Stat label="Country" value={vendor.country} /></Grid>
           </Grid>
 
-          {vendor.notes && (
-            <>
+          {vendor.notes &&
+          <>
               <Divider sx={{ my: 2 }} />
               <Typography variant="caption" color="text.secondary" display="block" fontStyle="italic">
                 {vendor.notes}
               </Typography>
             </>
-          )}
+          }
         </Paper>
       </Grid>
 
-      {/* Stats + Contracts */}
+      {}
       <Grid item xs={12} md={7}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
 
-          {/* KPI row */}
+          {}
           <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
             <Typography variant="subtitle2" fontWeight={700} gutterBottom>Performance Overview</Typography>
             <Grid container spacing={2} sx={{ mt: 0.5 }}>
@@ -124,62 +124,62 @@ export default function VendorCard({ vendor, loading = false }) {
                 variant="determinate"
                 value={vendor.complianceScore}
                 color={vendor.complianceScore >= 85 ? 'success' : vendor.complianceScore >= 65 ? 'warning' : 'error'}
-                sx={{ height: 8, borderRadius: 4 }}
-              />
+                sx={{ height: 8, borderRadius: 4 }} />
+              
             </Box>
           </Paper>
 
-          {/* Contracts */}
+          {}
           <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
             <Typography variant="subtitle2" fontWeight={700} gutterBottom>Contract History</Typography>
-            {vendor.contracts?.length ? (
-              <List dense disablePadding>
-                {vendor.contracts.map((c, i) => (
-                  <Box key={c.id}>
+            {vendor.contracts?.length ?
+            <List dense disablePadding>
+                {vendor.contracts.map((c, i) =>
+              <Box key={c.id}>
                     <ListItem disablePadding sx={{ py: 1 }}>
                       <ListItemIcon sx={{ minWidth: 32 }}><ContractIcon fontSize="small" color="action" /></ListItemIcon>
                       <ListItemText
-                        primary={<Typography variant="body2" fontWeight={600}>{c.title}</Typography>}
-                        secondary={`${c.startDate} → ${c.endDate} · $${(c.value / 1000).toFixed(0)}K`}
-                      />
+                    primary={<Typography variant="body2" fontWeight={600}>{c.title}</Typography>}
+                    secondary={`${c.startDate} → ${c.endDate} · $${(c.value / 1000).toFixed(0)}K`} />
+                  
                       <Chip
-                        label={c.status}
-                        size="small"
-                        color={c.status === 'Active' ? 'success' : c.status === 'Completed' ? 'default' : 'error'}
-                        sx={{ borderRadius: 1.5, fontWeight: 600 }}
-                      />
+                    label={c.status}
+                    size="small"
+                    color={c.status === 'Active' ? 'success' : c.status === 'Completed' ? 'default' : 'error'}
+                    sx={{ borderRadius: 1.5, fontWeight: 600 }} />
+                  
                     </ListItem>
                     {i < vendor.contracts.length - 1 && <Divider />}
                   </Box>
-                ))}
-              </List>
-            ) : (
-              <Typography variant="body2" color="text.secondary">No contract history available.</Typography>
-            )}
+              )}
+              </List> :
+
+            <Typography variant="body2" color="text.secondary">No contract history available.</Typography>
+            }
           </Paper>
 
-          {/* Documents */}
+          {}
           <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
             <Typography variant="subtitle2" fontWeight={700} gutterBottom>Documents</Typography>
-            {vendor.documents?.length ? (
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                {vendor.documents.map((doc) => (
-                  <Chip
-                    key={doc}
-                    icon={<DocIcon />}
-                    label={doc}
-                    size="small"
-                    variant="outlined"
-                    sx={{ borderRadius: 1.5 }}
-                  />
-                ))}
-              </Box>
-            ) : (
-              <Typography variant="body2" color="text.secondary">No documents on file.</Typography>
-            )}
+            {vendor.documents?.length ?
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                {vendor.documents.map((doc) =>
+              <Chip
+                key={doc}
+                icon={<DocIcon />}
+                label={doc}
+                size="small"
+                variant="outlined"
+                sx={{ borderRadius: 1.5 }} />
+
+              )}
+              </Box> :
+
+            <Typography variant="body2" color="text.secondary">No documents on file.</Typography>
+            }
           </Paper>
         </Box>
       </Grid>
-    </Grid>
-  )
+    </Grid>);
+
 }

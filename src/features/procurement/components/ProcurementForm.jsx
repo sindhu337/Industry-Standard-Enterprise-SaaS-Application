@@ -1,11 +1,11 @@
-/**
- * ProcurementForm – Reusable form for create and edit
- * Uses React Hook Form + Yup validation
- */
-import { useEffect, useMemo, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useForm, Controller } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+
+
+
+
+import { useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
   Grid,
@@ -14,21 +14,21 @@ import {
   Button,
   Divider,
   Typography,
-  CircularProgress,
-} from '@mui/material'
+  CircularProgress } from
+'@mui/material';
 import {
   Save as SaveIcon,
-  Send as SubmitIcon,
-} from '@mui/icons-material'
+  Send as SubmitIcon } from
+'@mui/icons-material';
 
-import { showSnackbar } from '@/app/store/slices/uiSlice'
-import { procurementSchema } from '../validations/procurementValidation'
+import { showSnackbar } from '@/app/store/slices/uiSlice';
+import { procurementSchema } from '../validations/procurementValidation';
 import {
   PROCUREMENT_CATEGORIES,
   PROCUREMENT_DEPARTMENTS,
   PROCUREMENT_VENDORS,
-  PROCUREMENT_CURRENCIES,
-} from '../data/procurementMockData'
+  PROCUREMENT_CURRENCIES } from
+'../data/procurementMockData';
 
 const DEFAULT_VALUES = {
   title: '',
@@ -41,38 +41,38 @@ const DEFAULT_VALUES = {
   priority: 'Medium',
   requiredDate: '',
   attachment: '',
-  notes: '',
-}
+  notes: ''
+};
 
 function generateProcurementId() {
-  const now = new Date()
-  return `PR-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}-${Math.floor(100 + Math.random() * 900)}`
+  const now = new Date();
+  return `PR-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}-${Math.floor(100 + Math.random() * 900)}`;
 }
 
 export default function ProcurementForm({
   editItem = null,
   onSubmit,
   onCancel,
-  isSubmitting = false,
+  isSubmitting = false
 }) {
-  const dispatch = useDispatch()
-  const isEditMode = Boolean(editItem)
-  const [generatedId, setGeneratedId] = useState(() => generateProcurementId())
-  const [selectedAttachmentFile, setSelectedAttachmentFile] = useState(null)
-  const [attachmentDisplayName, setAttachmentDisplayName] = useState('')
+  const dispatch = useDispatch();
+  const isEditMode = Boolean(editItem);
+  const [generatedId, setGeneratedId] = useState(() => generateProcurementId());
+  const [selectedAttachmentFile, setSelectedAttachmentFile] = useState(null);
+  const [attachmentDisplayName, setAttachmentDisplayName] = useState('');
 
   const {
     register,
     handleSubmit,
     control,
     reset,
-    formState: { errors, isSubmitted },
+    formState: { errors, isSubmitted }
   } = useForm({
     resolver: yupResolver(procurementSchema),
-    defaultValues: DEFAULT_VALUES,
-  })
+    defaultValues: DEFAULT_VALUES
+  });
 
-  // Populate form when editing
+
   useEffect(() => {
     if (isEditMode && editItem) {
       reset({
@@ -86,43 +86,43 @@ export default function ProcurementForm({
         priority: editItem.priority || 'Medium',
         requiredDate: editItem.requiredDate || '',
         attachment: editItem.attachment || '',
-        notes: editItem.notes || '',
-      })
-      const existingAttachmentName = typeof editItem?.attachment === 'string' ? editItem.attachment : ''
-      setAttachmentDisplayName(existingAttachmentName)
-      setSelectedAttachmentFile(null)
-      setGeneratedId(editItem.id || generateProcurementId())
+        notes: editItem.notes || ''
+      });
+      const existingAttachmentName = typeof editItem?.attachment === 'string' ? editItem.attachment : '';
+      setAttachmentDisplayName(existingAttachmentName);
+      setSelectedAttachmentFile(null);
+      setGeneratedId(editItem.id || generateProcurementId());
     } else {
-      reset(DEFAULT_VALUES)
-      setAttachmentDisplayName('')
-      setSelectedAttachmentFile(null)
-      setGeneratedId(generateProcurementId())
+      reset(DEFAULT_VALUES);
+      setAttachmentDisplayName('');
+      setSelectedAttachmentFile(null);
+      setGeneratedId(generateProcurementId());
     }
-  }, [isEditMode, editItem, reset])
+  }, [isEditMode, editItem, reset]);
 
   useEffect(() => {
     if (isSubmitted && Object.keys(errors).length > 0) {
-      dispatch(showSnackbar({ message: 'Please correct the highlighted fields before submitting.', severity: 'error' }))
+      dispatch(showSnackbar({ message: 'Please correct the highlighted fields before submitting.', severity: 'error' }));
     }
-  }, [dispatch, errors, isSubmitted])
+  }, [dispatch, errors, isSubmitted]);
 
   const handleAttachmentChange = (event) => {
-    const file = event.target.files?.[0]
-    if (!file) return
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/png', 'image/jpeg', 'image/jpg']
-    const extension = file.name.split('.').pop()?.toLowerCase()
-    const allowedExtensions = ['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg']
+    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/png', 'image/jpeg', 'image/jpg'];
+    const extension = file.name.split('.').pop()?.toLowerCase();
+    const allowedExtensions = ['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg'];
 
     if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(extension)) {
-      dispatch(showSnackbar({ message: 'Please select a PDF, DOC, DOCX, PNG, JPG, or JPEG file.', severity: 'error' }))
-      event.target.value = ''
-      return
+      dispatch(showSnackbar({ message: 'Please select a PDF, DOC, DOCX, PNG, JPG, or JPEG file.', severity: 'error' }));
+      event.target.value = '';
+      return;
     }
 
-    setSelectedAttachmentFile(file)
-    setAttachmentDisplayName(file.name)
-  }
+    setSelectedAttachmentFile(file);
+    setAttachmentDisplayName(file.name);
+  };
 
   const handleFormSubmit = (data) => {
     const payload = {
@@ -130,16 +130,16 @@ export default function ProcurementForm({
       id: isEditMode ? editItem?.id : generatedId,
       attachment: selectedAttachmentFile ? selectedAttachmentFile.name : data.attachment || '',
       attachmentFile: selectedAttachmentFile,
-      notes: data.notes || '',
-    }
-    onSubmit(payload)
-  }
+      notes: data.notes || ''
+    };
+    onSubmit(payload);
+  };
 
-  const readOnlyProcurementId = useMemo(() => (isEditMode ? editItem?.id || generatedId : generatedId), [editItem, generatedId, isEditMode])
+  const readOnlyProcurementId = useMemo(() => isEditMode ? editItem?.id || generatedId : generatedId, [editItem, generatedId, isEditMode]);
 
   return (
     <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} noValidate>
-      {/* ── Section 1: Requisition Details ───────────────────────────── */}
+      {}
       <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 2.5 }}>
         Requisition Details
       </Typography>
@@ -152,8 +152,8 @@ export default function ProcurementForm({
             fullWidth
             slotProps={{ input: { readOnly: true } }}
             disabled={isSubmitting}
-            id="field-procurement-id"
-          />
+            id="field-procurement-id" />
+          
         </Grid>
 
         <Grid item xs={12} sm={6}>
@@ -166,8 +166,8 @@ export default function ProcurementForm({
             helperText={errors.title?.message}
             disabled={isSubmitting}
             id="field-title"
-            placeholder="e.g. Enterprise Laptop Fleet Refresh"
-          />
+            placeholder="e.g. Enterprise Laptop Fleet Refresh" />
+          
         </Grid>
 
         <Grid item xs={12}>
@@ -182,86 +182,86 @@ export default function ProcurementForm({
             helperText={errors.description?.message}
             disabled={isSubmitting}
             id="field-description"
-            placeholder="Describe the procurement need, scope, and expected outcomes…"
-          />
+            placeholder="Describe the procurement need, scope, and expected outcomes…" />
+          
         </Grid>
 
         <Grid item xs={12} sm={6}>
           <Controller
             name="department"
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                select
-                label="Department"
-                fullWidth
-                required
-                error={Boolean(errors.department)}
-                helperText={errors.department?.message}
-                disabled={isSubmitting}
-                id="field-department"
-              >
-                {PROCUREMENT_DEPARTMENTS.map((dept) => (
-                  <MenuItem key={dept} value={dept}>
+            render={({ field }) =>
+            <TextField
+              {...field}
+              select
+              label="Department"
+              fullWidth
+              required
+              error={Boolean(errors.department)}
+              helperText={errors.department?.message}
+              disabled={isSubmitting}
+              id="field-department">
+              
+                {PROCUREMENT_DEPARTMENTS.map((dept) =>
+              <MenuItem key={dept} value={dept}>
                     {dept}
                   </MenuItem>
-                ))}
+              )}
               </TextField>
-            )}
-          />
+            } />
+          
         </Grid>
 
         <Grid item xs={12} sm={6}>
           <Controller
             name="category"
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                select
-                label="Category"
-                fullWidth
-                required
-                error={Boolean(errors.category)}
-                helperText={errors.category?.message}
-                disabled={isSubmitting}
-                id="field-category"
-              >
-                {PROCUREMENT_CATEGORIES.map((cat) => (
-                  <MenuItem key={cat} value={cat}>
+            render={({ field }) =>
+            <TextField
+              {...field}
+              select
+              label="Category"
+              fullWidth
+              required
+              error={Boolean(errors.category)}
+              helperText={errors.category?.message}
+              disabled={isSubmitting}
+              id="field-category">
+              
+                {PROCUREMENT_CATEGORIES.map((cat) =>
+              <MenuItem key={cat} value={cat}>
                     {cat}
                   </MenuItem>
-                ))}
+              )}
               </TextField>
-            )}
-          />
+            } />
+          
         </Grid>
 
         <Grid item xs={12} sm={6}>
           <Controller
             name="vendor"
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                select
-                label="Preferred Vendor"
-                fullWidth
-                required
-                error={Boolean(errors.vendor)}
-                helperText={errors.vendor?.message}
-                disabled={isSubmitting}
-                id="field-vendor"
-              >
-                {PROCUREMENT_VENDORS.map((v) => (
-                  <MenuItem key={v.id} value={v.name}>
+            render={({ field }) =>
+            <TextField
+              {...field}
+              select
+              label="Preferred Vendor"
+              fullWidth
+              required
+              error={Boolean(errors.vendor)}
+              helperText={errors.vendor?.message}
+              disabled={isSubmitting}
+              id="field-vendor">
+              
+                {PROCUREMENT_VENDORS.map((v) =>
+              <MenuItem key={v.id} value={v.name}>
                     {v.name}
                   </MenuItem>
-                ))}
+              )}
               </TextField>
-            )}
-          />
+            } />
+          
         </Grid>
 
         <Grid item xs={12} sm={6}>
@@ -271,16 +271,16 @@ export default function ProcurementForm({
               variant="outlined"
               disabled={isSubmitting}
               id="field-attachment"
-              sx={{ borderRadius: 2, px: 3, mb: 1 }}
-            >
+              sx={{ borderRadius: 2, px: 3, mb: 1 }}>
+              
               Attachment
               <input
                 id="input-attachment"
                 type="file"
                 hidden
                 accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
-                onChange={handleAttachmentChange}
-              />
+                onChange={handleAttachmentChange} />
+              
             </Button>
             <Typography variant="body2" color="text.secondary" sx={{ minHeight: 24 }}>
               {attachmentDisplayName || 'No file chosen'}
@@ -291,7 +291,7 @@ export default function ProcurementForm({
 
       <Divider sx={{ my: 4 }} />
 
-      {/* ── Section 2: Budget & Priority ─────────────────────────────── */}
+      {}
       <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 2.5 }}>
         Budget &amp; Prioritization
       </Typography>
@@ -309,57 +309,57 @@ export default function ProcurementForm({
             helperText={errors.amount?.message}
             disabled={isSubmitting}
             id="field-amount"
-            placeholder="0.00"
-          />
+            placeholder="0.00" />
+          
         </Grid>
 
         <Grid item xs={12} sm={6}>
           <Controller
             name="currency"
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                select
-                label="Currency"
-                fullWidth
-                required
-                disabled={isSubmitting}
-                id="field-currency"
-              >
-                {PROCUREMENT_CURRENCIES.map((c) => (
-                  <MenuItem key={c.code} value={c.code}>
+            render={({ field }) =>
+            <TextField
+              {...field}
+              select
+              label="Currency"
+              fullWidth
+              required
+              disabled={isSubmitting}
+              id="field-currency">
+              
+                {PROCUREMENT_CURRENCIES.map((c) =>
+              <MenuItem key={c.code} value={c.code}>
                     {c.label}
                   </MenuItem>
-                ))}
+              )}
               </TextField>
-            )}
-          />
+            } />
+          
         </Grid>
 
         <Grid item xs={12} sm={6}>
           <Controller
             name="priority"
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                select
-                label="Priority"
-                fullWidth
-                required
-                disabled={isSubmitting}
-                id="field-priority"
-                error={Boolean(errors.priority)}
-                helperText={errors.priority?.message}
-              >
+            render={({ field }) =>
+            <TextField
+              {...field}
+              select
+              label="Priority"
+              fullWidth
+              required
+              disabled={isSubmitting}
+              id="field-priority"
+              error={Boolean(errors.priority)}
+              helperText={errors.priority?.message}>
+              
                 <MenuItem value="Critical">🔴 Critical</MenuItem>
                 <MenuItem value="High">🟠 High</MenuItem>
                 <MenuItem value="Medium">🟡 Medium</MenuItem>
                 <MenuItem value="Low">🟢 Low</MenuItem>
               </TextField>
-            )}
-          />
+            } />
+          
         </Grid>
 
         <Grid item xs={12} sm={6}>
@@ -373,8 +373,8 @@ export default function ProcurementForm({
             error={Boolean(errors.requiredDate)}
             helperText={errors.requiredDate?.message}
             disabled={isSubmitting}
-            id="field-required-date"
-          />
+            id="field-required-date" />
+          
         </Grid>
 
         <Grid item xs={12}>
@@ -388,8 +388,8 @@ export default function ProcurementForm({
             id="field-notes"
             placeholder="Add any supplementary context for the request"
             error={Boolean(errors.notes)}
-            helperText={errors.notes?.message}
-          />
+            helperText={errors.notes?.message} />
+          
         </Grid>
       </Grid>
 
@@ -399,8 +399,8 @@ export default function ProcurementForm({
           onClick={onCancel}
           disabled={isSubmitting}
           id="btn-cancel-form"
-          sx={{ borderRadius: 2, px: 3 }}
-        >
+          sx={{ borderRadius: 2, px: 3 }}>
+          
           Cancel
         </Button>
         <Button
@@ -408,24 +408,24 @@ export default function ProcurementForm({
           variant="contained"
           disabled={isSubmitting}
           startIcon={
-            isSubmitting ? (
-              <CircularProgress size={18} color="inherit" />
-            ) : isEditMode ? (
-              <SaveIcon />
-            ) : (
-              <SubmitIcon />
-            )
+          isSubmitting ?
+          <CircularProgress size={18} color="inherit" /> :
+          isEditMode ?
+          <SaveIcon /> :
+
+          <SubmitIcon />
+
           }
           id="btn-submit-form"
-          sx={{ borderRadius: 2, px: 4, fontWeight: 700 }}
-        >
-          {isSubmitting
-            ? 'Submitting…'
-            : isEditMode
-            ? 'Save Changes'
-            : 'Submit Requisition'}
+          sx={{ borderRadius: 2, px: 4, fontWeight: 700 }}>
+          
+          {isSubmitting ?
+          'Submitting…' :
+          isEditMode ?
+          'Save Changes' :
+          'Submit Requisition'}
         </Button>
       </Box>
-    </Box>
-  )
+    </Box>);
+
 }

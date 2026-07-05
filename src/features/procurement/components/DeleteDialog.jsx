@@ -1,6 +1,6 @@
-/**
- * DeleteDialog – Confirmation dialog for procurement request deletion
- */
+
+
+
 import {
   Dialog,
   DialogTitle,
@@ -8,12 +8,12 @@ import {
   DialogActions,
   Typography,
   Button,
-  Box,
-} from '@mui/material'
-import { Delete as DeleteIcon, WarningAmber as WarnIcon } from '@mui/icons-material'
+  Box } from
+'@mui/material';
+import { Delete as DeleteIcon, WarningAmber as WarnIcon } from '@mui/icons-material';
 
 export default function DeleteDialog({ open, onClose, onConfirm, item, loading = false }) {
-  if (!item) return null
+  if (!item) return null;
 
   return (
     <Dialog
@@ -22,8 +22,8 @@ export default function DeleteDialog({ open, onClose, onConfirm, item, loading =
       maxWidth="xs"
       fullWidth
       aria-labelledby="delete-dialog-title"
-      slotProps={{ paper: { sx: { borderRadius: 3 } } }}
-    >
+      slotProps={{ paper: { sx: { borderRadius: 3 } } }}>
+      
       <DialogTitle id="delete-dialog-title" sx={{ pb: 1 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
           <Box
@@ -34,9 +34,9 @@ export default function DeleteDialog({ open, onClose, onConfirm, item, loading =
               bgcolor: 'error.light',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
+              justifyContent: 'center'
+            }}>
+            
             <WarnIcon sx={{ color: 'error.contrastText', fontSize: 20 }} />
           </Box>
           <Typography variant="h6" fontWeight="bold">
@@ -56,9 +56,9 @@ export default function DeleteDialog({ open, onClose, onConfirm, item, loading =
             borderRadius: 2,
             bgcolor: 'action.hover',
             border: '1px solid',
-            borderColor: 'divider',
-          }}
-        >
+            borderColor: 'divider'
+          }}>
+          
           <Typography variant="caption" color="text.secondary" display="block">
             {item.id}
           </Typography>
@@ -77,8 +77,8 @@ export default function DeleteDialog({ open, onClose, onConfirm, item, loading =
           onClick={onClose}
           disabled={loading}
           id="btn-cancel-delete"
-          sx={{ borderRadius: 2, px: 2.5 }}
-        >
+          sx={{ borderRadius: 2, px: 2.5 }}>
+          
           Cancel
         </Button>
         <Button
@@ -88,11 +88,11 @@ export default function DeleteDialog({ open, onClose, onConfirm, item, loading =
           onClick={onConfirm}
           disabled={loading}
           id="btn-confirm-delete"
-          sx={{ borderRadius: 2, px: 2.5, fontWeight: 700 }}
-        >
+          sx={{ borderRadius: 2, px: 2.5, fontWeight: 700 }}>
+          
           {loading ? 'Deleting…' : 'Delete'}
         </Button>
       </DialogActions>
-    </Dialog>
-  )
+    </Dialog>);
+
 }

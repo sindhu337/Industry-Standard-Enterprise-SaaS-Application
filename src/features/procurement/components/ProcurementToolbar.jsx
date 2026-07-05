@@ -1,23 +1,23 @@
-/**
- * ProcurementToolbar – Page header with title, description, and action buttons
- */
-import { Box, Typography, Button, Skeleton } from '@mui/material'
+
+
+
+import { Box, Typography, Button, Skeleton } from '@mui/material';
 import {
   Add as AddIcon,
   Download as ExportIcon,
-  Refresh as RefreshIcon,
-} from '@mui/icons-material'
-import { useNavigate } from 'react-router-dom'
-import { ROUTES } from '@/constants/routes'
+  Refresh as RefreshIcon } from
+'@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '@/constants/routes';
 
 export default function ProcurementToolbar({
   title,
   subtitle,
   loading = false,
   onRefresh,
-  onExport,
+  onExport
 }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -27,32 +27,32 @@ export default function ProcurementToolbar({
         justifyContent: 'space-between',
         flexWrap: 'wrap',
         gap: 2,
-        mb: 2,
-      }}
-    >
+        mb: 2
+      }}>
+      
       <Box>
-        {loading ? (
-          <>
+        {loading ?
+        <>
             <Skeleton width={260} height={32} />
             <Skeleton width={400} height={20} sx={{ mt: 0.5 }} />
-          </>
-        ) : (
-          <>
+          </> :
+
+        <>
             <Typography variant="h5" fontWeight="bold" id="procurement-page-title">
               {title}
             </Typography>
-            {subtitle && (
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                display="block"
-                sx={{ mt: 0.5 }}
-              >
+            {subtitle &&
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            display="block"
+            sx={{ mt: 0.5 }}>
+            
                 {subtitle}
               </Typography>
-            )}
+          }
           </>
-        )}
+        }
       </Box>
 
       <Box
@@ -60,9 +60,9 @@ export default function ProcurementToolbar({
           display: 'flex',
           gap: 1.5,
           flexWrap: 'wrap',
-          alignItems: 'center',
-        }}
-      >
+          alignItems: 'center'
+        }}>
+        
         <Button
           variant="contained"
           startIcon={<AddIcon />}
@@ -73,9 +73,9 @@ export default function ProcurementToolbar({
             px: 2.5,
             py: 1,
             fontWeight: 700,
-            whiteSpace: 'nowrap',
-          }}
-        >
+            whiteSpace: 'nowrap'
+          }}>
+          
           Create Procurement Request
         </Button>
 
@@ -89,9 +89,9 @@ export default function ProcurementToolbar({
             px: 2,
             py: 1,
             fontWeight: 700,
-            whiteSpace: 'nowrap',
-          }}
-        >
+            whiteSpace: 'nowrap'
+          }}>
+          
           Export
         </Button>
 
@@ -105,12 +105,12 @@ export default function ProcurementToolbar({
             px: 2,
             py: 1,
             fontWeight: 700,
-            whiteSpace: 'nowrap',
-          }}
-        >
+            whiteSpace: 'nowrap'
+          }}>
+          
           Refresh
         </Button>
       </Box>
-    </Box>
-  )
+    </Box>);
+
 }

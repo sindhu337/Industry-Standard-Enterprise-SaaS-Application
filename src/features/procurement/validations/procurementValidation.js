@@ -1,73 +1,73 @@
-/**
- * Procurement Validation Schema
- * Yup schema for React Hook Form integration
- */
-import * as yup from 'yup'
+
+
+
+
+import * as yup from 'yup';
 
 export const procurementSchema = yup.object().shape({
-  title: yup
-    .string()
-    .trim()
-    .required('Request title is required')
-    .min(5, 'Title must be at least 5 characters')
-    .max(120, 'Title cannot exceed 120 characters'),
+  title: yup.
+  string().
+  trim().
+  required('Request title is required').
+  min(5, 'Title must be at least 5 characters').
+  max(120, 'Title cannot exceed 120 characters'),
 
-  description: yup
-    .string()
-    .trim()
-    .required('Description is required')
-    .min(20, 'Please provide at least 20 characters of description'),
+  description: yup.
+  string().
+  trim().
+  required('Description is required').
+  min(20, 'Please provide at least 20 characters of description'),
 
-  department: yup
-    .string()
-    .trim()
-    .required('Department is required'),
+  department: yup.
+  string().
+  trim().
+  required('Department is required'),
 
-  category: yup
-    .string()
-    .trim()
-    .required('Procurement category is required'),
+  category: yup.
+  string().
+  trim().
+  required('Procurement category is required'),
 
-  vendor: yup
-    .string()
-    .trim()
-    .required('Preferred vendor is required'),
+  vendor: yup.
+  string().
+  trim().
+  required('Preferred vendor is required'),
 
-  amount: yup
-    .number()
-    .typeError('Budget amount must be a number')
-    .required('Budget amount is required')
-    .positive('Amount must be greater than zero')
-    .max(10000000, 'Amount cannot exceed 10,000,000'),
+  amount: yup.
+  number().
+  typeError('Budget amount must be a number').
+  required('Budget amount is required').
+  positive('Amount must be greater than zero').
+  max(10000000, 'Amount cannot exceed 10,000,000'),
 
-  currency: yup
-    .string()
-    .required('Currency is required')
-    .oneOf(['USD', 'INR'], 'Please select a valid currency'),
+  currency: yup.
+  string().
+  required('Currency is required').
+  oneOf(['USD', 'INR'], 'Please select a valid currency'),
 
-  priority: yup
-    .string()
-    .required('Priority is required')
-    .oneOf(['Critical', 'High', 'Medium', 'Low'], 'Invalid priority level'),
+  priority: yup.
+  string().
+  required('Priority is required').
+  oneOf(['Critical', 'High', 'Medium', 'Low'], 'Invalid priority level'),
 
-  requiredDate: yup
-    .string()
-    .required('Required delivery date is required')
-    .test('future-date', 'Required date must be today or in the future', (value) => {
-      if (!value) return false
-      const today = new Date()
-      today.setHours(0, 0, 0, 0)
-      return new Date(value) >= today
-    }),
+  requiredDate: yup.
+  string().
+  required('Required delivery date is required').
+  test('future-date', 'Required date must be today or in the future', (value) => {
+    if (!value) return false;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return new Date(value) >= today;
+  }),
 
   attachment: yup.string().nullable(),
-  notes: yup.string().nullable(),
-})
+  notes: yup.string().nullable()
+});
 
 export const commentSchema = yup.object().shape({
-  text: yup
-    .string()
-    .required('Comment cannot be empty')
-    .min(3, 'Comment must be at least 3 characters')
-    .max(500, 'Comment cannot exceed 500 characters'),
-})
+  text: yup.
+  string().
+  required('Comment cannot be empty').
+  min(3, 'Comment must be at least 3 characters').
+  max(500, 'Comment cannot exceed 500 characters')
+});
