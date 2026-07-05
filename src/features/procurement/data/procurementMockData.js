@@ -499,7 +499,7 @@ export const PROCUREMENT_CATEGORIES = [
   'Marketing',
 ]
 
-export const PROCUREMENT_STATUSES = ['All', 'Draft', 'Pending', 'In Review', 'Approved', 'Rejected', 'Completed']
+export const PROCUREMENT_STATUSES = ['All', 'Draft', 'Pending', 'In Review', 'Revision Required', 'Approved', 'Rejected', 'Completed']
 
 export const PROCUREMENT_PRIORITIES = ['All', 'Critical', 'High', 'Medium', 'Low']
 

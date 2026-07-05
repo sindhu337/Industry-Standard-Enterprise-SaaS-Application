@@ -15,6 +15,8 @@ describe('RBAC architecture', () => {
     expect(getRouteAccess(ROLES.EMPLOYEE, ROUTES.DASHBOARD)).toBe(true)
     expect(getRouteAccess(ROLES.EMPLOYEE, ROUTES.APPROVALS)).toBe(false)
     expect(getRouteAccess(ROLES.PROCUREMENT_MANAGER, ROUTES.APPROVALS)).toBe(true)
+    expect(getRouteAccess(ROLES.ADMIN, ROUTES.APPROVALS)).toBe(true)
+    expect(getRouteAccess(ROLES.COMPLIANCE_OFFICER, ROUTES.APPROVALS)).toBe(false)
     expect(getRouteAccess(ROLES.AUDITOR, ROUTES.AUDIT)).toBe(true)
   })
 

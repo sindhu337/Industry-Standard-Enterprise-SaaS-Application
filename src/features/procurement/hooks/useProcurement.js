@@ -56,11 +56,10 @@ export function useProcurement() {
     )
   })
 
-  const canApprove =
-    user?.role === 'Administrator' || user?.role === 'Procurement Manager'
+  const canApprove = user?.role === 'Procurement Manager'
 
   const canEdit = (item) =>
-    canApprove || item?.requestedById === user?.id
+    user?.role === 'Administrator' || canApprove || item?.requestedById === user?.id
 
   // ─── Actions ─────────────────────────────────────────────────────────────
   const loadAll = useCallback(() => dispatch(fetchProcurements()), [dispatch])
@@ -138,29 +137,65 @@ export function useProcurement() {
   )
 
   const submitApproval = useCallback(
-    async (id, status) => {
-      const auditAction = status === 'Approved' ? 'Approved' : 'Rejected'
+    async (id, status, decisionDetails = {}) => {
+      const auditAction = status
       const current = items.find((i) => i.id === id) || selected
+      const reason = decisionDetails.reason?.trim() || ''
+      const comments = decisionDetails.comments?.trim() || ''
+
+      if (status === 'Rejected' && !reason) {
+        dispatch(showSnackbar({ message: 'A rejection reason is required.', severity: 'error' }))
+        return false
+      }
+
+      if (status === 'Revision Required' && !comments) {
+        dispatch(showSnackbar({ message: 'Revision comments are required.', severity: 'error' }))
+        return false
+      }
+
       const updatedAuditLog = [
         ...(current?.auditLog || []),
-        { action: auditAction, by: user?.name || 'System User', date: new Date().toISOString() },
+        {
+          action: auditAction,
+          by: user?.name || 'System User',
+          date: new Date().toISOString(),
+          note: reason || comments || null,
+        },
       ]
+      const isApproved = status === 'Approved'
+      const isRejected = status === 'Rejected'
+      const isRevisionRequired = status === 'Revision Required'
       const result = await dispatch(
         updateProcurement({
           id,
           data: {
             status,
-            approvedBy: status === 'Approved' ? user?.name : null,
-            approvedDate: status === 'Approved' ? new Date().toISOString().split('T')[0] : null,
+            reviewedBy: user?.name || 'System User',
+            reviewedDate: new Date().toISOString().split('T')[0],
+            approvedBy: isApproved ? user?.name : null,
+            approvedDate: isApproved ? new Date().toISOString().split('T')[0] : null,
+            rejectedBy: isRejected ? user?.name : null,
+            rejectedDate: isRejected ? new Date().toISOString().split('T')[0] : null,
+            rejectionReason: isRejected ? reason : null,
+            revisionRequestedBy: isRevisionRequired ? user?.name : null,
+            revisionRequestedDate: isRevisionRequired ? new Date().toISOString().split('T')[0] : null,
+            revisionComments: isRevisionRequired ? comments : null,
             auditLog: updatedAuditLog,
+            lastUpdated: new Date().toISOString().split('T')[0],
           },
         }),
       )
       if (updateProcurement.fulfilled.match(result)) {
+        const message =
+          status === 'Approved'
+            ? `Requisition ${id} has been approved.`
+            : status === 'Rejected'
+              ? `Requisition ${id} has been rejected.`
+              : `Requisition ${id} was sent back for revision.`
         dispatch(
           showSnackbar({
-            message: `Requisition ${id} has been ${status.toLowerCase()}.`,
-            severity: status === 'Approved' ? 'success' : 'warning',
+            message,
+            severity: isApproved ? 'success' : isRejected ? 'error' : 'warning',
           }),
         )
         return true

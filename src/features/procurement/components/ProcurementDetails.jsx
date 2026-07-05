@@ -68,6 +68,18 @@ export default function ProcurementDetails({
 
   const showApprovalBar =
     item.status === 'Pending Approval' && canApprove
+  const decisionLabel =
+    item.status === 'Rejected'
+      ? 'Rejection Reason'
+      : item.status === 'Revision Required'
+        ? 'Revision Comments'
+        : 'Approved Date'
+  const decisionValue =
+    item.status === 'Rejected'
+      ? item.rejectionReason
+      : item.status === 'Revision Required'
+        ? item.revisionComments
+        : item.approvedDate
 
   const handleComment = async () => {
     if (!commentText.trim()) return
@@ -134,6 +146,12 @@ export default function ProcurementDetails({
               </Grid>
               <Grid item xs={6} sm={4}>
                 <InfoField label="Approved By" value={item.approvedBy} />
+              </Grid>
+              <Grid item xs={6} sm={4}>
+                <InfoField label={decisionLabel} value={decisionValue} />
+              </Grid>
+              <Grid item xs={6} sm={4}>
+                <InfoField label="Reviewed By" value={item.reviewedBy} />
               </Grid>
             </Grid>
           </CardContent>

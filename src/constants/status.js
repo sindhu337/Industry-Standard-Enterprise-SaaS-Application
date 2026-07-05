@@ -1,6 +1,7 @@
 export const PROCUREMENT_STATUS = {
   DRAFT: 'Draft',
   PENDING: 'Pending Approval',
+  REVISION_REQUIRED: 'Revision Required',
   APPROVED: 'Approved',
   REJECTED: 'Rejected',
   CANCELLED: 'Cancelled',

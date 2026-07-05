@@ -1,203 +1,277 @@
-import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import {
   Box,
-  Typography,
-  Button,
-  Grid,
   Paper,
-  Card,
-  CardContent,
+  Typography,
   Chip,
   IconButton,
   Tooltip,
+  Button,
+  Stack,
+  Divider,
+  TextField,
 } from '@mui/material'
+import { DataGrid } from '@mui/x-data-grid'
 import {
-  Check as ApproveIcon,
-  Close as RejectIcon,
   Visibility as ViewIcon,
-  AssignmentTurnedIn as VerifiedIcon,
+  CheckCircle as ApproveIcon,
+  Cancel as RejectIcon,
+  Reply as SendBackIcon,
+  Refresh as RefreshIcon,
 } from '@mui/icons-material'
 
 import PageContainer from '@/components/common/layout/PageContainer'
-import { fetchProcurements, updateProcurement } from './procurementSlice'
-import { showSnackbar } from '@/app/store/slices/uiSlice'
+import { ROUTES } from '@/constants/routes'
+import { useProcurement } from './hooks/useProcurement'
+import { StatusChip, PriorityChip } from './components/StatusChip'
+import ApprovalDecisionDialog from './components/ApprovalDecisionDialog'
+
+function formatBudget(amount, currency = 'INR') {
+  return `${Number(amount || 0).toLocaleString('en-IN')} ${currency}`
+}
 
 export default function ApprovalsPage() {
-  const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { items, loading } = useSelector((state) => state.procurement)
+  const { items, loading, loadAll, submitApproval } = useProcurement()
   const { user } = useSelector((state) => state.auth)
 
+  const [pendingAction, setPendingAction] = useState(null)
+  const [processingId, setProcessingId] = useState(null)
+  const [decisionText, setDecisionText] = useState('')
+
+  const canManageApprovals = user?.role === 'Procurement Manager'
+
+  const rows = useMemo(
+    () =>
+      [...items].sort((left, right) => {
+        const leftDate = new Date(left.requestedDate || left.createdAt || 0).getTime()
+        const rightDate = new Date(right.requestedDate || right.createdAt || 0).getTime()
+        return rightDate - leftDate
+      }),
+    [items],
+  )
+
   useEffect(() => {
-    dispatch(fetchProcurements())
-  }, [dispatch])
+    loadAll()
+  }, [loadAll])
 
-  const pendingRequests = items.filter((item) => item.status === 'Pending Approval')
-
-  const handleStatusUpdate = async (id, title, status) => {
-    const item = items.find((i) => i.id === id)
-    const auditAction = status === 'Approved' ? 'Approved' : 'Rejected'
-    const updatedAuditLog = [
-      ...(item?.auditLog || []),
-      {
-        action: auditAction,
-        by: user?.name || 'System User',
-        date: new Date().toISOString(),
-      },
-    ]
-
-    const result = await dispatch(
-      updateProcurement({
-        id,
-        data: {
-          status,
-          approvedBy: status === 'Approved' ? user?.name : null,
-          approvedDate: status === 'Approved' ? new Date().toISOString().split('T')[0] : null,
-          auditLog: updatedAuditLog,
-        },
-      })
-    )
-
-    if (updateProcurement.fulfilled.match(result)) {
-      dispatch(
-        showSnackbar({
-          message: `Requisition "${title}" has been ${status.toLowerCase()}.`,
-          severity: status === 'Approved' ? 'success' : 'error',
-        })
-      )
-    }
+  const handleDecision = async (id, status, details = {}) => {
+    setProcessingId(id)
+    await submitApproval(id, status, details)
+    setProcessingId(null)
+    setPendingAction(null)
+    setDecisionText('')
   }
 
-  const isAuthorized = user?.role === 'Administrator' || user?.role === 'Procurement Manager'
+  const columns = [
+    {
+      field: 'id',
+      headerName: 'Procurement ID',
+      width: 150,
+      renderCell: (params) => (
+        <Box
+          component="span"
+          sx={{ fontWeight: 700, color: 'primary.main', cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
+          onClick={() => navigate(`/procurement/${params.value}`)}
+        >
+          {params.value}
+        </Box>
+      ),
+    },
+    { field: 'title', headerName: 'Title', flex: 1.2, minWidth: 220 },
+    { field: 'requestedBy', headerName: 'Employee Name', width: 170 },
+    { field: 'department', headerName: 'Department', width: 150 },
+    { field: 'vendor', headerName: 'Preferred Vendor', width: 180 },
+    {
+      field: 'amount',
+      headerName: 'Estimated Budget',
+      width: 140,
+      valueFormatter: (value, row) => formatBudget(row?.amount, row?.currency),
+    },
+    {
+      field: 'priority',
+      headerName: 'Priority',
+      width: 120,
+      renderCell: (params) => <PriorityChip priority={params.value} />,
+    },
+    {
+      field: 'status',
+      headerName: 'Current Status',
+      width: 150,
+      renderCell: (params) => <StatusChip status={params.value} />,
+    },
+    {
+      field: 'requestedDate',
+      headerName: 'Submitted Date',
+      width: 150,
+      valueFormatter: (value, row) => row?.requestedDate || row?.createdAt || '—',
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 250,
+      sortable: false,
+      filterable: false,
+      renderCell: (params) => (
+        <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center', height: '100%' }}>
+          <Tooltip title="View Details">
+            <IconButton size="small" color="primary" onClick={() => navigate(`/procurement/${params.row.id}`)}>
+              <ViewIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          {canManageApprovals && (
+            <>
+              <Tooltip title="Approve">
+                <IconButton
+                  size="small"
+                  color="success"
+                  onClick={() => setPendingAction({ id: params.row.id, title: params.row.title, status: 'Approved' })}
+                  disabled={processingId === params.row.id}
+                >
+                  <ApproveIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Reject">
+                <IconButton
+                  size="small"
+                  color="error"
+                  onClick={() => setPendingAction({ id: params.row.id, title: params.row.title, status: 'Rejected' })}
+                  disabled={processingId === params.row.id}
+                >
+                  <RejectIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Send Back for Revision">
+                <IconButton
+                  size="small"
+                  color="warning"
+                  onClick={() => setPendingAction({ id: params.row.id, title: params.row.title, status: 'Revision Required' })}
+                  disabled={processingId === params.row.id}
+                >
+                  <SendBackIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            </>
+          )}
+        </Stack>
+      ),
+    },
+  ]
 
   return (
     <PageContainer>
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="h5" fontWeight="bold">
-          Approval Workbench
-        </Typography>
-        <Typography variant="caption" color="text.secondary">
-          Review and approve pending corporate spend requests matching your signing limits
-        </Typography>
+      <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2, flexWrap: 'wrap' }}>
+        <Box>
+          <Typography variant="h5" fontWeight={700} id="approval-workbench-title">
+            Approval Workbench
+          </Typography>
+          <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 0.5 }}>
+            Review procurement requests, approve spend, reject exceptions, or send requests back for revision.
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', alignItems: 'center' }}>
+          {!canManageApprovals && (
+            <Chip label="Read only" variant="outlined" color="default" sx={{ fontWeight: 700 }} />
+          )}
+          <Button variant="outlined" startIcon={<RefreshIcon />} onClick={loadAll} sx={{ borderRadius: 2, px: 2.5, fontWeight: 700 }}>
+            Refresh
+          </Button>
+        </Box>
       </Box>
 
-      {!isAuthorized ? (
-        <Paper sx={{ p: 4, textAlign: 'center', borderRadius: 2 }}>
-          <Typography variant="h6" color="text.secondary">
-            Access Restricted
-          </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            Only Administrators and Procurement Managers are authorized to perform sign-offs.
-          </Typography>
-        </Paper>
-      ) : pendingRequests.length === 0 ? (
-        <Paper sx={{ p: 6, textAlign: 'center', borderRadius: 2 }}>
-          <VerifiedIcon sx={{ fontSize: 48, color: 'success.main', mb: 2 }} />
-          <Typography variant="h6" fontWeight="bold">
-            All Caught Up!
-          </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-            There are no procurement requests pending your authorization.
-          </Typography>
-        </Paper>
-      ) : (
-        <Grid container spacing={3}>
-          {pendingRequests.map((req) => (
-            <Grid item xs={12} key={req.id}>
-              <Card sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2, boxShadow: 1 }}>
-                <CardContent sx={{ p: 3 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 2 }}>
-                    <Box sx={{ flexGrow: 1 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1, flexWrap: 'wrap' }}>
-                        <Typography variant="subtitle1" fontWeight="bold" color="text.primary">
-                          {req.title}
-                        </Typography>
-                        <Chip label={req.id} size="small" sx={{ fontWeight: 'bold' }} />
-                        <Chip
-                          label={`${req.priority} Priority`}
-                          color={req.priority === 'Critical' ? 'error' : req.priority === 'High' ? 'warning' : 'info'}
-                          size="small"
-                          sx={{ fontWeight: 'bold' }}
-                        />
-                      </Box>
-                      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                        {req.description}
-                      </Typography>
+      <Paper elevation={0} sx={{ borderRadius: 3, overflow: 'hidden', border: '1px solid', borderColor: 'divider' }}>
+        <Box sx={{ px: 2.5, py: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1.5 }}>
+          <Box>
+            <Typography variant="subtitle1" fontWeight={700}>
+              All Procurement Requests
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Visible to {user?.role || 'authorized reviewers'} with current workflow status and action controls.
+            </Typography>
+          </Box>
+          <Chip label={`${rows.length} Requests`} color="primary" variant="outlined" sx={{ fontWeight: 700 }} />
+        </Box>
+        <Divider />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          loading={loading}
+          pageSizeOptions={[5, 10, 25]}
+          initialState={{ pagination: { paginationModel: { pageSize: 10, page: 0 } } }}
+          disableRowSelectionOnClick
+          autoHeight
+          sx={{
+            border: 'none',
+            '& .MuiDataGrid-columnHeaders': {
+              bgcolor: 'action.selected',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
+            },
+            '& .MuiDataGrid-row:hover': {
+              bgcolor: 'action.hover',
+            },
+            '& .MuiDataGrid-cell': {
+              borderBottom: '1px solid',
+              borderColor: 'divider',
+            },
+          }}
+        />
+      </Paper>
 
-                      <Grid container spacing={2}>
-                        <Grid item xs={6} sm={3}>
-                          <Typography variant="caption" color="text.secondary" display="block">
-                            Requester
-                          </Typography>
-                          <Typography variant="body2" fontWeight="bold">
-                            {req.requestedBy} ({req.department})
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={6} sm={3}>
-                          <Typography variant="caption" color="text.secondary" display="block">
-                            Vendor
-                          </Typography>
-                          <Typography variant="body2" fontWeight="bold">
-                            {req.vendor}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={6} sm={3}>
-                          <Typography variant="caption" color="text.secondary" display="block">
-                            Total Budget
-                          </Typography>
-                          <Typography variant="body2" fontWeight="bold" color="primary.main">
-                            {req.amount.toLocaleString()} {req.currency || 'USD'}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={6} sm={3}>
-                          <Typography variant="caption" color="text.secondary" display="block">
-                            Request Date
-                          </Typography>
-                          <Typography variant="body2" fontWeight="bold">
-                            {req.requestedDate}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Box>
-
-                    <Box sx={{ display: 'flex', gap: 1, alignSelf: { xs: 'flex-start', sm: 'center' } }}>
-                      <Tooltip title="View Details">
-                        <IconButton
-                          onClick={() => navigate(`/procurement/${req.id}`)}
-                          color="primary"
-                          sx={{ border: '1px solid', borderColor: 'divider' }}
-                        >
-                          <ViewIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Button
-                        variant="contained"
-                        color="success"
-                        startIcon={<ApproveIcon />}
-                        onClick={() => handleStatusUpdate(req.id, req.title, 'Approved')}
-                        sx={{ borderRadius: 2, fontWeight: 'bold' }}
-                      >
-                        Approve
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="error"
-                        startIcon={<RejectIcon />}
-                        onClick={() => handleStatusUpdate(req.id, req.title, 'Rejected')}
-                        sx={{ borderRadius: 2, fontWeight: 'bold' }}
-                      >
-                        Reject
-                      </Button>
-                    </Box>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      )}
+      <ApprovalDecisionDialog
+        open={Boolean(pendingAction)}
+        title={
+          pendingAction?.status === 'Approved'
+            ? 'Approve Procurement Request'
+            : pendingAction?.status === 'Rejected'
+              ? 'Reject Procurement Request'
+              : 'Send Back for Revision'
+        }
+        message={
+          pendingAction?.status === 'Approved'
+            ? `Approve "${pendingAction?.title}" and move the request to Approved status?`
+            : pendingAction?.status === 'Rejected'
+              ? `Reject "${pendingAction?.title}" and close the request as Rejected?`
+              : `Send "${pendingAction?.title}" back to the employee for revision?`
+        }
+        confirmLabel={pendingAction?.status === 'Approved' ? 'Approve' : pendingAction?.status === 'Rejected' ? 'Reject' : 'Send Back'}
+        confirmColor={pendingAction?.status === 'Approved' ? 'success' : pendingAction?.status === 'Rejected' ? 'error' : 'warning'}
+        loading={Boolean(processingId && pendingAction?.id === processingId)}
+        confirmDisabled={Boolean(
+          pendingAction?.status !== 'Approved' && !decisionText.trim(),
+        )}
+        onClose={() => {
+          setPendingAction(null)
+          setDecisionText('')
+        }}
+        onConfirm={() =>
+          handleDecision(
+            pendingAction.id,
+            pendingAction.status,
+            pendingAction.status === 'Rejected'
+              ? { reason: decisionText.trim() }
+              : pendingAction.status === 'Revision Required'
+                ? { comments: decisionText.trim() }
+                : {},
+          )
+        }
+      >
+        {pendingAction?.status !== 'Approved' && (
+          <TextField
+            autoFocus
+            fullWidth
+            multiline
+            minRows={3}
+            label={pendingAction?.status === 'Rejected' ? 'Rejection Reason' : 'Revision Comments'}
+            placeholder={pendingAction?.status === 'Rejected' ? 'Explain why this request is being rejected.' : 'Describe the changes required before resubmission.'}
+            value={decisionText}
+            onChange={(event) => setDecisionText(event.target.value)}
+          />
+        )}
+      </ApprovalDecisionDialog>
     </PageContainer>
   )
 }

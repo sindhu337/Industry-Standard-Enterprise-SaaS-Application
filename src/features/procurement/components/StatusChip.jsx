@@ -7,6 +7,7 @@ const STATUS_CONFIG = {
   Approved: { color: 'success', variant: 'filled' },
   Pending: { color: 'warning', variant: 'filled' },
   'In Review': { color: 'secondary', variant: 'filled' },
+  'Revision Required': { color: 'warning', variant: 'outlined' },
   Rejected: { color: 'error', variant: 'filled' },
   Draft: { color: 'default', variant: 'outlined' },
   Completed: { color: 'info', variant: 'filled' },
