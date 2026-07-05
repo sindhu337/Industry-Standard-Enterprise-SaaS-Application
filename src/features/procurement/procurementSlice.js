@@ -62,7 +62,7 @@ const procurementSlice = createSlice({
     loading: false,
     error: null,
     pagination: { page: 0, pageSize: 10 },
-    filters: { search: '', status: 'All', priority: 'All', department: '' },
+    filters: { search: '', status: 'All', priority: 'All', department: '', startDate: '', endDate: '' },
   },
   reducers: {
     setFilters: (state, action) => {

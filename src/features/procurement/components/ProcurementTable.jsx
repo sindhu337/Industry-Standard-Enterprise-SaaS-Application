@@ -40,8 +40,8 @@ export default function ProcurementTable({
   const columns = [
     {
       field: 'id',
-      headerName: 'ID',
-      width: 130,
+      headerName: 'Procurement ID',
+      width: 140,
       renderCell: (params) => (
         <Box
           component="span"
@@ -60,44 +60,56 @@ export default function ProcurementTable({
     {
       field: 'title',
       headerName: 'Request Title',
-      flex: 1,
+      flex: 1.5,
       minWidth: 200,
     },
     {
       field: 'department',
       headerName: 'Department',
+      width: 130,
+    },
+    {
+      field: 'requestedBy',
+      headerName: 'Requested By',
       width: 140,
     },
     {
       field: 'vendor',
       headerName: 'Vendor',
-      width: 175,
+      width: 160,
     },
     {
       field: 'amount',
       headerName: 'Budget',
-      width: 145,
+      width: 140,
       type: 'number',
-      valueGetter: (value, row) =>
-        `${Number(row.amount).toLocaleString()} ${row.currency || 'USD'}`,
+      valueFormatter: (value) => {
+        if (value == null) return ''
+        return `₹${Number(value).toLocaleString('en-IN')}`
+      },
       headerAlign: 'left',
       align: 'left',
     },
     {
       field: 'priority',
       headerName: 'Priority',
-      width: 120,
+      width: 110,
       renderCell: (params) => <PriorityChip priority={params.value} />,
     },
     {
       field: 'status',
       headerName: 'Status',
-      width: 160,
+      width: 130,
       renderCell: (params) => <StatusChip status={params.value} />,
     },
     {
       field: 'requestedDate',
       headerName: 'Request Date',
+      width: 130,
+    },
+    {
+      field: 'lastUpdated',
+      headerName: 'Last Updated',
       width: 130,
     },
     {
@@ -126,9 +138,7 @@ export default function ProcurementTable({
                   size="small"
                   color="info"
                   id={`btn-edit-${params.row.id}`}
-                  onClick={() =>
-                    navigate('/procurement/create', { state: { editId: params.row.id } })
-                  }
+                  onClick={() => navigate(`/procurement/${params.row.id}/edit`)}
                 >
                   <EditIcon fontSize="small" />
                 </IconButton>
@@ -167,10 +177,9 @@ export default function ProcurementTable({
           rows={rows}
           columns={columns}
           loading={loading}
-          pageSizeOptions={[5, 10, 25]}
+          pageSizeOptions={[5, 10, 25, 50]}
           initialState={{
             pagination: { paginationModel: { pageSize: 10, page: 0 } },
-            sorting: { sortModel: [{ field: 'requestedDate', sort: 'desc' }] },
           }}
           disableRowSelectionOnClick
           autoHeight

@@ -3,14 +3,17 @@
  */
 import { useEffect } from 'react'
 import { Box, Paper } from '@mui/material'
+import { useDispatch } from 'react-redux'
 
 import PageContainer from '@/components/common/layout/PageContainer'
 import ProcurementToolbar from '../components/ProcurementToolbar'
 import ProcurementFilters from '../components/ProcurementFilters'
 import ProcurementTable from '../components/ProcurementTable'
 import { useProcurement } from '../hooks/useProcurement'
+import { showSnackbar } from '@/app/store/slices/uiSlice'
 
 export default function ProcurementListPage() {
+  const dispatch = useDispatch()
   const {
     filteredItems,
     loading,
@@ -25,12 +28,23 @@ export default function ProcurementListPage() {
     loadAll()
   }, [loadAll])
 
+  const handleExport = () => {
+    dispatch(
+      showSnackbar({
+        message: 'CSV export completed successfully (Demo mode).',
+        severity: 'success',
+      }),
+    )
+  }
+
   return (
     <PageContainer>
       <ProcurementToolbar
         title="Procurement Workspace"
         subtitle="Manage corporate purchase requisitions, approval chains, and vendor budget compliance"
         loading={loading && filteredItems.length === 0}
+        onRefresh={loadAll}
+        onExport={handleExport}
       />
 
       <Paper

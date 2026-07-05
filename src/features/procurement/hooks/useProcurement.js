@@ -36,13 +36,24 @@ export function useProcurement() {
       item.title.toLowerCase().includes(q) ||
       item.id.toLowerCase().includes(q) ||
       (item.vendor && item.vendor.toLowerCase().includes(q)) ||
-      (item.requestedBy && item.requestedBy.toLowerCase().includes(q))
+      (item.department && item.department.toLowerCase().includes(q))
 
     const matchesStatus = filters.status === 'All' || item.status === filters.status
     const matchesPriority = filters.priority === 'All' || item.priority === filters.priority
     const matchesDept = !filters.department || item.department === filters.department
 
-    return matchesSearch && matchesStatus && matchesPriority && matchesDept
+    const itemDate = item.requestedDate
+    const matchesStartDate = !filters.startDate || itemDate >= filters.startDate
+    const matchesEndDate = !filters.endDate || itemDate <= filters.endDate
+
+    return (
+      matchesSearch &&
+      matchesStatus &&
+      matchesPriority &&
+      matchesDept &&
+      matchesStartDate &&
+      matchesEndDate
+    )
   })
 
   const canApprove =

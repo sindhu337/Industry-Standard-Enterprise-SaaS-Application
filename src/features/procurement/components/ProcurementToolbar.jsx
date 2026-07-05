@@ -2,22 +2,32 @@
  * ProcurementToolbar – Page header with title, description, and action buttons
  */
 import { Box, Typography, Button, Skeleton } from '@mui/material'
-import { Add as AddIcon } from '@mui/icons-material'
+import {
+  Add as AddIcon,
+  Download as ExportIcon,
+  Refresh as RefreshIcon,
+} from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@/constants/routes'
 
-export default function ProcurementToolbar({ title, subtitle, loading = false }) {
+export default function ProcurementToolbar({
+  title,
+  subtitle,
+  loading = false,
+  onRefresh,
+  onExport,
+}) {
   const navigate = useNavigate()
 
   return (
     <Box
       sx={{
         display: 'flex',
-        alignItems: 'flex-start',
+        alignItems: { xs: 'flex-start', md: 'center' },
         justifyContent: 'space-between',
         flexWrap: 'wrap',
         gap: 2,
-        mb: 0.5,
+        mb: 2,
       }}
     >
       <Box>
@@ -32,7 +42,12 @@ export default function ProcurementToolbar({ title, subtitle, loading = false })
               {title}
             </Typography>
             {subtitle && (
-              <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 0.25 }}>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                display="block"
+                sx={{ mt: 0.5 }}
+              >
                 {subtitle}
               </Typography>
             )}
@@ -40,15 +55,62 @@ export default function ProcurementToolbar({ title, subtitle, loading = false })
         )}
       </Box>
 
-      <Button
-        variant="contained"
-        startIcon={<AddIcon />}
-        onClick={() => navigate(ROUTES.PROCUREMENT_CREATE)}
-        id="btn-create-procurement"
-        sx={{ borderRadius: 2, px: 2.5, py: 1.1, fontWeight: 700, whiteSpace: 'nowrap' }}
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 1.5,
+          flexWrap: 'wrap',
+          alignItems: 'center',
+        }}
       >
-        Create Requisition
-      </Button>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={() => navigate(ROUTES.PROCUREMENT_CREATE)}
+          id="btn-create-procurement"
+          sx={{
+            borderRadius: 2,
+            px: 2.5,
+            py: 1,
+            fontWeight: 700,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          Create Procurement Request
+        </Button>
+
+        <Button
+          variant="outlined"
+          startIcon={<ExportIcon />}
+          onClick={onExport}
+          id="btn-export-procurement"
+          sx={{
+            borderRadius: 2,
+            px: 2,
+            py: 1,
+            fontWeight: 700,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          Export
+        </Button>
+
+        <Button
+          variant="outlined"
+          startIcon={<RefreshIcon />}
+          onClick={onRefresh}
+          id="btn-refresh-procurement"
+          sx={{
+            borderRadius: 2,
+            px: 2,
+            py: 1,
+            fontWeight: 700,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          Refresh
+        </Button>
+      </Box>
     </Box>
   )
 }

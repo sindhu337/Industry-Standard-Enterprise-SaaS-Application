@@ -1,5 +1,5 @@
 /**
- * ProcurementFilters – Search bar + status/priority/department filter dropdowns
+ * ProcurementFilters – Search bar + status/priority/department/date range filter dropdowns
  */
 import {
   Box,
@@ -25,10 +25,19 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
     filters.search ||
     filters.status !== 'All' ||
     filters.priority !== 'All' ||
-    filters.department
+    filters.department ||
+    filters.startDate ||
+    filters.endDate
 
   const handleClear = () =>
-    onFilterChange({ search: '', status: 'All', priority: 'All', department: '' })
+    onFilterChange({
+      search: '',
+      status: 'All',
+      priority: 'All',
+      department: '',
+      startDate: '',
+      endDate: '',
+    })
 
   return (
     <Box
@@ -42,7 +51,7 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
       {/* Search */}
       <TextField
         size="small"
-        placeholder="Search by title, ID, vendor, requester…"
+        placeholder="Search by title, ID, vendor, department…"
         value={filters.search}
         onChange={(e) => onFilterChange({ search: e.target.value })}
         InputProps={{
@@ -107,6 +116,30 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
           </MenuItem>
         ))}
       </TextField>
+
+      {/* Date Range Start */}
+      <TextField
+        size="small"
+        type="date"
+        label="From Date"
+        InputLabelProps={{ shrink: true }}
+        value={filters.startDate || ''}
+        onChange={(e) => onFilterChange({ startDate: e.target.value })}
+        sx={{ minWidth: 150 }}
+        id="procurement-filter-start-date"
+      />
+
+      {/* Date Range End */}
+      <TextField
+        size="small"
+        type="date"
+        label="To Date"
+        InputLabelProps={{ shrink: true }}
+        value={filters.endDate || ''}
+        onChange={(e) => onFilterChange({ endDate: e.target.value })}
+        sx={{ minWidth: 150 }}
+        id="procurement-filter-end-date"
+      />
 
       {/* Clear filters */}
       {isDirty && (
