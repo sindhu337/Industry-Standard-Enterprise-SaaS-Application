@@ -1,9 +1,58 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { PROCUREMENT_MOCK_DATA } from '@/features/procurement/data/procurementMockData'
 
-export const fetchProcurements = createAsyncThunk('procurement/fetchAll', async () => { return [] })
-export const fetchProcurementById = createAsyncThunk('procurement/fetchById', async (id) => { return null })
-export const createProcurement = createAsyncThunk('procurement/create', async (data) => { return data })
-export const updateProcurement = createAsyncThunk('procurement/update', async ({ id, data }) => { return { id, ...data } })
+const simulateDelay = (ms = 500) => new Promise((res) => setTimeout(res, ms))
+
+export const fetchProcurements = createAsyncThunk('procurement/fetchAll', async (_, { getState }) => {
+  await simulateDelay()
+  const { procurement } = getState()
+  if (procurement.items.length > 0) {
+    return procurement.items
+  }
+  return PROCUREMENT_MOCK_DATA
+})
+
+export const fetchProcurementById = createAsyncThunk('procurement/fetchById', async (id, { getState }) => {
+  await simulateDelay(200)
+  const { procurement } = getState()
+  const items = procurement.items.length > 0 ? procurement.items : PROCUREMENT_MOCK_DATA
+  return items.find((item) => item.id === id) || null
+})
+
+export const createProcurement = createAsyncThunk('procurement/create', async (data) => {
+  await simulateDelay(400)
+  const newRequest = {
+    id: `PR-2025-${Math.floor(100 + Math.random() * 900)}`,
+    ...data,
+    status: data.status || 'Draft',
+    requestedDate: new Date().toISOString().split('T')[0],
+    comments: [],
+    attachments: [],
+    auditLog: [
+      {
+        action: 'Created',
+        by: data.requestedBy || 'System User',
+        date: new Date().toISOString(),
+      },
+    ],
+  }
+  return newRequest
+})
+
+export const updateProcurement = createAsyncThunk('procurement/update', async ({ id, data }) => {
+  await simulateDelay(400)
+  return { id, data }
+})
+
+export const deleteProcurement = createAsyncThunk('procurement/delete', async (id) => {
+  await simulateDelay(300)
+  return id
+})
+
+export const addComment = createAsyncThunk('procurement/addComment', async ({ id, comment }) => {
+  await simulateDelay(200)
+  return { id, comment }
+})
 
 const procurementSlice = createSlice({
   name: 'procurement',
@@ -12,24 +61,73 @@ const procurementSlice = createSlice({
     selected: null,
     loading: false,
     error: null,
-    pagination: { page: 0, pageSize: 10, total: 0 },
-    filters: {},
+    pagination: { page: 0, pageSize: 10 },
+    filters: { search: '', status: 'All', priority: 'All', department: '' },
   },
   reducers: {
-    setFilters: (state, action) => { state.filters = action.payload },
-    clearSelected: (state) => { state.selected = null },
-    setPagination: (state, action) => { state.pagination = { ...state.pagination, ...action.payload } },
+    setFilters: (state, action) => {
+      state.filters = { ...state.filters, ...action.payload }
+    },
+    clearSelected: (state) => {
+      state.selected = null
+    },
+    setPagination: (state, action) => {
+      state.pagination = { ...state.pagination, ...action.payload }
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProcurements.pending, (state) => { state.loading = true; state.error = null })
-      .addCase(fetchProcurements.fulfilled, (state, action) => { state.loading = false; state.items = action.payload })
-      .addCase(fetchProcurements.rejected, (state, action) => { state.loading = false; state.error = action.error.message })
-      .addCase(fetchProcurementById.fulfilled, (state, action) => { state.selected = action.payload })
-      .addCase(createProcurement.fulfilled, (state, action) => { state.items.unshift(action.payload) })
+      .addCase(fetchProcurements.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(fetchProcurements.fulfilled, (state, action) => {
+        state.loading = false
+        state.items = action.payload
+      })
+      .addCase(fetchProcurements.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message
+      })
+      .addCase(fetchProcurementById.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(fetchProcurementById.fulfilled, (state, action) => {
+        state.loading = false
+        state.selected = action.payload
+      })
+      .addCase(createProcurement.fulfilled, (state, action) => {
+        state.items.unshift(action.payload)
+      })
       .addCase(updateProcurement.fulfilled, (state, action) => {
         const idx = state.items.findIndex((i) => i.id === action.payload.id)
-        if (idx !== -1) state.items[idx] = action.payload
+        if (idx !== -1) {
+          state.items[idx] = { ...state.items[idx], ...action.payload.data }
+        }
+        if (state.selected && state.selected.id === action.payload.id) {
+          state.selected = { ...state.selected, ...action.payload.data }
+        }
+      })
+      .addCase(deleteProcurement.fulfilled, (state, action) => {
+        state.items = state.items.filter((i) => i.id !== action.payload)
+        if (state.selected && state.selected.id === action.payload) {
+          state.selected = null
+        }
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        const idx = state.items.findIndex((i) => i.id === action.payload.id)
+        const newComment = {
+          author: action.payload.comment.author,
+          text: action.payload.comment.text,
+          date: new Date().toISOString().split('T')[0],
+        }
+        if (idx !== -1) {
+          state.items[idx].comments = [...(state.items[idx].comments || []), newComment]
+        }
+        if (state.selected && state.selected.id === action.payload.id) {
+          state.selected.comments = [...(state.selected.comments || []), newComment]
+        }
       })
   },
 })

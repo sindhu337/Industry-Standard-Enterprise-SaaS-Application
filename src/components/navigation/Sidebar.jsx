@@ -124,6 +124,7 @@ export default function Sidebar({ width, collapsedWidth }) {
       sx={{
         width: drawerWidth,
         flexShrink: 0,
+        overflowX: 'hidden',
         transition: theme.transitions.create('width', {
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.enteringScreen,
@@ -131,6 +132,7 @@ export default function Sidebar({ width, collapsedWidth }) {
         '& .MuiDrawer-paper': {
           width: drawerWidth,
           boxSizing: 'border-box',
+          overflowX: 'hidden',
           transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,

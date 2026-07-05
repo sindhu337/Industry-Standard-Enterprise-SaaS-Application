@@ -11,6 +11,7 @@ export const ROUTES = {
   PROCUREMENT: '/procurement',
   PROCUREMENT_CREATE: '/procurement/create',
   PROCUREMENT_DETAIL: '/procurement/:id',
+  PROCUREMENT_EDIT: '/procurement/:id/edit',
 
   VENDORS: '/vendors',
   VENDOR_DETAIL: '/vendors/:id',
