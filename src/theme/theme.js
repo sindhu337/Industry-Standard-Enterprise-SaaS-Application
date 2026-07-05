@@ -20,26 +20,48 @@ const baseComponents = {
   MuiButton: {
     styleOverrides: {
       root: {
-        borderRadius: 8,
-        padding: '8px 20px',
+        borderRadius: 10,
+        minHeight: 42,
+        padding: '10px 20px',
         boxShadow: 'none',
-        '&:hover': { boxShadow: '0 2px 8px rgba(0,0,0,0.15)' },
+        fontWeight: 600,
+        '&:hover': { boxShadow: '0 6px 16px rgba(0,0,0,0.08)' },
+        '&.Mui-disabled': { opacity: 0.65 },
+      },
+      sizeSmall: {
+        minHeight: 34,
+        padding: '7px 16px',
+      },
+      sizeLarge: {
+        minHeight: 48,
+        padding: '12px 24px',
       },
     },
   },
   MuiCard: {
     styleOverrides: {
-      root: { borderRadius: 12, boxShadow: '0 2px 12px rgba(0,0,0,0.08)' },
+      root: {
+        borderRadius: 14,
+        boxShadow: '0 12px 32px rgba(15, 23, 42, 0.08)',
+        border: '1px solid rgba(145, 158, 171, 0.16)',
+      },
     },
   },
   MuiPaper: {
     styleOverrides: {
-      root: { borderRadius: 12 },
+      root: {
+        borderRadius: 14,
+      },
     },
   },
   MuiChip: {
     styleOverrides: {
-      root: { borderRadius: 6, fontWeight: 600, fontSize: '0.75rem' },
+      root: {
+        borderRadius: 6,
+        fontWeight: 700,
+        fontSize: '0.75rem',
+        height: 28,
+      },
     },
   },
   MuiTableHead: {
@@ -49,7 +71,96 @@ const baseComponents = {
           fontWeight: 700,
           fontSize: '0.8rem',
           textTransform: 'uppercase',
-          letterSpacing: '0.05em',
+          letterSpacing: '0.06em',
+        },
+      },
+    },
+  },
+  MuiTableCell: {
+    styleOverrides: {
+      root: {
+        borderBottom: '1px solid rgba(224, 231, 239, 1)',
+      },
+    },
+  },
+  MuiOutlinedInput: {
+    styleOverrides: {
+      root: {
+        borderRadius: 12,
+        backgroundColor: '#F7F9FC',
+        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+          borderColor: '#1976d2',
+        },
+      },
+      input: {
+        padding: '14px 16px',
+      },
+    },
+  },
+  MuiInputLabel: {
+    styleOverrides: {
+      root: {
+        fontWeight: 600,
+      },
+    },
+  },
+  MuiFormHelperText: {
+    styleOverrides: {
+      root: {
+        marginTop: 4,
+      },
+    },
+  },
+  MuiTabs: {
+    styleOverrides: {
+      root: {
+        minHeight: 48,
+      },
+      indicator: {
+        height: 4,
+        borderRadius: 2,
+      },
+    },
+  },
+  MuiTab: {
+    styleOverrides: {
+      root: {
+        textTransform: 'none',
+        minHeight: 48,
+        fontWeight: 700,
+        borderRadius: 10,
+      },
+    },
+  },
+  MuiListItemButton: {
+    styleOverrides: {
+      root: {
+        minHeight: 52,
+        borderRadius: 10,
+        '&.Mui-selected': {
+          bgcolor: 'rgba(21, 101, 192, 0.08)',
+          '&:hover': {
+            bgcolor: 'rgba(21, 101, 192, 0.12)',
+          },
+        },
+      },
+    },
+  },
+  MuiDataGrid: {
+    styleOverrides: {
+      root: {
+        border: '1px solid rgba(224, 231, 239, 1)',
+        borderRadius: 14,
+        overflow: 'hidden',
+      },
+      columnHeaders: {
+        backgroundColor: '#F7F9FC',
+        color: '#374151',
+        fontWeight: 700,
+      },
+      row: {
+        '&:hover': {
+          backgroundColor: '#F3F7FB',
         },
       },
     },

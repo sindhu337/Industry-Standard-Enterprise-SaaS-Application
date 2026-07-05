@@ -10,6 +10,7 @@ import AppLayout from '@/layouts/AppLayout'
 import AuthLayout from '@/layouts/AuthLayout'
 import { routeConfig, publicRoutes } from './routeConfig'
 
+const LandingPage = lazy(() => import('@/features/landing/LandingPage'))
 const LoginPage = lazy(() => import('@/features/auth/LoginPage'))
 const SignupPage = lazy(() => import('@/features/auth/SignupPage'))
 const ForgotPasswordPage = lazy(() => import('@/features/auth/ForgotPasswordPage'))
@@ -50,7 +51,7 @@ export default function AppRouter() {
   return (
     <Suspense fallback={<PageLoader />}>
       <Routes>
-        <Route path={ROUTES.HOME} element={<Navigate to={ROUTES.LOGIN} replace />} />
+        <Route path={ROUTES.HOME} element={<LandingPage />} />
 
         {publicRoutes.map(({ path, lazy: loader }) => {
           const LazyPage = lazy(loader)

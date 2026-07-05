@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Box, Tabs, Tab, Typography, Paper, Divider } from '@mui/material'
+import { Box, Tabs, Tab, Typography, Paper, Divider, Button } from '@mui/material'
 import { Assignment as AuditIcon } from '@mui/icons-material'
 import { useDispatch, useSelector } from 'react-redux'
 import PageContainer from '@/components/common/layout/PageContainer'
@@ -25,6 +25,13 @@ export default function AuditPage() {
   }, [queue, selectedId])
 
   const selectedItem = useMemo(() => queue.find((item) => item.id === selectedId) || null, [queue, selectedId])
+
+  const auditSummary = {
+    pending: queue.filter((item) => item.auditStatus === 'Pending Audit').length,
+    completed: queue.filter((item) => item.auditStatus === 'Audited').length,
+    observations: queue.reduce((acc, item) => acc + (item.observations?.length || 0), 0),
+    completionRate: queue.length ? Math.round((queue.filter((item) => item.auditStatus === 'Audited').length / queue.length) * 100) : 0,
+  }
 
   const handleMarkAudited = (id, auditorName, auditDate) => {
     markAudited(id, auditorName, auditDate)
@@ -52,32 +59,55 @@ export default function AuditPage() {
         </Box>
       </Box>
 
-      <AuditSummaryCards summary={{ pending: queue.filter((item) => item.auditStatus === 'Pending Audit').length, completed: queue.filter((item) => item.auditStatus === 'Audited').length, observations: queue.reduce((acc, item) => acc + (item.observations?.length || 0), 0), completionRate: queue.length ? Math.round((queue.filter((item) => item.auditStatus === 'Audited').length / queue.length) * 100) : 0 }} loading={loading && !queue.length} />
+      <AuditSummaryCards summary={auditSummary} loading={loading && !queue.length} />
 
-      <Box sx={{ mt: 3, borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={tab} onChange={(_, v) => setTab(v)} id="audit-tabs">
-          <Tab label="Audit Queue" id="tab-queue" />
-          <Tab label="Review Detail" id="tab-detail" />
-        </Tabs>
-      </Box>
-
-      <Box sx={{ mt: 2 }}>
-        {tab === 0 && <AuditQueueTable rows={queue} loading={loading} onMarkAudited={handleMarkAudited} onAddObservation={handleAddObservation} />}
-        {tab === 1 && (
-          <Box>
-            <Paper elevation={0} sx={{ p: 2.5, borderRadius: 3, border: '1px solid', borderColor: 'divider', mb: 3 }}>
-              <Typography variant="subtitle1" fontWeight={700}>Selected Procurement Review</Typography>
-              <Typography variant="body2" color="text.secondary">{selectedItem?.title || 'Select a request from the queue to inspect its lifecycle.'}</Typography>
-            </Paper>
-            <AuditDetailPanel item={selectedItem} />
-            <Divider sx={{ my: 3 }} />
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
-              <Button variant="outlined" onClick={() => setReportItem(selectedItem)}>Generate Mock Report</Button>
-              <Button variant="contained" color="success" onClick={() => handleMarkAudited(selectedItem?.id, user?.name || 'Auditor', new Date().toISOString().split('T')[0])}>Mark as Audited</Button>
+      <Paper elevation={0} sx={{ mt: 3, borderRadius: 3, border: '1px solid', borderColor: 'divider', p: 2.5 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
+            <Box>
+              <Typography variant="subtitle1" fontWeight={700}>Audit Review Workflow</Typography>
+              <Typography variant="body2" color="text.secondary">Switch between the queue and the selected review detail view.</Typography>
             </Box>
+            <Typography variant="body2" color="text.secondary">{queue.length} audit records available</Typography>
           </Box>
-        )}
-      </Box>
+
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs value={tab} onChange={(_, v) => setTab(v)} id="audit-tabs">
+              <Tab label="Audit Queue" id="tab-queue" />
+              <Tab label="Review Detail" id="tab-detail" />
+            </Tabs>
+          </Box>
+
+          <Box sx={{ mt: 2, minHeight: 500 }}>
+            {tab === 0 && <AuditQueueTable rows={queue} loading={loading} onMarkAudited={handleMarkAudited} onAddObservation={handleAddObservation} />}
+            {tab === 1 && (
+              <Box>
+                <Paper elevation={0} sx={{ p: 2.5, borderRadius: 3, border: '1px solid', borderColor: 'divider', mb: 3, bgcolor: 'background.paper' }}>
+                  <Typography variant="subtitle1" fontWeight={700}>Selected Procurement Review</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {selectedItem?.title || 'Select a request from the queue to inspect its lifecycle.'}
+                  </Typography>
+                </Paper>
+                <AuditDetailPanel item={selectedItem} />
+                <Divider sx={{ my: 3 }} />
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', flexWrap: 'wrap', gap: 1 }}>
+                  <Button variant="outlined" onClick={() => setReportItem(selectedItem)} disabled={!selectedItem}>
+                    Generate Mock Report
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    disabled={!selectedItem}
+                    onClick={() => handleMarkAudited(selectedItem?.id, user?.name || 'Auditor', new Date().toISOString().split('T')[0])}
+                  >
+                    Mark as Audited
+                  </Button>
+                </Box>
+              </Box>
+            )}
+          </Box>
+        </Box>
+      </Paper>
 
       <AuditReportDialog open={Boolean(reportItem)} onClose={() => setReportItem(null)} item={reportItem} />
     </PageContainer>

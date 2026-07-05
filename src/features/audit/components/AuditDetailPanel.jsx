@@ -7,14 +7,17 @@ export default function AuditDetailPanel({ item }) {
   return (
     <Box>
       <Card elevation={0} sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider', mb: 3 }}>
-        <CardContent>
-          <Typography variant="h6" fontWeight={700}>{item.title}</Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>{item.description}</Typography>
-          <Stack direction="row" spacing={1} flexWrap="wrap">
-            <Chip label={item.status} color="success" variant="outlined" />
-            <Chip label={item.complianceStatus} color="info" variant="outlined" />
+        <CardContent sx={{ p: 3 }}>
+          <Typography variant="h6" fontWeight={700} sx={{ mb: 1.5 }}>{item.title}</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2, lineHeight: 1.75 }}>{item.description}</Typography>
+          <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mb: 2 }}>
+            <Chip label={item.status || 'Status Unknown'} color="success" variant="outlined" />
+            <Chip label={item.complianceStatus || 'Compliance Unknown'} color="info" variant="outlined" />
             <Chip label={item.auditStatus || 'Pending Audit'} color="warning" />
           </Stack>
+          <Typography variant="body2" color="text.secondary">
+            This panel summarizes procurement and audit status data for the selected request. Use the timeline below to trace the request lifecycle.
+          </Typography>
         </CardContent>
       </Card>
 
@@ -50,12 +53,12 @@ export default function AuditDetailPanel({ item }) {
         </Grid>
         <Grid item xs={12} md={6}>
           <Card elevation={0} sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider', height: '100%' }}>
-            <CardContent>
+            <CardContent sx={{ p: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}><TimelineIcon color="action" /> <Typography variant="subtitle1" fontWeight={700}>Lifecycle Timeline</Typography></Box>
               <Typography variant="body2" color="text.secondary">Employee Created Request → Procurement Manager Approval → Compliance Review → Audit Review</Typography>
               <Divider sx={{ my: 2 }} />
-              <Typography variant="body2" color="text.secondary">Approval: {item.reviewedBy || 'Pending'}</Typography>
-              <Typography variant="body2" color="text.secondary">Compliance Review: {item.reviewedDate || 'Pending'}</Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>Approval: {item.reviewedBy || 'Pending'}</Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>Compliance Review: {item.reviewedDate || 'Pending'}</Typography>
               <Typography variant="body2" color="text.secondary">Audit Status: {item.auditStatus || 'Pending Audit'}</Typography>
             </CardContent>
           </Card>

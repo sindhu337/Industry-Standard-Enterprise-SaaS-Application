@@ -42,7 +42,7 @@ export default function Sidebar({ width, collapsedWidth }) {
           </Typography>
         )}
       </Box>
-      <Box sx={{ flex: 1, overflowY: 'auto' }}>
+      <Box sx={{ flex: 1, overflowY: 'auto', pb: 2, '&::-webkit-scrollbar': { width: 6 }, '&::-webkit-scrollbar-thumb': { bgcolor: 'rgba(0,0,0,0.15)', borderRadius: 3 } }}>
         <List sx={{ px: 1 }}>
           {menuItems.map((item) => {
             if (item.type === 'divider') {
@@ -65,18 +65,15 @@ export default function Sidebar({ width, collapsedWidth }) {
                   onClick={() => handleItemClick(item.route)}
                   selected={active}
                   sx={{
-                    minHeight: 48,
+                    minHeight: 52,
                     justifyContent: sidebarCollapsed && !isMobile ? 'center' : 'initial',
                     px: 2.5,
                     borderRadius: 2,
                     '&.Mui-selected': {
-                      bgcolor: 'primary.light',
-                      color: 'primary.contrastText',
+                      bgcolor: 'action.selected',
+                      color: 'text.primary',
                       '& .MuiListItemIcon-root': {
-                        color: 'primary.contrastText',
-                      },
-                      '&:hover': {
-                        bgcolor: 'primary.main',
+                        color: 'primary.main',
                       },
                     },
                   }}
@@ -86,12 +83,16 @@ export default function Sidebar({ width, collapsedWidth }) {
                       minWidth: 0,
                       mr: sidebarCollapsed && !isMobile ? 'auto' : 3,
                       justifyContent: 'center',
+                      color: active ? 'primary.main' : 'inherit',
+                      '& .MuiSvgIcon-root': {
+                        fontSize: 20,
+                      },
                     }}
                   >
                     {icon}
                   </ListItemIcon>
                   {(!sidebarCollapsed || isMobile) && (
-                    <ListItemText primary={item.title} sx={{ '& .MuiListItemText-primary': { fontSize: '0.875rem', fontWeight: active ? 600 : 500 } }} />
+                    <ListItemText primary={item.title} sx={{ '& .MuiListItemText-primary': { fontSize: '0.9rem', fontWeight: active ? 700 : 500 } }} />
                   )}
                 </ListItemButton>
               </ListItem>

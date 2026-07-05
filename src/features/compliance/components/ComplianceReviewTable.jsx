@@ -26,7 +26,7 @@ export default function ComplianceReviewTable({ rows = [], loading = false, onRe
         field: 'amount',
         headerName: 'Budget',
         width: 140,
-        valueFormatter: (_, row) => formatBudget(row?.amount, row?.currency),
+        valueFormatter: (params) => formatBudget(params?.row?.amount, params?.row?.currency),
       },
       { field: 'status', headerName: 'Procurement Status', width: 150, renderCell: ({ value }) => <Chip label={value} size="small" color="success" variant="outlined" /> },
       {

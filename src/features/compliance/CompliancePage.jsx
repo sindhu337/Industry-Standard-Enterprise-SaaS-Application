@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Box, Typography, Divider } from '@mui/material'
+import { Box, Typography, Divider, Paper, Chip } from '@mui/material'
 import { Security as SecurityIcon } from '@mui/icons-material'
 import { useDispatch, useSelector } from 'react-redux'
 import PageContainer from '@/components/common/layout/PageContainer'
@@ -65,25 +65,29 @@ export default function CompliancePage() {
     }
   }
 
+  const summaryLabel = `${approvedItems.length} approved request${approvedItems.length === 1 ? '' : 's'}`
+
   return (
     <PageContainer>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
-        <Box sx={{
-          width: 44, height: 44, borderRadius: 2, bgcolor: 'info.main',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <SecurityIcon sx={{ color: '#fff', fontSize: 22 }} />
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2, mb: 3 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          <Box sx={{ width: 44, height: 44, borderRadius: 2, bgcolor: 'info.main', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <SecurityIcon sx={{ color: '#fff', fontSize: 22 }} />
+          </Box>
+          <Box>
+            <Typography variant="h6" fontWeight={700} lineHeight={1.2}>Compliance Officer Review Queue</Typography>
+            <Typography variant="caption" color="text.secondary">
+              Review approved procurement requests, mark them compliant, and request additional information when needed.
+            </Typography>
+          </Box>
         </Box>
-        <Box>
-          <Typography variant="h6" fontWeight={700} lineHeight={1.2}>Compliance Officer Review Queue</Typography>
-          <Typography variant="caption" color="text.secondary">
-            Review approved procurement requests, mark them compliant, and request additional information when needed.
-          </Typography>
-        </Box>
+        <Chip label={summaryLabel} color="success" variant="outlined" sx={{ fontWeight: 700 }} />
       </Box>
 
-      <ComplianceReviewTable rows={approvedItems} loading={loading} onReviewAction={handleReviewAction} />
-      <Divider sx={{ my: 3 }} />
+      <Paper elevation={0} sx={{ p: 2.5, mb: 3, borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+        <ComplianceReviewTable rows={approvedItems} loading={loading} onReviewAction={handleReviewAction} />
+      </Paper>
+
       <ComplianceReviewDetail item={selectedItem} onReviewAction={handleReviewAction} onAddComment={handleAddComment} />
     </PageContainer>
   )

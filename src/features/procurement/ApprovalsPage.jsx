@@ -88,7 +88,7 @@ export default function ApprovalsPage() {
       field: 'amount',
       headerName: 'Estimated Budget',
       width: 140,
-      valueFormatter: (value, row) => formatBudget(row?.amount, row?.currency),
+      valueFormatter: (params) => formatBudget(params?.row?.amount, params?.row?.currency),
     },
     {
       field: 'priority',
@@ -106,7 +106,7 @@ export default function ApprovalsPage() {
       field: 'requestedDate',
       headerName: 'Submitted Date',
       width: 150,
-      valueFormatter: (value, row) => row?.requestedDate || row?.createdAt || '—',
+      valueFormatter: (params) => params?.row?.requestedDate || params?.row?.createdAt || '—',
     },
     {
       field: 'actions',

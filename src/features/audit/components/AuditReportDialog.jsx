@@ -20,9 +20,9 @@ export default function AuditReportDialog({ open, onClose, item }) {
           </Grid>
           <Divider sx={{ my: 3 }} />
           <Typography variant="subtitle1" fontWeight={700}>Approval Details</Typography>
-          <Typography variant="body2" color="text.secondary">Status: {item.status}</Typography>
-          <Typography variant="body2" color="text.secondary">Compliance Result: {item.complianceStatus}</Typography>
-          <Typography variant="body2" color="text.secondary">Audit Result: {item.auditStatus}</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>Status: {item.status || 'Unknown'}</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>Compliance Result: {item.complianceStatus || 'Unknown'}</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>Audit Result: {item.auditStatus || 'Pending Audit'}</Typography>
           <Divider sx={{ my: 3 }} />
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
             <Typography variant="body2" color="text.secondary">Prepared by: Auditor</Typography>

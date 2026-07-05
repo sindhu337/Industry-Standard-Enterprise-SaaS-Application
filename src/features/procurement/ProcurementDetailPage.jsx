@@ -252,7 +252,7 @@ export default function ProcurementDetailPage() {
                 Comments & Collaboration
               </Typography>
 
-              <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+              <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, mb: 4 }}>
                 <TextField
                   size="small"
                   fullWidth
@@ -260,13 +260,13 @@ export default function ProcurementDetailPage() {
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
                 />
-                <Button variant="contained" endIcon={<SendIcon />} onClick={handleAddComment}>
+                <Button variant="contained" endIcon={<SendIcon />} onClick={handleAddComment} sx={{ minWidth: 120 }}>
                   Post
                 </Button>
               </Box>
 
               <List disablePadding>
-                {selected.comments && selected.comments.length === 0 ? (
+                {selected.comments?.length === 0 ? (
                   <Typography variant="body2" color="text.secondary" align="center" sx={{ py: 2 }}>
                     No comments posted yet.
                   </Typography>
@@ -278,25 +278,25 @@ export default function ProcurementDetailPage() {
                         px: 0,
                         py: 2,
                         alignItems: 'flex-start',
-                        borderBottom: index < selected.comments.length - 1 ? '1px solid' : 'none',
+                        borderBottom: index < (selected.comments?.length || 0) - 1 ? '1px solid' : 'none',
                         borderColor: 'divider',
                       }}
                     >
-                      <Avatar sx={{ bgcolor: 'primary.light', color: 'primary.main', mr: 2, width: 32, height: 32, fontSize: '0.85rem' }}>
-                        {comment.author.charAt(0).toUpperCase()}
+                      <Avatar sx={{ bgcolor: 'primary.light', color: 'primary.main', mr: 2, width: 34, height: 34, fontSize: '0.85rem' }}>
+                        {comment.author?.charAt(0).toUpperCase() || 'U'}
                       </Avatar>
                       <ListItemText
                         primary={
-                          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
                             <Typography variant="subtitle2" fontWeight="bold">
-                              {comment.author}
+                              {comment.author || 'Unknown'}
                             </Typography>
                             <Typography variant="caption" color="text.secondary">
-                              {comment.date}
+                              {comment.date || 'Unknown date'}
                             </Typography>
                           </Box>
                         }
-                        secondary={<Typography variant="body2" sx={{ mt: 0.5 }}>{comment.text}</Typography>}
+                        secondary={<Typography variant="body2" sx={{ mt: 1 }}>{comment.text}</Typography>}
                       />
                     </ListItem>
                   ))
@@ -351,46 +351,52 @@ export default function ProcurementDetailPage() {
               </Typography>
 
               <List disablePadding sx={{ pl: 1 }}>
-                {selected.auditLog?.map((log, index) => (
-                  <ListItem
-                    key={index}
-                    sx={{
-                      px: 0,
-                      py: 1.5,
-                      alignItems: 'flex-start',
-                      borderLeft: index < selected.auditLog.length - 1 ? '2px solid' : 'none',
-                      borderColor: 'divider',
-                      pl: 2.5,
-                      ml: 0.5,
-                      position: 'relative',
-                    }}
-                  >
-                    <Box
+                {selected.auditLog?.length === 0 ? (
+                  <Typography variant="body2" color="text.secondary" sx={{ py: 2 }}>
+                    No audit history is available for this requisition.
+                  </Typography>
+                ) : (
+                  selected.auditLog?.map((log, index) => (
+                    <ListItem
+                      key={index}
                       sx={{
-                        position: 'absolute',
-                        left: -6,
-                        top: 20,
-                        width: 10,
-                        height: 10,
-                        borderRadius: '50%',
-                        bgcolor: 'primary.main',
+                        px: 0,
+                        py: 1.5,
+                        alignItems: 'flex-start',
+                        borderLeft: index < (selected.auditLog?.length || 0) - 1 ? '2px solid' : 'none',
+                        borderColor: 'divider',
+                        pl: 2.5,
+                        ml: 0.5,
+                        position: 'relative',
                       }}
-                    />
-                    <ListItemText
-                      primary={<Typography variant="subtitle2" fontWeight="bold">{log.action}</Typography>}
-                      secondary={
-                        <Box sx={{ mt: 0.5 }}>
-                          <Typography variant="caption" color="text.secondary" display="block">
-                            By: {log.by}
-                          </Typography>
-                          <Typography variant="caption" color="text.secondary" display="block">
-                            Date: {new Date(log.date).toLocaleString()}
-                          </Typography>
-                        </Box>
-                      }
-                    />
-                  </ListItem>
-                ))}
+                    >
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          left: -6,
+                          top: 20,
+                          width: 10,
+                          height: 10,
+                          borderRadius: '50%',
+                          bgcolor: 'primary.main',
+                        }}
+                      />
+                      <ListItemText
+                        primary={<Typography variant="subtitle2" fontWeight="bold">{log.action}</Typography>}
+                        secondary={
+                          <Box sx={{ mt: 0.5 }}>
+                            <Typography variant="caption" color="text.secondary" display="block">
+                              By: {log.by || 'System'}
+                            </Typography>
+                            <Typography variant="caption" color="text.secondary" display="block">
+                              Date: {log.date ? new Date(log.date).toLocaleString() : 'Unknown'}
+                            </Typography>
+                          </Box>
+                        }
+                      />
+                    </ListItem>
+                  ))
+                )}
               </List>
             </CardContent>
           </Card>

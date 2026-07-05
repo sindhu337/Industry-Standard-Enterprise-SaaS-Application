@@ -21,7 +21,7 @@ export default function AuditQueueTable({ rows = [], loading = false, onMarkAudi
     { field: 'requestedBy', headerName: 'Employee Name', width: 170 },
     { field: 'department', headerName: 'Department', width: 150 },
     { field: 'vendor', headerName: 'Vendor', width: 180 },
-    { field: 'amount', headerName: 'Budget', width: 140, valueFormatter: (_, row) => formatBudget(row?.amount, row?.currency) },
+    { field: 'amount', headerName: 'Budget', width: 140, valueFormatter: (params) => formatBudget(params?.row?.amount, params?.row?.currency) },
     { field: 'status', headerName: 'Procurement Status', width: 160 },
     { field: 'complianceStatus', headerName: 'Compliance Status', width: 180 },
     {

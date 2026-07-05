@@ -13,6 +13,7 @@ import {
   Avatar,
   Divider,
   ListItemIcon,
+  Tooltip,
   useTheme,
   useMediaQuery,
   TextField,
@@ -84,7 +85,7 @@ export default function Topbar({ height }) {
 
   const handleSettingsClick = () => {
     handleProfileMenuClose()
-    navigate(ROUTES.ROUTES || ROUTES.SETTINGS)
+    navigate(ROUTES.SETTINGS)
   }
 
   const handleToggleSidebar = () => {
@@ -109,15 +110,17 @@ export default function Topbar({ height }) {
       }}
     >
       <Toolbar sx={{ minHeight: height, px: { xs: 2, sm: 3 } }}>
-        <IconButton
-          color="inherit"
-          aria-label="toggle sidebar"
-          edge="start"
-          onClick={handleToggleSidebar}
-          sx={{ mr: 2 }}
-        >
-          {isMobile ? <MenuIcon /> : sidebarCollapsed ? <MenuIcon /> : <MenuOpenIcon />}
-        </IconButton>
+        <Tooltip title="Toggle sidebar">
+          <IconButton
+            color="inherit"
+            aria-label="toggle sidebar"
+            edge="start"
+            onClick={handleToggleSidebar}
+            sx={{ mr: 2 }}
+          >
+            {isMobile ? <MenuIcon /> : sidebarCollapsed ? <MenuIcon /> : <MenuOpenIcon />}
+          </IconButton>
+        </Tooltip>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mr: 3 }}>
           <ShieldIcon color="primary" sx={{ fontSize: 28 }} />
@@ -128,11 +131,12 @@ export default function Topbar({ height }) {
           )}
         </Box>
 
-        <Box sx={{ flexGrow: 1, maxWidth: 400, mx: 2, display: { xs: 'none', sm: 'block' } }}>
+        <Box sx={{ flexGrow: 1, maxWidth: 420, mx: 2, display: { xs: 'none', sm: 'block' } }}>
           <TextField
             size="small"
             fullWidth
-            placeholder="Global search..."
+            placeholder="Search workspace..."
+            aria-label="Search workspace"
             slotProps={{
               input: {
                 startAdornment: (
@@ -144,7 +148,7 @@ export default function Topbar({ height }) {
             }}
             sx={{
               '& .MuiOutlinedInput-root': {
-                borderRadius: 2,
+                borderRadius: 10,
                 bgcolor: 'action.hover',
                 '& fieldset': { border: 'none' },
               },

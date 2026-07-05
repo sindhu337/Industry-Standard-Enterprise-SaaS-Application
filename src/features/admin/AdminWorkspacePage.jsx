@@ -39,7 +39,7 @@ import { BarChart, Bar, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveCo
 import PageContainer from '@/components/common/layout/PageContainer'
 import usersData from '@/mocks/users.json'
 import { PROCUREMENT_MOCK_DATA } from '@/features/procurement/data/procurementMockData'
-import { VENDOR_MOCK_DATA } from '@/features/vendors/data/vendorMockData'
+import vendorsData from '@/mocks/vendors.json'
 import { ROLES } from '@/constants/roles'
 
 const tabLabels = [
@@ -83,8 +83,8 @@ const COLORS = ['#1976d2', '#2e7d32', '#ed6c02']
 
 export default function AdminWorkspacePage() {
   const { user } = useSelector((state) => state.auth || {})
-  const procurementItems = useSelector((state) => state.procurement?.items) || PROCUREMENT_MOCK_DATA
-  const vendorItems = useSelector((state) => state.vendors?.items) || VENDOR_MOCK_DATA
+    const procurementItems = useSelector((state) => state.procurement?.items) || PROCUREMENT_MOCK_DATA
+    const vendorItems = useSelector((state) => state.vendors?.items) || vendorsData
 
   const [activeTab, setActiveTab] = useState('dashboard')
   const [searchTerm, setSearchTerm] = useState('')

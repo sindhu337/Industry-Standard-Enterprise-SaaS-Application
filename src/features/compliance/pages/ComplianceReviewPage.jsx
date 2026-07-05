@@ -31,6 +31,13 @@ export default function ComplianceReviewPage() {
 
   const selectedItem = approvedItems.find((item) => item.id === selectedId) || null
 
+  const reviewStats = useMemo(() => ({
+    approved: approvedItems.length,
+    compliant: approvedItems.filter((item) => item.complianceStatus === 'Compliant').length,
+    nonCompliant: approvedItems.filter((item) => item.complianceStatus === 'Non-Compliant').length,
+    underReview: approvedItems.filter((item) => item.complianceStatus === 'Under Review').length,
+  }), [approvedItems])
+
   const handleReviewAction = async (id, complianceStatus, reviewer = user?.name) => {
     const current = items.find((item) => item.id === id)
     const result = await dispatch(updateProcurement({
@@ -80,13 +87,34 @@ export default function ComplianceReviewPage() {
         </Stack>
       </Box>
 
-      <Paper elevation={0} sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider', p: 2.5, mb: 3 }}>
-        <Typography variant="subtitle1" fontWeight={700}>Approved Procurement Review Queue</Typography>
-        <Typography variant="body2" color="text.secondary">Compliance Officer sees only approved procurements and can update review outcomes for each request.</Typography>
+    <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 2, mb: 3 }}>
+      {[
+        { label: 'Approved Items', value: reviewStats.approved, color: 'primary.main' },
+        { label: 'Compliant', value: reviewStats.compliant, color: 'success.main' },
+        { label: 'Non-Compliant', value: reviewStats.nonCompliant, color: 'error.main' },
+        { label: 'Under Review', value: reviewStats.underReview, color: 'warning.main' },
+      ].map((metric) => (
+        <Paper key={metric.label} elevation={0} sx={{ p: 2.5, borderRadius: 3, border: '1px solid', borderColor: 'divider', bgcolor: 'background.paper' }}>
+          <Typography variant="h5" fontWeight={700} color={metric.color} sx={{ mb: 0.5 }}>
+            {metric.value}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {metric.label}
+          </Typography>
+        </Paper>
+      ))}
+    </Box>
+
+      <Paper elevation={0} sx={{ p: 2.5, borderRadius: 3, border: '1px solid', borderColor: 'divider', mb: 3 }}>
+        <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 1 }}>
+          Compliance Review Queue
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Approved procurements are listed here for review and compliance decision making.
+        </Typography>
+        <ComplianceReviewTable rows={approvedItems} loading={loading} onReviewAction={handleReviewAction} />
       </Paper>
 
-      <ComplianceReviewTable rows={approvedItems} loading={loading} onReviewAction={handleReviewAction} />
-      <Divider sx={{ my: 3 }} />
       <ComplianceReviewDetail item={selectedItem} onReviewAction={handleReviewAction} onAddComment={handleAddComment} />
     </PageContainer>
   )
