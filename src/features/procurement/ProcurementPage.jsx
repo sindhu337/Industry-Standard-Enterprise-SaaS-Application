@@ -166,8 +166,10 @@ export default function ProcurementPage() {
           placeholder="Search requests, IDs, vendors..."
           value={filters.search}
           onChange={handleSearchChange}
-          InputProps={{
-            startAdornment: <SearchIcon fontSize="small" color="action" sx={{ mr: 1 }} />,
+          slotProps={{
+            input: {
+              startAdornment: <SearchIcon fontSize="small" color="action" sx={{ mr: 1 }} />,
+            },
           }}
           sx={{ flexGrow: 1, minWidth: 260 }}
         />

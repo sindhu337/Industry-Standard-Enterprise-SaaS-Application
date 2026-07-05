@@ -2,7 +2,8 @@
  * ProcurementForm – Reusable form for create and edit
  * Uses React Hook Form + Yup validation
  */
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
@@ -20,9 +21,11 @@ import {
   Send as SubmitIcon,
 } from '@mui/icons-material'
 
+import { showSnackbar } from '@/app/store/slices/uiSlice'
 import { procurementSchema } from '../validations/procurementValidation'
 import {
   PROCUREMENT_CATEGORIES,
+  PROCUREMENT_DEPARTMENTS,
   PROCUREMENT_VENDORS,
   PROCUREMENT_CURRENCIES,
 } from '../data/procurementMockData'
@@ -30,12 +33,20 @@ import {
 const DEFAULT_VALUES = {
   title: '',
   description: '',
+  department: '',
   category: '',
   vendor: '',
   amount: '',
-  currency: 'USD',
+  currency: 'INR',
   priority: 'Medium',
   requiredDate: '',
+  attachment: '',
+  notes: '',
+}
+
+function generateProcurementId() {
+  const now = new Date()
+  return `PR-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}-${Math.floor(100 + Math.random() * 900)}`
 }
 
 export default function ProcurementForm({
@@ -44,14 +55,16 @@ export default function ProcurementForm({
   onCancel,
   isSubmitting = false,
 }) {
+  const dispatch = useDispatch()
   const isEditMode = Boolean(editItem)
+  const [generatedId, setGeneratedId] = useState(() => generateProcurementId())
 
   const {
     register,
     handleSubmit,
     control,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitted },
   } = useForm({
     resolver: yupResolver(procurementSchema),
     defaultValues: DEFAULT_VALUES,
@@ -63,31 +76,64 @@ export default function ProcurementForm({
       reset({
         title: editItem.title || '',
         description: editItem.description || '',
+        department: editItem.department || '',
         category: editItem.category || '',
         vendor: editItem.vendor || '',
         amount: editItem.amount || '',
-        currency: editItem.currency || 'USD',
+        currency: editItem.currency || 'INR',
         priority: editItem.priority || 'Medium',
         requiredDate: editItem.requiredDate || '',
+        attachment: editItem.attachment || '',
+        notes: editItem.notes || '',
       })
+      setGeneratedId(editItem.id || generateProcurementId())
     } else {
       reset(DEFAULT_VALUES)
+      setGeneratedId(generateProcurementId())
     }
   }, [isEditMode, editItem, reset])
 
+  useEffect(() => {
+    if (isSubmitted && Object.keys(errors).length > 0) {
+      dispatch(showSnackbar({ message: 'Please correct the highlighted fields before submitting.', severity: 'error' }))
+    }
+  }, [dispatch, errors, isSubmitted])
+
+  const handleFormSubmit = (data) => {
+    const payload = {
+      ...data,
+      id: isEditMode ? editItem?.id : generatedId,
+      attachment: data.attachment || '',
+      notes: data.notes || '',
+    }
+    onSubmit(payload)
+  }
+
+  const readOnlyProcurementId = useMemo(() => (isEditMode ? editItem?.id || generatedId : generatedId), [editItem, generatedId, isEditMode])
+
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
+    <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} noValidate>
       {/* ── Section 1: Requisition Details ───────────────────────────── */}
       <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 2.5 }}>
         Requisition Details
       </Typography>
 
       <Grid container spacing={3}>
-        {/* Title */}
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            value={readOnlyProcurementId}
+            label="Procurement ID"
+            fullWidth
+            slotProps={{ input: { readOnly: true } }}
+            disabled={isSubmitting}
+            id="field-procurement-id"
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
           <TextField
             {...register('title')}
-            label="Requisition Title"
+            label="Request Title"
             fullWidth
             required
             error={Boolean(errors.title)}
@@ -98,11 +144,10 @@ export default function ProcurementForm({
           />
         </Grid>
 
-        {/* Description */}
         <Grid item xs={12}>
           <TextField
             {...register('description')}
-            label="Detailed Description"
+            label="Description"
             multiline
             rows={4}
             fullWidth
@@ -115,7 +160,32 @@ export default function ProcurementForm({
           />
         </Grid>
 
-        {/* Category */}
+        <Grid item xs={12} sm={6}>
+          <Controller
+            name="department"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                select
+                label="Department"
+                fullWidth
+                required
+                error={Boolean(errors.department)}
+                helperText={errors.department?.message}
+                disabled={isSubmitting}
+                id="field-department"
+              >
+                {PROCUREMENT_DEPARTMENTS.map((dept) => (
+                  <MenuItem key={dept} value={dept}>
+                    {dept}
+                  </MenuItem>
+                ))}
+              </TextField>
+            )}
+          />
+        </Grid>
+
         <Grid item xs={12} sm={6}>
           <Controller
             name="category"
@@ -124,7 +194,7 @@ export default function ProcurementForm({
               <TextField
                 {...field}
                 select
-                label="Procurement Category"
+                label="Category"
                 fullWidth
                 required
                 error={Boolean(errors.category)}
@@ -142,7 +212,6 @@ export default function ProcurementForm({
           />
         </Grid>
 
-        {/* Vendor */}
         <Grid item xs={12} sm={6}>
           <Controller
             name="vendor"
@@ -151,7 +220,7 @@ export default function ProcurementForm({
               <TextField
                 {...field}
                 select
-                label="Target Supplier / Vendor"
+                label="Preferred Vendor"
                 fullWidth
                 required
                 error={Boolean(errors.vendor)}
@@ -168,6 +237,17 @@ export default function ProcurementForm({
             )}
           />
         </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <TextField
+            {...register('attachment')}
+            label="Attachment"
+            fullWidth
+            disabled={isSubmitting}
+            id="field-attachment"
+            helperText="Mock upload placeholder"
+          />
+        </Grid>
       </Grid>
 
       <Divider sx={{ my: 4 }} />
@@ -178,11 +258,10 @@ export default function ProcurementForm({
       </Typography>
 
       <Grid container spacing={3}>
-        {/* Amount */}
         <Grid item xs={12} sm={6}>
           <TextField
             {...register('amount')}
-            label="Estimated Budget Amount"
+            label="Estimated Budget"
             type="number"
             fullWidth
             required
@@ -195,7 +274,6 @@ export default function ProcurementForm({
           />
         </Grid>
 
-        {/* Currency */}
         <Grid item xs={12} sm={6}>
           <Controller
             name="currency"
@@ -220,7 +298,6 @@ export default function ProcurementForm({
           />
         </Grid>
 
-        {/* Priority */}
         <Grid item xs={12} sm={6}>
           <Controller
             name="priority"
@@ -229,7 +306,7 @@ export default function ProcurementForm({
               <TextField
                 {...field}
                 select
-                label="Urgency Priority"
+                label="Priority"
                 fullWidth
                 required
                 disabled={isSubmitting}
@@ -246,24 +323,37 @@ export default function ProcurementForm({
           />
         </Grid>
 
-        {/* Required Date */}
         <Grid item xs={12} sm={6}>
           <TextField
             {...register('requiredDate')}
-            label="Required Delivery Date"
+            label="Required Date"
             type="date"
             fullWidth
             required
-            InputLabelProps={{ shrink: true }}
+            slotProps={{ inputLabel: { shrink: true } }}
             error={Boolean(errors.requiredDate)}
             helperText={errors.requiredDate?.message}
             disabled={isSubmitting}
             id="field-required-date"
           />
         </Grid>
+
+        <Grid item xs={12}>
+          <TextField
+            {...register('notes')}
+            label="Additional Notes"
+            multiline
+            rows={3}
+            fullWidth
+            disabled={isSubmitting}
+            id="field-notes"
+            placeholder="Add any supplementary context for the request"
+            error={Boolean(errors.notes)}
+            helperText={errors.notes?.message}
+          />
+        </Grid>
       </Grid>
 
-      {/* ── Form Actions ──────────────────────────────────────────────── */}
       <Box sx={{ mt: 5, display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
         <Button
           variant="outlined"

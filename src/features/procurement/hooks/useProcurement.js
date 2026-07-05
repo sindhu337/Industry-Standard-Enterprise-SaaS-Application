@@ -74,19 +74,25 @@ export function useProcurement() {
     async (data) => {
       const payload = {
         ...data,
+        id: data.id || `PR-${Date.now()}`,
         requestedBy: user?.name || 'System User',
         requestedById: user?.id || 'u001',
-        department: user?.department || 'Operations',
+        department: data.department || user?.department || 'Operations',
+        status: 'Draft',
+        requestedDate: new Date().toISOString().split('T')[0],
+        lastUpdated: new Date().toISOString().split('T')[0],
+        attachments: data.attachment ? [data.attachment] : [],
+        notes: data.notes || '',
       }
       const result = await dispatch(createProcurement(payload))
       if (createProcurement.fulfilled.match(result)) {
         dispatch(
           showSnackbar({
-            message: 'Requisition submitted for approval successfully.',
+            message: 'Procurement request saved successfully.',
             severity: 'success',
           }),
         )
-        navigate(ROUTES.PROCUREMENT)
+        navigate(ROUTES.PROCUREMENT, { state: { myRequests: true } })
         return true
       }
       dispatch(showSnackbar({ message: 'Submission failed. Please try again.', severity: 'error' }))

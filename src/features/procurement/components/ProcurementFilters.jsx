@@ -54,12 +54,14 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
         placeholder="Search by title, ID, vendor, department…"
         value={filters.search}
         onChange={(e) => onFilterChange({ search: e.target.value })}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon fontSize="small" color="action" />
-            </InputAdornment>
-          ),
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon fontSize="small" color="action" />
+              </InputAdornment>
+            ),
+          },
         }}
         sx={{ flexGrow: 1, minWidth: 260 }}
         id="procurement-search"
@@ -122,7 +124,7 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
         size="small"
         type="date"
         label="From Date"
-        InputLabelProps={{ shrink: true }}
+        slotProps={{ inputLabel: { shrink: true } }}
         value={filters.startDate || ''}
         onChange={(e) => onFilterChange({ startDate: e.target.value })}
         sx={{ minWidth: 150 }}
@@ -134,7 +136,7 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
         size="small"
         type="date"
         label="To Date"
-        InputLabelProps={{ shrink: true }}
+        slotProps={{ inputLabel: { shrink: true } }}
         value={filters.endDate || ''}
         onChange={(e) => onFilterChange({ endDate: e.target.value })}
         sx={{ minWidth: 150 }}

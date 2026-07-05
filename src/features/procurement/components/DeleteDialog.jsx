@@ -22,7 +22,7 @@ export default function DeleteDialog({ open, onClose, onConfirm, item, loading =
       maxWidth="xs"
       fullWidth
       aria-labelledby="delete-dialog-title"
-      PaperProps={{ sx: { borderRadius: 3 } }}
+      slotProps={{ paper: { sx: { borderRadius: 3 } } }}
     >
       <DialogTitle id="delete-dialog-title" sx={{ pb: 1 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>

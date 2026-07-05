@@ -2,6 +2,29 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { PROCUREMENT_MOCK_DATA } from '@/features/procurement/data/procurementMockData'
 
 const simulateDelay = (ms = 500) => new Promise((res) => setTimeout(res, ms))
+const STORAGE_KEY = 'egrcp_procurements'
+
+const readStoredProcurements = () => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    return stored ? JSON.parse(stored) : null
+  } catch {
+    return null
+  }
+}
+
+const persistProcurements = (items) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
+  } catch {
+    // ignore storage errors for the mock-only flow
+  }
+}
+
+const getInitialItems = () => {
+  const stored = readStoredProcurements()
+  return Array.isArray(stored) && stored.length > 0 ? stored : PROCUREMENT_MOCK_DATA
+}
 
 export const fetchProcurements = createAsyncThunk('procurement/fetchAll', async (_, { getState }) => {
   await simulateDelay()
@@ -22,12 +45,12 @@ export const fetchProcurementById = createAsyncThunk('procurement/fetchById', as
 export const createProcurement = createAsyncThunk('procurement/create', async (data) => {
   await simulateDelay(400)
   const newRequest = {
-    id: `PR-2025-${Math.floor(100 + Math.random() * 900)}`,
+    id: data.id || `PR-2025-${Math.floor(100 + Math.random() * 900)}`,
     ...data,
     status: data.status || 'Draft',
-    requestedDate: new Date().toISOString().split('T')[0],
+    requestedDate: data.requestedDate || new Date().toISOString().split('T')[0],
     comments: [],
-    attachments: [],
+    attachments: data.attachments || [],
     auditLog: [
       {
         action: 'Created',
@@ -57,7 +80,7 @@ export const addComment = createAsyncThunk('procurement/addComment', async ({ id
 const procurementSlice = createSlice({
   name: 'procurement',
   initialState: {
-    items: [],
+    items: getInitialItems(),
     selected: null,
     loading: false,
     error: null,
@@ -99,6 +122,7 @@ const procurementSlice = createSlice({
       })
       .addCase(createProcurement.fulfilled, (state, action) => {
         state.items.unshift(action.payload)
+        persistProcurements(state.items)
       })
       .addCase(updateProcurement.fulfilled, (state, action) => {
         const idx = state.items.findIndex((i) => i.id === action.payload.id)
@@ -108,12 +132,14 @@ const procurementSlice = createSlice({
         if (state.selected && state.selected.id === action.payload.id) {
           state.selected = { ...state.selected, ...action.payload.data }
         }
+        persistProcurements(state.items)
       })
       .addCase(deleteProcurement.fulfilled, (state, action) => {
         state.items = state.items.filter((i) => i.id !== action.payload)
         if (state.selected && state.selected.id === action.payload) {
           state.selected = null
         }
+        persistProcurements(state.items)
       })
       .addCase(addComment.fulfilled, (state, action) => {
         const idx = state.items.findIndex((i) => i.id === action.payload.id)

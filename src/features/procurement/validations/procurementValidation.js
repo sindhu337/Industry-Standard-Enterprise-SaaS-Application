@@ -7,22 +7,31 @@ import * as yup from 'yup'
 export const procurementSchema = yup.object().shape({
   title: yup
     .string()
+    .trim()
     .required('Request title is required')
     .min(5, 'Title must be at least 5 characters')
     .max(120, 'Title cannot exceed 120 characters'),
 
   description: yup
     .string()
+    .trim()
     .required('Description is required')
     .min(20, 'Please provide at least 20 characters of description'),
 
+  department: yup
+    .string()
+    .trim()
+    .required('Department is required'),
+
   category: yup
     .string()
+    .trim()
     .required('Procurement category is required'),
 
   vendor: yup
     .string()
-    .required('Target vendor is required'),
+    .trim()
+    .required('Preferred vendor is required'),
 
   amount: yup
     .number()
@@ -34,7 +43,7 @@ export const procurementSchema = yup.object().shape({
   currency: yup
     .string()
     .required('Currency is required')
-    .oneOf(['USD', 'EUR', 'GBP'], 'Please select a valid currency'),
+    .oneOf(['USD', 'INR'], 'Please select a valid currency'),
 
   priority: yup
     .string()
@@ -50,6 +59,9 @@ export const procurementSchema = yup.object().shape({
       today.setHours(0, 0, 0, 0)
       return new Date(value) >= today
     }),
+
+  attachment: yup.string().nullable(),
+  notes: yup.string().nullable(),
 })
 
 export const commentSchema = yup.object().shape({

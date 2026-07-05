@@ -3,7 +3,8 @@
  */
 import { useEffect } from 'react'
 import { Box, Paper } from '@mui/material'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 
 import PageContainer from '@/components/common/layout/PageContainer'
 import ProcurementToolbar from '../components/ProcurementToolbar'
@@ -14,6 +15,8 @@ import { showSnackbar } from '@/app/store/slices/uiSlice'
 
 export default function ProcurementListPage() {
   const dispatch = useDispatch()
+  const location = useLocation()
+  const { user: authUser } = useSelector((state) => state.auth)
   const {
     filteredItems,
     loading,
@@ -28,6 +31,11 @@ export default function ProcurementListPage() {
     loadAll()
   }, [loadAll])
 
+  const showMyRequests = location.state?.myRequests === true
+  const visibleRows = showMyRequests
+    ? filteredItems.filter((item) => item.requestedById === authUser?.id || item.requestedBy === authUser?.name)
+    : filteredItems
+
   const handleExport = () => {
     dispatch(
       showSnackbar({
@@ -40,8 +48,8 @@ export default function ProcurementListPage() {
   return (
     <PageContainer>
       <ProcurementToolbar
-        title="Procurement Workspace"
-        subtitle="Manage corporate purchase requisitions, approval chains, and vendor budget compliance"
+        title={showMyRequests ? 'My Requests' : 'Procurement Workspace'}
+        subtitle={showMyRequests ? 'Requests created by you and currently tracked in the workspace.' : 'Manage corporate purchase requisitions, approval chains, and vendor budget compliance'}
         loading={loading && filteredItems.length === 0}
         onRefresh={loadAll}
         onExport={handleExport}
@@ -63,9 +71,9 @@ export default function ProcurementListPage() {
 
       <Box>
         <ProcurementTable
-          rows={filteredItems}
+          rows={visibleRows}
           loading={loading}
-          user={user}
+          user={authUser}
           onDelete={submitDelete}
         />
       </Box>
