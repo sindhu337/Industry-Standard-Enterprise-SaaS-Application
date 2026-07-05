@@ -7,6 +7,12 @@ export const ROUTES = {
   SESSION_EXPIRED: '/session-expired',
 
   DASHBOARD: '/dashboard',
+  EMPLOYEE_DASHBOARD: '/workspace/employee',
+  PROCUREMENT_DASHBOARD: '/workspace/procurement',
+  COMPLIANCE_DASHBOARD: '/workspace/compliance',
+  AUDIT_DASHBOARD: '/workspace/audit',
+  ADMIN_DASHBOARD: '/workspace/admin',
+  PROFILE: '/profile',
 
   PROCUREMENT: '/procurement',
   PROCUREMENT_CREATE: '/procurement/create',

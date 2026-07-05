@@ -1,5 +1,6 @@
 import { ROUTES } from '@/constants/routes'
 import { ROLES } from '@/constants/roles'
+import { hasPermission } from '@/constants/permissions'
 
 const { ADMIN, EMPLOYEE, PROCUREMENT_MANAGER, COMPLIANCE_OFFICER, AUDITOR } = ROLES
 
@@ -12,18 +13,20 @@ export const sidebarConfig = [
     allowedRoles: [ADMIN, EMPLOYEE, PROCUREMENT_MANAGER, COMPLIANCE_OFFICER, AUDITOR],
   },
   {
-    id: 'divider-1',
-    type: 'divider',
-    title: 'WORKSPACE',
-    allowedRoles: [ADMIN, EMPLOYEE, PROCUREMENT_MANAGER, COMPLIANCE_OFFICER, AUDITOR],
+    id: 'employee-create',
+    title: 'Create Request',
+    icon: 'ShoppingCart',
+    route: ROUTES.PROCUREMENT_CREATE,
+    allowedRoles: [EMPLOYEE],
+    requiredPermission: 'procurement.create',
   },
   {
-    id: 'procurement',
-    title: 'Procurement',
-    icon: 'ShoppingCart',
+    id: 'employee-requests',
+    title: 'My Requests',
+    icon: 'Assignment',
     route: ROUTES.PROCUREMENT,
-    allowedRoles: [ADMIN, PROCUREMENT_MANAGER, EMPLOYEE],
-    badge: 'pending',
+    allowedRoles: [EMPLOYEE],
+    requiredPermission: 'procurement.view',
   },
   {
     id: 'approvals',
@@ -31,34 +34,31 @@ export const sidebarConfig = [
     icon: 'CheckCircle',
     route: ROUTES.APPROVALS,
     allowedRoles: [ADMIN, PROCUREMENT_MANAGER],
-    badge: 'approvals',
+    requiredPermission: 'procurement.approve',
+  },
+  {
+    id: 'procurement',
+    title: 'Procurement',
+    icon: 'ShoppingCart',
+    route: ROUTES.PROCUREMENT,
+    allowedRoles: [ADMIN, PROCUREMENT_MANAGER],
+    requiredPermission: 'procurement.view',
   },
   {
     id: 'vendors',
-    title: 'Vendor Governance',
+    title: 'Vendor Management',
     icon: 'Business',
     route: ROUTES.VENDORS,
-    allowedRoles: [ADMIN, PROCUREMENT_MANAGER, COMPLIANCE_OFFICER, AUDITOR],
-  },
-  {
-    id: 'divider-2',
-    type: 'divider',
-    title: 'GOVERNANCE',
-    allowedRoles: [ADMIN, COMPLIANCE_OFFICER, AUDITOR],
-  },
-  {
-    id: 'risk',
-    title: 'Risk Center',
-    icon: 'Warning',
-    route: ROUTES.RISK,
-    allowedRoles: [ADMIN, COMPLIANCE_OFFICER, AUDITOR],
+    allowedRoles: [ADMIN],
+    requiredPermission: 'vendors.view',
   },
   {
     id: 'compliance',
     title: 'Compliance Center',
     icon: 'VerifiedUser',
     route: ROUTES.COMPLIANCE,
-    allowedRoles: [ADMIN, COMPLIANCE_OFFICER, AUDITOR],
+    allowedRoles: [ADMIN, COMPLIANCE_OFFICER],
+    requiredPermission: 'compliance.view',
   },
   {
     id: 'audit',
@@ -66,26 +66,15 @@ export const sidebarConfig = [
     icon: 'FindInPage',
     route: ROUTES.AUDIT,
     allowedRoles: [ADMIN, AUDITOR],
-  },
-  {
-    id: 'divider-3',
-    type: 'divider',
-    title: 'ANALYTICS',
-    allowedRoles: [ADMIN, PROCUREMENT_MANAGER, COMPLIANCE_OFFICER, AUDITOR],
+    requiredPermission: 'audit.view',
   },
   {
     id: 'reports',
-    title: 'Reporting Center',
+    title: 'Reports',
     icon: 'Assessment',
     route: ROUTES.REPORTS,
     allowedRoles: [ADMIN, PROCUREMENT_MANAGER, COMPLIANCE_OFFICER, AUDITOR],
-  },
-  {
-    id: 'admin',
-    title: 'Administrator Workspace',
-    icon: 'AdminPanelSettings',
-    route: ROUTES.ADMIN,
-    allowedRoles: [ADMIN],
+    requiredPermission: 'reports.view',
   },
   {
     id: 'notifications',
@@ -96,20 +85,34 @@ export const sidebarConfig = [
     badge: 'unread',
   },
   {
-    id: 'divider-4',
-    type: 'divider',
-    title: 'ACCOUNT',
-    allowedRoles: [ADMIN, EMPLOYEE, PROCUREMENT_MANAGER, COMPLIANCE_OFFICER, AUDITOR],
+    id: 'profile',
+    title: 'Profile',
+    icon: 'Person',
+    route: ROUTES.PROFILE,
+    allowedRoles: [EMPLOYEE],
   },
   {
     id: 'settings',
     title: 'Settings',
     icon: 'Settings',
     route: ROUTES.SETTINGS,
-    allowedRoles: [ADMIN, EMPLOYEE, PROCUREMENT_MANAGER, COMPLIANCE_OFFICER, AUDITOR],
+    allowedRoles: [ADMIN],
+  },
+  {
+    id: 'user-management',
+    title: 'User Management',
+    icon: 'ManageAccounts',
+    route: ROUTES.ADMIN,
+    allowedRoles: [ADMIN],
+    requiredPermission: 'settings.manageUsers',
   },
 ]
 
 export function getMenuForRole(role) {
-  return sidebarConfig.filter((item) => item.allowedRoles.includes(role))
+  return sidebarConfig.filter((item) => {
+    if (!item.allowedRoles.includes(role)) return false
+    if (!item.requiredPermission) return true
+    const [module, action] = item.requiredPermission.split('.')
+    return hasPermission(role, module, action)
+  })
 }

@@ -28,6 +28,7 @@ import {
 import { loginUser, clearError } from '@/features/auth/authSlice'
 import { showSnackbar } from '@/app/store/slices/uiSlice'
 import { ROUTES } from '@/constants/routes'
+import { ROLES } from '@/constants/roles'
 import { APP_CONFIG } from '@/constants/appConfig'
 import { loginSchema } from '@/validations/auth.validation'
 
@@ -68,7 +69,17 @@ export default function LoginPage() {
         localStorage.removeItem('egrcp_remember_email')
       }
       dispatch(showSnackbar({ message: 'Welcome back! Login successful.', severity: 'success' }))
-      navigate(ROUTES.DASHBOARD, { replace: true })
+      const role = result.payload?.user?.role
+      const landingRoute = role === ROLES.PROCUREMENT_MANAGER
+        ? ROUTES.PROCUREMENT_DASHBOARD
+        : role === ROLES.COMPLIANCE_OFFICER
+          ? ROUTES.COMPLIANCE_DASHBOARD
+          : role === ROLES.AUDITOR
+            ? ROUTES.AUDIT_DASHBOARD
+            : role === ROLES.ADMIN
+              ? ROUTES.ADMIN_DASHBOARD
+              : ROUTES.EMPLOYEE_DASHBOARD
+      navigate(landingRoute, { replace: true })
     } else {
       dispatch(showSnackbar({ message: result.payload || 'Login failed.', severity: 'error' }))
     }
