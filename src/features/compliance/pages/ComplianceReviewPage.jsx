@@ -1,18 +1,20 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Box, Typography, Divider } from '@mui/material'
-import { Security as SecurityIcon } from '@mui/icons-material'
-import { useDispatch, useSelector } from 'react-redux'
+import { Box, Button, Paper, Typography, Stack, Divider } from '@mui/material'
+import { Refresh as RefreshIcon, ArrowBack as ArrowBackIcon } from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 import PageContainer from '@/components/common/layout/PageContainer'
-import ComplianceReviewTable from './components/ComplianceReviewTable'
-import ComplianceReviewDetail from './components/ComplianceReviewDetail'
+import ComplianceReviewTable from '../components/ComplianceReviewTable'
+import ComplianceReviewDetail from '../components/ComplianceReviewDetail'
 import { useProcurement } from '@/features/procurement/hooks/useProcurement'
-import { updateProcurement } from '@/features/procurement/procurementSlice'
 import { showSnackbar } from '@/app/store/slices/uiSlice'
+import { updateProcurement } from '@/features/procurement/procurementSlice'
 
-export default function CompliancePage() {
+export default function ComplianceReviewPage() {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { user } = useSelector((state) => state.auth)
   const { items, loading, loadAll } = useProcurement()
+  const { user } = useSelector((state) => state.auth)
   const [selectedId, setSelectedId] = useState(null)
 
   useEffect(() => {
@@ -67,20 +69,21 @@ export default function CompliancePage() {
 
   return (
     <PageContainer>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
-        <Box sx={{
-          width: 44, height: 44, borderRadius: 2, bgcolor: 'info.main',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <SecurityIcon sx={{ color: '#fff', fontSize: 22 }} />
-        </Box>
+      <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
         <Box>
-          <Typography variant="h6" fontWeight={700} lineHeight={1.2}>Compliance Officer Review Queue</Typography>
-          <Typography variant="caption" color="text.secondary">
-            Review approved procurement requests, mark them compliant, and request additional information when needed.
-          </Typography>
+          <Typography variant="h5" fontWeight={700}>Compliance Center</Typography>
+          <Typography variant="caption" color="text.secondary">Review approved procurements, mark them compliant, and request additional information where needed.</Typography>
         </Box>
+        <Stack direction="row" spacing={1.5}>
+          <Button startIcon={<ArrowBackIcon />} variant="outlined" onClick={() => navigate('/dashboard')}>Back</Button>
+          <Button startIcon={<RefreshIcon />} variant="outlined" onClick={loadAll}>Refresh</Button>
+        </Stack>
       </Box>
+
+      <Paper elevation={0} sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider', p: 2.5, mb: 3 }}>
+        <Typography variant="subtitle1" fontWeight={700}>Approved Procurement Review Queue</Typography>
+        <Typography variant="body2" color="text.secondary">Compliance Officer sees only approved procurements and can update review outcomes for each request.</Typography>
+      </Paper>
 
       <ComplianceReviewTable rows={approvedItems} loading={loading} onReviewAction={handleReviewAction} />
       <Divider sx={{ my: 3 }} />

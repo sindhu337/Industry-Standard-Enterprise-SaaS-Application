@@ -81,6 +81,7 @@ export function useProcurement() {
         requestedDate: new Date().toISOString().split('T')[0],
         lastUpdated: new Date().toISOString().split('T')[0],
         attachments: data.attachment ? [data.attachment] : [],
+        attachmentFile: data.attachmentFile || null,
         notes: data.notes || '',
       }
       const result = await dispatch(createProcurement(payload))

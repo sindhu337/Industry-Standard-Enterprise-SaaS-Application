@@ -37,6 +37,9 @@ export const PROCUREMENT_MOCK_DATA = [
     department: 'IT',
     requestedDate: '2025-06-10',
     lastUpdated: '2025-06-12',
+    complianceStatus: 'Under Review',
+    reviewedBy: 'Compliance Officer',
+    reviewedDate: '2025-06-12',
   },
   {
     id: 'PR-003',
@@ -117,6 +120,9 @@ export const PROCUREMENT_MOCK_DATA = [
     department: 'HR',
     requestedDate: '2025-05-10',
     lastUpdated: '2025-05-18',
+    complianceStatus: 'Under Review',
+    reviewedBy: 'Compliance Officer',
+    reviewedDate: '2025-05-18',
   },
   {
     id: 'PR-008',
@@ -229,6 +235,9 @@ export const PROCUREMENT_MOCK_DATA = [
     department: 'Finance',
     requestedDate: '2025-05-02',
     lastUpdated: '2025-05-15',
+    complianceStatus: 'Under Review',
+    reviewedBy: 'Compliance Officer',
+    reviewedDate: '2025-05-15',
   },
   {
     id: 'PR-015',

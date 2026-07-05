@@ -58,6 +58,8 @@ export default function ProcurementForm({
   const dispatch = useDispatch()
   const isEditMode = Boolean(editItem)
   const [generatedId, setGeneratedId] = useState(() => generateProcurementId())
+  const [selectedAttachmentFile, setSelectedAttachmentFile] = useState(null)
+  const [attachmentDisplayName, setAttachmentDisplayName] = useState('')
 
   const {
     register,
@@ -86,9 +88,14 @@ export default function ProcurementForm({
         attachment: editItem.attachment || '',
         notes: editItem.notes || '',
       })
+      const existingAttachmentName = typeof editItem?.attachment === 'string' ? editItem.attachment : ''
+      setAttachmentDisplayName(existingAttachmentName)
+      setSelectedAttachmentFile(null)
       setGeneratedId(editItem.id || generateProcurementId())
     } else {
       reset(DEFAULT_VALUES)
+      setAttachmentDisplayName('')
+      setSelectedAttachmentFile(null)
       setGeneratedId(generateProcurementId())
     }
   }, [isEditMode, editItem, reset])
@@ -99,11 +106,30 @@ export default function ProcurementForm({
     }
   }, [dispatch, errors, isSubmitted])
 
+  const handleAttachmentChange = (event) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/png', 'image/jpeg', 'image/jpg']
+    const extension = file.name.split('.').pop()?.toLowerCase()
+    const allowedExtensions = ['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg']
+
+    if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(extension)) {
+      dispatch(showSnackbar({ message: 'Please select a PDF, DOC, DOCX, PNG, JPG, or JPEG file.', severity: 'error' }))
+      event.target.value = ''
+      return
+    }
+
+    setSelectedAttachmentFile(file)
+    setAttachmentDisplayName(file.name)
+  }
+
   const handleFormSubmit = (data) => {
     const payload = {
       ...data,
       id: isEditMode ? editItem?.id : generatedId,
-      attachment: data.attachment || '',
+      attachment: selectedAttachmentFile ? selectedAttachmentFile.name : data.attachment || '',
+      attachmentFile: selectedAttachmentFile,
       notes: data.notes || '',
     }
     onSubmit(payload)
@@ -239,14 +265,27 @@ export default function ProcurementForm({
         </Grid>
 
         <Grid item xs={12} sm={6}>
-          <TextField
-            {...register('attachment')}
-            label="Attachment"
-            fullWidth
-            disabled={isSubmitting}
-            id="field-attachment"
-            helperText="Mock upload placeholder"
-          />
+          <Box>
+            <Button
+              component="label"
+              variant="outlined"
+              disabled={isSubmitting}
+              id="field-attachment"
+              sx={{ borderRadius: 2, px: 3, mb: 1 }}
+            >
+              Attachment
+              <input
+                id="input-attachment"
+                type="file"
+                hidden
+                accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
+                onChange={handleAttachmentChange}
+              />
+            </Button>
+            <Typography variant="body2" color="text.secondary" sx={{ minHeight: 24 }}>
+              {attachmentDisplayName || 'No file chosen'}
+            </Typography>
+          </Box>
         </Grid>
       </Grid>
 
