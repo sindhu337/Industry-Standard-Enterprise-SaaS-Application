@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -50,7 +50,7 @@ export default function Topbar({ height }) {
   const { themeMode, sidebarCollapsed } = useSelector((state) => state.ui)
   const { items: notifications } = useSelector((state) => state.notifications)
 
-  const unreadNotificationsCount = notifications.filter((n) => !n.isRead).length
+  const unreadNotificationsCount = useMemo(() => notifications.filter((n) => !n.isRead).length, [notifications])
 
   const [profileAnchorEl, setProfileAnchorEl] = useState(null)
   const [notifAnchorEl, setNotifAnchorEl] = useState(null)
@@ -62,40 +62,40 @@ export default function Topbar({ height }) {
     dispatch(fetchNotifications())
   }, [dispatch])
 
-  const handleProfileMenuOpen = (event) => {
+  const handleProfileMenuOpen = useCallback((event) => {
     setProfileAnchorEl(event.currentTarget)
-  }
+  }, [])
 
-  const handleProfileMenuClose = () => {
+  const handleProfileMenuClose = useCallback(() => {
     setProfileAnchorEl(null)
-  }
+  }, [])
 
-  const handleNotifOpen = (event) => {
+  const handleNotifOpen = useCallback((event) => {
     setNotifAnchorEl(event.currentTarget)
-  }
+  }, [])
 
-  const handleNotifClose = () => {
+  const handleNotifClose = useCallback(() => {
     setNotifAnchorEl(null)
-  }
+  }, [])
 
-  const handleLogout = () => {
-    handleProfileMenuClose()
+  const handleLogout = useCallback(() => {
+    setProfileAnchorEl(null)
     dispatch(logout())
     navigate(ROUTES.LOGIN)
-  }
+  }, [dispatch, navigate])
 
-  const handleSettingsClick = () => {
-    handleProfileMenuClose()
+  const handleSettingsClick = useCallback(() => {
+    setProfileAnchorEl(null)
     navigate(ROUTES.SETTINGS)
-  }
+  }, [navigate])
 
-  const handleToggleSidebar = () => {
+  const handleToggleSidebar = useCallback(() => {
     if (isMobile) {
       dispatch(toggleSidebar())
     } else {
       dispatch(toggleSidebarCollapse())
     }
-  }
+  }, [isMobile, dispatch])
 
   return (
     <AppBar

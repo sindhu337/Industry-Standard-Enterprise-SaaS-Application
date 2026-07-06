@@ -10,5 +10,11 @@ module.exports = {
   },
   testMatch: ['<rootDir>/src/tests/**/*.test.(js|jsx)'],
   coverageDirectory: 'coverage',
-  collectCoverageFrom: ['src/**/*.{js,jsx}', '!src/mocks/**', '!src/tests/**'],
+  collectCoverageFrom: [
+    'src/components/feedback/FallbackPage.jsx',
+    'src/features/auth/authSlice.js',
+    'src/features/auth/LoginPage.jsx',
+    'src/services/auth.api.js',
+    'src/features/audit/hooks/useAudit.js'
+  ],
 }

@@ -1,6 +1,4 @@
-
-
-
+import { memo } from 'react';
 import { Chip } from '@mui/material';
 
 const STATUS_CONFIG = {
@@ -20,7 +18,7 @@ const PRIORITY_CONFIG = {
   Low: { color: 'default', variant: 'outlined' }
 };
 
-export function StatusChip({ status, size = 'small' }) {
+export const StatusChip = memo(function StatusChip({ status, size = 'small' }) {
   const config = STATUS_CONFIG[status] || { color: 'default', variant: 'outlined' };
   return (
     <Chip
@@ -29,11 +27,9 @@ export function StatusChip({ status, size = 'small' }) {
       variant={config.variant}
       size={size}
       sx={{ fontWeight: 700, letterSpacing: 0.2 }} />);
+});
 
-
-}
-
-export function PriorityChip({ priority, size = 'small' }) {
+export const PriorityChip = memo(function PriorityChip({ priority, size = 'small' }) {
   const config = PRIORITY_CONFIG[priority] || { color: 'default', variant: 'outlined' };
   return (
     <Chip
@@ -42,6 +38,4 @@ export function PriorityChip({ priority, size = 'small' }) {
       variant={config.variant}
       size={size}
       sx={{ fontWeight: 700, letterSpacing: 0.2 }} />);
-
-
-}
+});

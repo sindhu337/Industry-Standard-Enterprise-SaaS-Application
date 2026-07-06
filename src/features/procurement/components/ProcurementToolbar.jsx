@@ -1,6 +1,7 @@
 
 
 
+import { memo } from 'react';
 import { Box, Typography, Button, Skeleton } from '@mui/material';
 import {
   Add as AddIcon,
@@ -11,7 +12,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/constants/routes';
 
-export default function ProcurementToolbar({
+const ProcurementToolbar = memo(function ProcurementToolbar({
   title,
   subtitle,
   loading = false,
@@ -114,4 +115,6 @@ export default function ProcurementToolbar({
       </Box>
     </Box>);
 
-}
+});
+
+export default ProcurementToolbar;

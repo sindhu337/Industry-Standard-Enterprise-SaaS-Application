@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import {
   Box,
   TextField,
@@ -17,7 +18,7 @@ import {
   PROCUREMENT_DEPARTMENTS } from
 '../data/procurementMockData';
 
-export default function ProcurementFilters({ filters, onFilterChange }) {
+const ProcurementFilters = memo(function ProcurementFilters({ filters, onFilterChange }) {
   const isDirty =
   filters.search ||
   filters.status !== 'All' ||
@@ -145,4 +146,6 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
       }
     </Box>);
 
-}
+});
+
+export default ProcurementFilters;

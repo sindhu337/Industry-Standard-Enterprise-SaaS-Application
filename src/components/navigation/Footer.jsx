@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import { Box, Typography } from '@mui/material'
 import { APP_CONFIG } from '@/constants/appConfig'
 
-export default function Footer() {
+const Footer = memo(function Footer() {
   return (
     <Box
       component="footer"
@@ -19,4 +20,6 @@ export default function Footer() {
       </Typography>
     </Box>
   )
-}
+})
+
+export default Footer

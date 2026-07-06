@@ -1,9 +1,10 @@
+import { memo } from 'react';
 import { Breadcrumbs as MuiBreadcrumbs, Typography, Link } from '@mui/material';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 import { routeConfig } from '@/app/router/routeConfig';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
-export default function Breadcrumbs() {
+const AppBreadcrumbs = memo(function AppBreadcrumbs() {
   const { pathname } = useLocation();
 
   if (pathname === '/dashboard') {
@@ -75,4 +76,6 @@ export default function Breadcrumbs() {
       })}
     </MuiBreadcrumbs>);
 
-}
+});
+
+export default AppBreadcrumbs;

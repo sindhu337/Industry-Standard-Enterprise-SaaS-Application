@@ -1,6 +1,7 @@
 
 
 
+import { memo } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -12,7 +13,7 @@ import {
 '@mui/material';
 import { Delete as DeleteIcon, WarningAmber as WarnIcon } from '@mui/icons-material';
 
-export default function DeleteDialog({ open, onClose, onConfirm, item, loading = false }) {
+const DeleteDialog = memo(function DeleteDialog({ open, onClose, onConfirm, item, loading = false }) {
   if (!item) return null;
 
   return (
@@ -95,4 +96,6 @@ export default function DeleteDialog({ open, onClose, onConfirm, item, loading =
       </DialogActions>
     </Dialog>);
 
-}
+});
+
+export default DeleteDialog;

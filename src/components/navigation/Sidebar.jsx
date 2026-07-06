@@ -1,3 +1,4 @@
+import { useMemo, useCallback } from 'react'
 import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, Divider, useTheme, useMediaQuery } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import { useSelector, useDispatch } from 'react-redux'
@@ -19,18 +20,18 @@ export default function Sidebar({ width, collapsedWidth }) {
   const { sidebarOpen, sidebarCollapsed } = useSelector((state) => state.ui)
 
   const activeRole = user?.role || 'Employee'
-  const menuItems = getMenuForRole(activeRole)
+  const menuItems = useMemo(() => getMenuForRole(activeRole), [activeRole])
 
   const drawerWidth = sidebarCollapsed && !isMobile ? collapsedWidth : width
 
-  const handleItemClick = (route) => {
+  const handleItemClick = useCallback((route) => {
     if (route) {
       navigate(route)
       if (isMobile) {
         dispatch(toggleSidebar(false))
       }
     }
-  }
+  }, [navigate, isMobile, dispatch])
 
   const renderContent = () => (
     <Box sx={{

@@ -2,7 +2,7 @@
 
 
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,7 +30,7 @@ export function useProcurement() {
   const { user } = useSelector((state) => state.auth);
 
 
-  const filteredItems = items.filter((item) => {
+  const filteredItems = useMemo(() => items.filter((item) => {
     const q = filters.search.toLowerCase();
     const matchesSearch =
     item.title.toLowerCase().includes(q) ||
@@ -54,7 +54,7 @@ export function useProcurement() {
       matchesStartDate &&
       matchesEndDate);
 
-  });
+  }), [items, filters]);
 
   const canApprove = user?.role === 'Procurement Manager';
 

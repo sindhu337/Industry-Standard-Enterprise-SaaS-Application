@@ -1,7 +1,6 @@
 
 
-
-import { useEffect } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 import { Box, Paper } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -12,6 +11,7 @@ import ProcurementFilters from '../components/ProcurementFilters';
 import ProcurementTable from '../components/ProcurementTable';
 import { useProcurement } from '../hooks/useProcurement';
 import { showSnackbar } from '@/app/store/slices/uiSlice';
+import { exportProcurementPdf } from '../utils/exportProcurementPdf';
 
 export default function ProcurementListPage() {
   const dispatch = useDispatch();
@@ -33,18 +33,32 @@ export default function ProcurementListPage() {
 
   const isEmployee = authUser?.role === 'Employee';
   const showMyRequests = isEmployee || location.state?.myRequests === true;
-  const visibleRows = showMyRequests ?
-  filteredItems.filter((item) => item.requestedById === authUser?.id || item.requestedBy === authUser?.name) :
-  filteredItems;
+  const visibleRows = useMemo(() => {
+    if (showMyRequests) {
+      return filteredItems.filter((item) => item.requestedById === authUser?.id || item.requestedBy === authUser?.name);
+    }
+    return filteredItems;
+  }, [showMyRequests, filteredItems, authUser?.id, authUser?.name]);
 
-  const handleExport = () => {
-    dispatch(
-      showSnackbar({
-        message: 'CSV export completed successfully (Demo mode).',
-        severity: 'success'
-      })
-    );
-  };
+  const handleExport = useCallback(() => {
+    try {
+      const pdfTitle = showMyRequests ? 'My Procurement Requests' : 'Procurement Requisitions';
+      exportProcurementPdf(visibleRows, pdfTitle);
+      dispatch(
+        showSnackbar({
+          message: 'PDF report downloaded successfully.',
+          severity: 'success'
+        })
+      );
+    } catch {
+      dispatch(
+        showSnackbar({
+          message: 'Failed to generate PDF. Please try again.',
+          severity: 'error'
+        })
+      );
+    }
+  }, [showMyRequests, visibleRows, dispatch]);
 
   return (
     <PageContainer>

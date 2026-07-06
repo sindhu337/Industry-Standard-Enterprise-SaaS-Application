@@ -1,3 +1,4 @@
+import { memo, useMemo, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -23,28 +24,28 @@ import {
 import { markAsRead, markAllAsRead } from '@/features/notifications/notificationSlice'
 import { ROUTES } from '@/constants/routes'
 
-export default function NotificationPopover({ anchorEl, open, onClose }) {
+const NotificationPopover = memo(function NotificationPopover({ anchorEl, open, onClose }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { items } = useSelector((state) => state.notifications)
 
-  const unreadCount = items.filter((n) => !n.isRead).length
+  const unreadCount = useMemo(() => items.filter((n) => !n.isRead).length, [items])
 
-  const handleMarkAllRead = () => {
+  const handleMarkAllRead = useCallback(() => {
     dispatch(markAllAsRead())
-  }
+  }, [dispatch])
 
-  const handleNotificationClick = (item) => {
+  const handleNotificationClick = useCallback((item) => {
     if (!item.isRead) {
       dispatch(markAsRead(item.id))
     }
     onClose()
-  }
+  }, [dispatch, onClose])
 
-  const handleViewAll = () => {
+  const handleViewAll = useCallback(() => {
     onClose()
     navigate(ROUTES.NOTIFICATIONS)
-  }
+  }, [onClose, navigate])
 
   const getNotificationIcon = (type) => {
     switch (type) {
@@ -164,4 +165,6 @@ export default function NotificationPopover({ anchorEl, open, onClose }) {
       </Box>
     </Popover>
   )
-}
+})
+
+export default NotificationPopover

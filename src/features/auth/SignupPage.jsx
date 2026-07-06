@@ -25,6 +25,7 @@ import {
   LockOutlined,
   EmailOutlined,
   PersonOutlined,
+  ShieldOutlined,
 } from '@mui/icons-material'
 import { motion } from 'framer-motion'
 import AppLogo from '@/components/common/AppLogo'

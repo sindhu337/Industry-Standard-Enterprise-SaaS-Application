@@ -1,9 +1,5 @@
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom';
+import { TextEncoder, TextDecoder } from 'util';
 
-if (typeof TextEncoder === 'undefined') {
-  global.TextEncoder = require('util').TextEncoder
-}
-
-if (typeof TextDecoder === 'undefined') {
-  global.TextDecoder = require('util').TextDecoder
-}
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;

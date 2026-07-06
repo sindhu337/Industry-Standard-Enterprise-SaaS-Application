@@ -1,7 +1,7 @@
 
 
 
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, IconButton, Tooltip, Paper } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -14,7 +14,7 @@ import {
 import { StatusChip, PriorityChip } from './StatusChip';
 import DeleteDialog from './DeleteDialog';
 
-export default function ProcurementTable({
+const ProcurementTable = memo(function ProcurementTable({
   rows,
   loading,
   user,
@@ -218,4 +218,6 @@ export default function ProcurementTable({
       
     </>);
 
-}
+});
+
+export default ProcurementTable;
