@@ -77,7 +77,7 @@ export default function SignupPage() {
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', bgcolor: 'background.default' }}>
       
-      {/* Left Info Panel (Desktop only) */}
+      {}
       <Box
         sx={{
           display: { xs: 'none', md: 'flex' },
@@ -145,7 +145,7 @@ export default function SignupPage() {
         </Typography>
       </Box>
 
-      {/* Right Sign Up Panel */}
+      {}
       <Box
         sx={{
           flexGrow: 1,

@@ -39,7 +39,7 @@ export default function Sidebar({ width, collapsedWidth }) {
       flexDirection: 'column',
       height: '100%',
     }}>
-      {/* Brand header */}
+      {}
       <Box sx={{
         px: 2.5,
         display: 'flex',
@@ -58,7 +58,7 @@ export default function Sidebar({ width, collapsedWidth }) {
         )}
       </Box>
 
-      {/* Menu items */}
+      {}
       <Box sx={{
         flex: 1,
         overflowY: 'auto',

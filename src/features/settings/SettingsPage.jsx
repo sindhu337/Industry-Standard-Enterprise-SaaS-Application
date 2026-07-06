@@ -101,7 +101,7 @@ export default function SettingsPage() {
         </Box>
 
         <Box sx={{ p: { xs: 2, md: 4 } }}>
-          {/* PROFILE TAB */}
+          {}
           <TabPanel value={tabValue} index={0}>
             <Grid container spacing={4}>
               <Grid size={{ xs: 12, md: 4, lg: 3 }}>
@@ -154,7 +154,7 @@ export default function SettingsPage() {
             </Grid>
           </TabPanel>
 
-          {/* SECURITY TAB */}
+          {}
           <TabPanel value={tabValue} index={1}>
             <Grid container spacing={4}>
               <Grid size={{ xs: 12, md: 6 }}>
@@ -241,7 +241,7 @@ export default function SettingsPage() {
             </Grid>
           </TabPanel>
 
-          {/* USER MANAGEMENT TAB */}
+          {}
           {isAdmin && (
             <TabPanel value={tabValue} index={2}>
               <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

@@ -62,7 +62,7 @@ const StatCard = ({ title, value, icon: Icon, color }) => {
 export default function AuditorDashboard() {
   const theme = useTheme()
 
-  // Dynamic calculations from mock data
+  
   const totalItems = PROCUREMENT_MOCK_DATA.length
   const auditedItems = PROCUREMENT_MOCK_DATA.filter((item) => item.auditStatus === 'Audited').length
   const pendingAudits = PROCUREMENT_MOCK_DATA.filter((item) => item.auditStatus === 'Pending Audit').length
@@ -72,7 +72,7 @@ export default function AuditorDashboard() {
     ? ((auditedItems / (auditedItems + observationItems)) * 100).toFixed(1) 
     : '100'
 
-  // Chart Data: Findings by Department
+  
   const deptFindingsMap = PROCUREMENT_MOCK_DATA.reduce((acc, item) => {
     if (item.auditStatus === 'Observation Raised') {
       acc[item.department] = (acc[item.department] || 0) + 1
@@ -85,7 +85,7 @@ export default function AuditorDashboard() {
     Findings: deptFindingsMap[dept]
   }))
 
-  // Fallback if no observations
+  
   const chartDeptData = deptFindingsData.length > 0 
     ? deptFindingsData 
     : [
@@ -95,14 +95,14 @@ export default function AuditorDashboard() {
         { department: 'Operations', Findings: 4 }
       ]
 
-  // Chart Data: Audit status distribution
+  
   const auditStatusDistribution = [
     { name: 'Audited & Closed', value: auditedItems || 5, color: '#2e7d32' },
     { name: 'Pending Audit', value: pendingAudits || 10, color: '#ed6c02' },
     { name: 'Observations Raised', value: observationItems || 3, color: '#d32f2f' },
   ]
 
-  // Recent Activity Feed
+  
   const recentAudits = PROCUREMENT_MOCK_DATA.slice(0, 4).map((item) => {
     let statusColor = 'info.main'
     let Icon = ReviewIcon
@@ -138,7 +138,7 @@ export default function AuditorDashboard() {
         </Typography>
       </Box>
 
-      {/* Stats Row */}
+      {}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid size={{xs: 12, sm: 6, md: 3}}>
           <StatCard title="Audited Requests" value={auditedItems} icon={PassIcon} color="success" />
@@ -154,9 +154,9 @@ export default function AuditorDashboard() {
         </Grid>
       </Grid>
 
-      {/* Charts Row */}
+      {}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        {/* Bar Chart: Department Findings */}
+        {}
         <Grid size={{xs: 12, lg: 8}}>
           <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderRadius: 1.5, height: '100%' }}>
             <Typography variant="subtitle1" fontWeight={700} gutterBottom>
@@ -176,7 +176,7 @@ export default function AuditorDashboard() {
           </Paper>
         </Grid>
 
-        {/* Pie Chart: Audit distribution */}
+        {}
         <Grid size={{xs: 12, lg: 4}}>
           <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderRadius: 1.5, height: '100%' }}>
             <Typography variant="subtitle1" fontWeight={700} gutterBottom>
@@ -208,7 +208,7 @@ export default function AuditorDashboard() {
         </Grid>
       </Grid>
 
-      {/* Activity list */}
+      {}
       <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}>
         <Box sx={{ p: 2.5, borderBottom: '1px solid', borderColor: 'divider' }}>
           <Typography variant="subtitle1" fontWeight={700}>

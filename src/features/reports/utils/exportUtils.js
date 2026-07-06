@@ -8,7 +8,7 @@ export const downloadCSV = (data, filename) => {
       headers
         .map((header) => {
           const value = row[header];
-          // Escape quotes and wrap in quotes if there's a comma
+          
           if (typeof value === 'string' && (value.includes(',') || value.includes('"'))) {
             return `"${value.replace(/"/g, '""')}"`;
           }
@@ -31,14 +31,14 @@ export const downloadCSV = (data, filename) => {
 export const downloadPDF = (title, columns, data, filename) => {
   if (!data || !data.length) return;
 
-  // Create a hidden iframe
+  
   const iframe = document.createElement('iframe');
   iframe.style.display = 'none';
   document.body.appendChild(iframe);
 
   const doc = iframe.contentWindow.document;
   
-  // Generate basic HTML for print
+  
   const thead = `<tr>${columns.map((col) => `<th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">${col.headerName}</th>`).join('')}</tr>`;
   
   const tbody = data.map((row) => {
@@ -78,12 +78,12 @@ export const downloadPDF = (title, columns, data, filename) => {
   doc.write(htmlContent);
   doc.close();
 
-  // Wait for content to load then print
+  
   setTimeout(() => {
     iframe.contentWindow.focus();
     iframe.contentWindow.print();
     
-    // Cleanup
+    
     setTimeout(() => {
       document.body.removeChild(iframe);
     }, 1000);

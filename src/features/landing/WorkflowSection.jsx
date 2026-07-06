@@ -72,7 +72,7 @@ export default function WorkflowSection() {
         </Stack>
 
         <Box sx={{ position: 'relative' }}>
-          {/* Connecting Line for Desktop */}
+          {}
           {!isMobile && (
             <Box 
               sx={{ 

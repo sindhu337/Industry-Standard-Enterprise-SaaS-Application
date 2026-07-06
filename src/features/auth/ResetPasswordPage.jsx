@@ -80,7 +80,7 @@ export default function ResetPasswordPage() {
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', bgcolor: 'background.default' }}>
       
-      {/* Left Info Panel (Desktop only) */}
+      {}
       <Box
         sx={{
           display: { xs: 'none', md: 'flex' },
@@ -148,7 +148,7 @@ export default function ResetPasswordPage() {
         </Typography>
       </Box>
 
-      {/* Right Reset Panel */}
+      {}
       <Box
         sx={{
           flexGrow: 1,

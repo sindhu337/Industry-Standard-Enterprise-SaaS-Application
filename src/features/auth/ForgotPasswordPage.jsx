@@ -70,7 +70,7 @@ export default function ForgotPasswordPage() {
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', bgcolor: 'background.default' }}>
       
-      {/* Left Info Panel (Desktop only) */}
+      {}
       <Box
         sx={{
           display: { xs: 'none', md: 'flex' },
@@ -138,7 +138,7 @@ export default function ForgotPasswordPage() {
         </Typography>
       </Box>
 
-      {/* Right Recovery Panel */}
+      {}
       <Box
         sx={{
           flexGrow: 1,

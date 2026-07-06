@@ -53,10 +53,10 @@ describe('LoginPage Component', () => {
   });
 
   it('handles typing and submission', async () => {
-    // Mock loginUser returning fulfilled
+    
     jest.spyOn(authSlice, 'loginUser').mockReturnValue({ type: 'auth/login/fulfilled', payload: {} });
     
-    // Create match method for fulfilled thunk
+    
     const action = { type: 'auth/login/fulfilled', payload: {} };
     authSlice.loginUser.fulfilled = { match: (a) => a.type === 'auth/login/fulfilled' };
     store.dispatch.mockResolvedValue(action);
@@ -87,7 +87,7 @@ describe('LoginPage Component', () => {
 
     renderComponent();
 
-    // Click on Admin quick login
+    
     const adminQuickLogin = screen.getByText('Administrator').closest('button');
     fireEvent.click(adminQuickLogin);
 
@@ -103,12 +103,12 @@ describe('LoginPage Component', () => {
     const passwordInput = screen.getByLabelText(/Password/i);
     expect(passwordInput.type).toBe('password');
 
-    // Click toggle
-    // Button is found by aria-label maybe? In MUI it has no aria-label by default unless set, we can find by svg or just test if it changes.
-    // The component has <IconButton onClick={() => setShowPassword(!showPassword)}>
-    // The button contains Visibility or VisibilityOff icons.
-    // We can just find the icon button and click it.
-    // Easiest is to select the button inside the password field
+    
+    
+    
+    
+    
+    
     const toggleButton = passwordInput.parentElement.querySelector('button');
     fireEvent.click(toggleButton);
     expect(passwordInput.type).toBe('text');

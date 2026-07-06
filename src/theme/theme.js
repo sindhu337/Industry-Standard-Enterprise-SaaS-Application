@@ -16,7 +16,7 @@ const baseTypography = {
   button: { textTransform: 'none', fontWeight: 600, fontSize: '0.875rem' },
 }
 
-/* ─── Shared component overrides (theme-agnostic) ─── */
+
 const baseComponents = {
   MuiButton: {
     styleOverrides: {
@@ -122,9 +122,7 @@ const baseComponents = {
   },
 }
 
-/* ════════════════════════════════════════════════════════
-   LIGHT THEME
-   ════════════════════════════════════════════════════════ */
+
 export const lightTheme = createTheme({
   palette: {
     mode: 'light',
@@ -196,7 +194,7 @@ export const lightTheme = createTheme({
         },
       },
     },
-    /* Light sidebar in light mode */
+    
     MuiDrawer: {
       styleOverrides: {
         paper: {
@@ -210,9 +208,7 @@ export const lightTheme = createTheme({
   },
 })
 
-/* ════════════════════════════════════════════════════════
-   DARK THEME
-   ════════════════════════════════════════════════════════ */
+
 export const darkTheme = createTheme({
   palette: {
     mode: 'dark',

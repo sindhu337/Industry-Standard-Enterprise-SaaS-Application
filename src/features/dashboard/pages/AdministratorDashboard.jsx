@@ -17,7 +17,7 @@ import {
   PersonAdd as PersonAddIcon,
 } from '@mui/icons-material'
 
-// Mock Data
+
 const systemUsageData = [
   { name: 'Mon', CPU: 42, Memory: 55, Network: 30 },
   { name: 'Tue', CPU: 48, Memory: 60, Network: 45 },
@@ -99,7 +99,7 @@ export default function AdministratorDashboard() {
         </Typography>
       </Box>
 
-      {/* Stats Row */}
+      {}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid size={{xs: 12, sm: 6, md: 3}}>
           <StatCard title="Total Users" value="572" icon={UsersIcon} color="primary" />
@@ -115,9 +115,9 @@ export default function AdministratorDashboard() {
         </Grid>
       </Grid>
 
-      {/* Charts Row */}
+      {}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        {/* Line Chart: System Usage */}
+        {}
         <Grid size={{xs: 12, lg: 8}}>
           <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderRadius: 1.5, height: '100%' }}>
             <Typography variant="subtitle1" fontWeight={700} gutterBottom>
@@ -142,7 +142,7 @@ export default function AdministratorDashboard() {
           </Paper>
         </Grid>
 
-        {/* Pie Chart: Role Distribution */}
+        {}
         <Grid size={{xs: 12, lg: 4}}>
           <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderRadius: 1.5, height: '100%' }}>
             <Typography variant="subtitle1" fontWeight={700} gutterBottom>
@@ -176,7 +176,7 @@ export default function AdministratorDashboard() {
         </Grid>
       </Grid>
 
-      {/* Activity Feed */}
+      {}
       <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}>
         <Box sx={{ p: 2.5, borderBottom: '1px solid', borderColor: 'divider' }}>
           <Typography variant="subtitle1" fontWeight={700}>

@@ -17,7 +17,7 @@ import {
 } from '@mui/icons-material'
 import { PROCUREMENT_MOCK_DATA } from '@/features/procurement/data/procurementMockData'
 
-// Formatter for Currency
+
 const formatCurrency = (val) => {
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
@@ -72,7 +72,7 @@ export default function ProcurementManagerDashboard() {
   const { user } = useSelector((state) => state.auth)
   const theme = useTheme()
 
-  // Dynamic calculations from mock data
+  
   const totalRequests = PROCUREMENT_MOCK_DATA.length
   const pendingRequests = PROCUREMENT_MOCK_DATA.filter((item) => item.status === 'Pending').length
   const approvedRequests = PROCUREMENT_MOCK_DATA.filter((item) => item.status === 'Approved').length
@@ -81,24 +81,24 @@ export default function ProcurementManagerDashboard() {
     .filter((item) => item.status === 'Approved')
     .reduce((acc, item) => acc + item.amount, 0)
 
-  // Chart Data: Spend Trend (INR Millions)
+  
   const spendTrendData = [
     { name: 'Jan', Spend: 12.4 },
     { name: 'Feb', Spend: 18.2 },
     { name: 'Mar', Spend: 25.0 },
     { name: 'Apr', Spend: 15.6 },
     { name: 'May', Spend: 32.1 },
-    { name: 'Jun', Spend: totalApprovedSpend / 10000000 }, // converted to crore/million scale
+    { name: 'Jun', Spend: totalApprovedSpend / 10000000 }, 
   ]
 
-  // Chart Data: Vendor Risk Category
+  
   const vendorRiskData = [
     { name: 'Low Risk', value: 8, color: '#2e7d32' },
     { name: 'Medium Risk', value: 4, color: '#ed6c02' },
     { name: 'High Risk', value: 2, color: '#d32f2f' },
   ]
 
-  // Recent Activity Feed
+  
   const recentRequests = PROCUREMENT_MOCK_DATA.slice(0, 4).map((item) => {
     let statusColor = 'info.main'
     let Icon = TotalIcon
@@ -132,7 +132,7 @@ export default function ProcurementManagerDashboard() {
         </Typography>
       </Box>
 
-      {/* Stats Row */}
+      {}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid size={{xs: 12, sm: 6, md: 3}}>
           <StatCard title="Total Approved Spend" value={formatCurrency(totalApprovedSpend)} icon={SpendIcon} color="success" />
@@ -148,9 +148,9 @@ export default function ProcurementManagerDashboard() {
         </Grid>
       </Grid>
 
-      {/* Charts Row */}
+      {}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        {/* Line Chart: Spend trend */}
+        {}
         <Grid size={{xs: 12, lg: 8}}>
           <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderRadius: 1.5, height: '100%' }}>
             <Typography variant="subtitle1" fontWeight={700} gutterBottom>
@@ -171,7 +171,7 @@ export default function ProcurementManagerDashboard() {
           </Paper>
         </Grid>
 
-        {/* Pie Chart: Vendor Risk Distribution */}
+        {}
         <Grid size={{xs: 12, lg: 4}}>
           <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderRadius: 1.5, height: '100%' }}>
             <Typography variant="subtitle1" fontWeight={700} gutterBottom>
@@ -203,7 +203,7 @@ export default function ProcurementManagerDashboard() {
         </Grid>
       </Grid>
 
-      {/* Activity / Action items list */}
+      {}
       <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}>
         <Box sx={{ p: 2.5, borderBottom: '1px solid', borderColor: 'divider' }}>
           <Typography variant="subtitle1" fontWeight={700}>

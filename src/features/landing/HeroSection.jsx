@@ -21,7 +21,7 @@ export default function HeroSection() {
         overflow: 'hidden',
       }}
     >
-      {/* Dynamic Background Pattern */}
+      {}
       <Box
         sx={{
           position: 'absolute',
@@ -32,7 +32,7 @@ export default function HeroSection() {
         }}
       />
       
-      {/* Gradient Glow */}
+      {}
       <Box
         component={motion.div}
         initial={{ opacity: 0 }}
@@ -138,7 +138,7 @@ export default function HeroSection() {
             </Stack>
           </motion.div>
 
-          {/* Interactive Mockup Preview */}
+          {}
           <motion.div
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
@@ -161,7 +161,7 @@ export default function HeroSection() {
                 position: 'relative'
               }}
             >
-              {/* Mock Dashboard Wireframe */}
+              {}
               <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: 60, borderBottom: '1px solid', borderColor: 'divider', display: 'flex', alignItems: 'center', px: 3, gap: 2 }}>
                 <Box sx={{ display: 'flex', gap: 1 }}>
                   <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: 'error.main' }} />

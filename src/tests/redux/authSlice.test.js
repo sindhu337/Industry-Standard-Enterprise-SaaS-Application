@@ -3,7 +3,7 @@ import { ROLES } from '@/constants/roles';
 import configureStore from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 
-// Mock localStorage
+
 const mockLocalStorage = (() => {
   let store = {};
   return {
@@ -15,7 +15,7 @@ const mockLocalStorage = (() => {
 })();
 Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
 
-// Mock users JSON
+
 jest.mock('@/mocks/users.json', () => ([
   { id: '1', name: 'Test User', email: 'test@example.com', password: 'password123', role: 'Employee' }
 ]));
@@ -106,7 +106,7 @@ describe('authSlice', () => {
     });
 
     it('registerUser failure local storage error', async () => {
-      // Mock localStorage to throw error
+      
       const originalSetItem = window.localStorage.setItem;
       window.localStorage.setItem = () => { throw new Error('Quota Exceeded'); };
 
@@ -142,9 +142,9 @@ describe('authSlice', () => {
   });
 
   describe('async thunks reducers handling', () => {
-    // Testing logic via dispatch would require configureStore, but we can test reducer handling directly.
+    
 
-    // loginUser
+    
     it('sets loading on loginUser.pending', () => {
       expect(authReducer(initialState, { type: loginUser.pending.type })).toEqual({
         ...initialState,
@@ -171,7 +171,7 @@ describe('authSlice', () => {
       });
     });
 
-    // registerUser
+    
     it('sets error on registerUser.rejected', () => {
       expect(authReducer(initialState, { type: registerUser.rejected.type, payload: 'Err' })).toEqual({
         ...initialState,
@@ -193,7 +193,7 @@ describe('authSlice', () => {
       });
     });
 
-    // forgotPassword
+    
     it('sets success message on forgotPassword.fulfilled', () => {
       const payload = { message: 'Link sent' };
       expect(authReducer(initialState, { type: forgotPassword.fulfilled.type, payload })).toEqual({
@@ -210,7 +210,7 @@ describe('authSlice', () => {
       });
     });
 
-    // resetPassword
+    
     it('sets success message on resetPassword.fulfilled', () => {
       const payload = { message: 'Password reset' };
       expect(authReducer(initialState, { type: resetPassword.fulfilled.type, payload })).toEqual({

@@ -16,7 +16,7 @@ import {
 } from '@mui/icons-material'
 import { PROCUREMENT_MOCK_DATA } from '@/features/procurement/data/procurementMockData'
 
-// Formatter for Currency
+
 const formatCurrency = (val) => {
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
@@ -71,18 +71,18 @@ export default function EmployeeDashboard() {
   const { user } = useSelector((state) => state.auth)
   const theme = useTheme()
 
-  // Filter requests requested by this specific employee
+  
   const myRequests = PROCUREMENT_MOCK_DATA.filter(
     (item) => item.requestedById === user?.id || item.requestedBy === user?.name
   )
 
-  // Calculations
+  
   const totalSpend = myRequests.reduce((acc, item) => acc + item.amount, 0)
   const pendingRequests = myRequests.filter((item) => item.status === 'Pending').length
   const approvedRequests = myRequests.filter((item) => item.status === 'Approved').length
   const rejectedRequests = myRequests.filter((item) => item.status === 'Rejected').length
 
-  // Chart Data: Spend by Category
+  
   const categorySpendMap = myRequests.reduce((acc, item) => {
     acc[item.category] = (acc[item.category] || 0) + item.amount
     return acc
@@ -95,7 +95,7 @@ export default function EmployeeDashboard() {
     color: categoryColors[index % categoryColors.length]
   }))
 
-  // Chart Data: Monthly requests count
+  
   const monthlyData = [
     { name: 'Jan', Approved: 0, Pending: 0 },
     { name: 'Feb', Approved: 1, Pending: 0 },
@@ -105,7 +105,7 @@ export default function EmployeeDashboard() {
     { name: 'Jun', Approved: approvedRequests, Pending: pendingRequests },
   ]
 
-  // Recent Activity Feed
+  
   const recentActivity = myRequests.slice(0, 4).map((item) => {
     let statusColor = 'info.main'
     let Icon = AlertIcon
@@ -143,7 +143,7 @@ export default function EmployeeDashboard() {
         </Box>
       </Box>
 
-      {/* KPI Stats Row */}
+      {}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid size={{xs: 12, sm: 6, md: 3}}>
           <StatCard title="My Requests" value={myRequests.length} icon={TotalIcon} color="primary" />
@@ -159,9 +159,9 @@ export default function EmployeeDashboard() {
         </Grid>
       </Grid>
 
-      {/* Charts Row */}
+      {}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        {/* Monthly Requests trend */}
+        {}
         <Grid size={{xs: 12, lg: 8}}>
           <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderRadius: 1.5, height: '100%' }}>
             <Typography variant="subtitle1" fontWeight={700} gutterBottom>
@@ -183,7 +183,7 @@ export default function EmployeeDashboard() {
           </Paper>
         </Grid>
 
-        {/* Spend Distribution by Category */}
+        {}
         <Grid size={{xs: 12, lg: 4}}>
           <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderRadius: 1.5, height: '100%' }}>
             <Typography variant="subtitle1" fontWeight={700} gutterBottom>
@@ -224,7 +224,7 @@ export default function EmployeeDashboard() {
         </Grid>
       </Grid>
 
-      {/* Activity Feed */}
+      {}
       <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}>
         <Box sx={{ p: 2.5, borderBottom: '1px solid', borderColor: 'divider', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography variant="subtitle1" fontWeight={700}>

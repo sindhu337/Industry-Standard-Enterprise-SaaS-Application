@@ -139,7 +139,7 @@ export default function LoginPage() {
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', bgcolor: 'background.default' }}>
       
-      {/* Left Info Panel (Desktop only) */}
+      {}
       <Box
         sx={{
           display: { xs: 'none', md: 'flex' },
@@ -153,7 +153,7 @@ export default function LoginPage() {
           width: { md: '41.6%', lg: '50%' }
         }}
       >
-        {/* Animated Background Mesh */}
+        {}
         <Box
           sx={{
             position: 'absolute',
@@ -213,7 +213,7 @@ export default function LoginPage() {
         </Typography>
       </Box>
 
-      {/* Right Login Panel */}
+      {}
       <Box
         sx={{
           flexGrow: 1,
@@ -360,7 +360,7 @@ export default function LoginPage() {
             </CardContent>
           </Card>
 
-          {/* Demo Credentials Quick Login Card */}
+          {}
           <Card
             elevation={0}
             sx={{

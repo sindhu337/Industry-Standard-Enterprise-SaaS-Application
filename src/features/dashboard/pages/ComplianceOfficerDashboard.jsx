@@ -62,7 +62,7 @@ const StatCard = ({ title, value, icon: Icon, color }) => {
 export default function ComplianceOfficerDashboard() {
   const theme = useTheme()
 
-  // Dynamic calculations from mock data
+  
   const totalItems = PROCUREMENT_MOCK_DATA.length
   const compliantItems = PROCUREMENT_MOCK_DATA.filter((item) => item.complianceStatus === 'Compliant').length
   const underReviewItems = PROCUREMENT_MOCK_DATA.filter((item) => item.complianceStatus === 'Under Review').length
@@ -72,7 +72,7 @@ export default function ComplianceOfficerDashboard() {
     ? ((compliantItems / (compliantItems + nonCompliantItems)) * 100).toFixed(1) 
     : '100'
 
-  // Chart Data: Reviews over 6 months
+  
   const monthlyReviewData = [
     { name: 'Jan', Reviews: 14 },
     { name: 'Feb', Reviews: 22 },
@@ -82,14 +82,14 @@ export default function ComplianceOfficerDashboard() {
     { name: 'Jun', Reviews: totalItems },
   ]
 
-  // Chart Data: Compliance Ratio
+  
   const complianceRatioData = [
     { name: 'Compliant', value: compliantItems, color: '#2e7d32' },
     { name: 'Under Review', value: underReviewItems, color: '#ed6c02' },
     { name: 'Violations', value: nonCompliantItems, color: '#d32f2f' },
   ]
 
-  // Recent Activity Feed
+  
   const complianceAlerts = PROCUREMENT_MOCK_DATA.slice(0, 4).map((item) => {
     let statusColor = 'info.main'
     let Icon = LogIcon
@@ -125,7 +125,7 @@ export default function ComplianceOfficerDashboard() {
         </Typography>
       </Box>
 
-      {/* Stats Row */}
+      {}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid size={{xs: 12, sm: 6, md: 3}}>
           <StatCard title="Compliance Index" value={`${complianceScore}%`} icon={SafeIcon} color="success" />
@@ -141,9 +141,9 @@ export default function ComplianceOfficerDashboard() {
         </Grid>
       </Grid>
 
-      {/* Charts Row */}
+      {}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        {/* Bar Chart: Reviews Completed */}
+        {}
         <Grid size={{xs: 12, lg: 8}}>
           <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderRadius: 1.5, height: '100%' }}>
             <Typography variant="subtitle1" fontWeight={700} gutterBottom>
@@ -163,7 +163,7 @@ export default function ComplianceOfficerDashboard() {
           </Paper>
         </Grid>
 
-        {/* Pie Chart: Compliance Ratio */}
+        {}
         <Grid size={{xs: 12, lg: 4}}>
           <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderRadius: 1.5, height: '100%' }}>
             <Typography variant="subtitle1" fontWeight={700} gutterBottom>
@@ -195,7 +195,7 @@ export default function ComplianceOfficerDashboard() {
         </Grid>
       </Grid>
 
-      {/* Activity list */}
+      {}
       <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}>
         <Box sx={{ p: 2.5, borderBottom: '1px solid', borderColor: 'divider' }}>
           <Typography variant="subtitle1" fontWeight={700}>

@@ -24,7 +24,7 @@ export default function LandingNavbar() {
   const themeMode = useSelector((state) => state.ui.themeMode)
   const { scrollY } = useScroll()
   
-  // Animate navbar background and shadow on scroll
+  
   const navBg = useTransform(
     scrollY,
     [0, 50],
@@ -56,7 +56,7 @@ export default function LandingNavbar() {
       sx={{
         backdropFilter: 'blur(16px)',
         color: 'text.primary',
-        transition: 'none', // handled by framer-motion
+        transition: 'none', 
       }}
     >
       <Container maxWidth="lg">

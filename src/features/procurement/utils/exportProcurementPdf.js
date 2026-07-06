@@ -1,17 +1,13 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-/**
- * Exports procurement data rows as a styled PDF table.
- * @param {Array} rows - The procurement items to export.
- * @param {string} [title] - Optional title shown at the top of the PDF.
- */
+
 export function exportProcurementPdf(rows, title = 'Procurement Requisitions') {
   const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
 
   const pageWidth = doc.internal.pageSize.getWidth();
 
-  // ── Header ──
+  
   doc.setFontSize(18);
   doc.setFont('helvetica', 'bold');
   doc.text(title, 40, 40);
@@ -26,7 +22,7 @@ export function exportProcurementPdf(rows, title = 'Procurement Requisitions') {
   doc.line(40, 64, pageWidth - 40, 64);
   doc.setTextColor(0);
 
-  // ── Table columns ──
+  
   const columns = [
     { header: 'ID', dataKey: 'id' },
     { header: 'Title', dataKey: 'title' },
@@ -39,7 +35,7 @@ export function exportProcurementPdf(rows, title = 'Procurement Requisitions') {
     { header: 'Request Date', dataKey: 'requestedDate' },
   ];
 
-  // ── Format rows ──
+  
   const body = rows.map((row) => ({
     id: row.id,
     title: row.title || '',
@@ -52,7 +48,7 @@ export function exportProcurementPdf(rows, title = 'Procurement Requisitions') {
     requestedDate: row.requestedDate || '',
   }));
 
-  // ── Priority & Status colour helpers ──
+  
   const priorityColors = {
     Critical: [220, 38, 38],
     High: [234, 88, 12],
@@ -68,7 +64,7 @@ export function exportProcurementPdf(rows, title = 'Procurement Requisitions') {
     Draft: [100, 116, 139],
   };
 
-  // ── Render table ──
+  
   autoTable(doc, {
     columns,
     body,
@@ -99,7 +95,7 @@ export function exportProcurementPdf(rows, title = 'Procurement Requisitions') {
     didParseCell: (data) => {
       if (data.section !== 'body') return;
 
-      // Colour-code priority
+      
       if (data.column.dataKey === 'priority') {
         const color = priorityColors[data.cell.raw];
         if (color) {
@@ -108,7 +104,7 @@ export function exportProcurementPdf(rows, title = 'Procurement Requisitions') {
         }
       }
 
-      // Colour-code status
+      
       if (data.column.dataKey === 'status') {
         const color = statusColors[data.cell.raw];
         if (color) {
@@ -118,7 +114,7 @@ export function exportProcurementPdf(rows, title = 'Procurement Requisitions') {
       }
     },
     didDrawPage: (data) => {
-      // Footer with page number
+      
       const pageCount = doc.internal.getNumberOfPages();
       doc.setFontSize(8);
       doc.setTextColor(150);
@@ -131,7 +127,7 @@ export function exportProcurementPdf(rows, title = 'Procurement Requisitions') {
     },
   });
 
-  // ── Save ──
+  
   const timestamp = new Date().toISOString().slice(0, 10);
   doc.save(`procurement-report-${timestamp}.pdf`);
 }
