@@ -60,7 +60,7 @@ export default function AuditQueueTable({ rows = [], loading = false, onMarkAudi
         disableRowSelectionOnClick
         pageSizeOptions={[10, 25]}
         initialState={{ pagination: { paginationModel: { pageSize: 10, page: 0 } } }}
-        sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider' }}
+        sx={{ borderRadius: 1.5, border: '1px solid', borderColor: 'divider' }}
       />
       <Dialog open={Boolean(selectedItem)} onClose={() => setSelectedItem(null)} maxWidth="sm" fullWidth>
         <DialogTitle>Audit Observation</DialogTitle>

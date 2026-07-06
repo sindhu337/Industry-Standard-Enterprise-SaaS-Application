@@ -21,7 +21,7 @@ export default function VendorPage() {
 
       <Paper
         elevation={0}
-        sx={{ p: 2.5, mt: 2, mb: 2.5, borderRadius: 3, border: '1px solid', borderColor: 'divider' }}
+        sx={{ p: 2.5, mt: 2, mb: 2.5, borderRadius: 1.5, border: '1px solid', borderColor: 'divider' }}
       >
         <VendorFilters filters={filters} onFilterChange={updateFilters} />
       </Paper>

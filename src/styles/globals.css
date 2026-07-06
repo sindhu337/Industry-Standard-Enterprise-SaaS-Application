@@ -26,6 +26,7 @@ body {
   flex-direction: column;
 }
 
+/* Scrollbar — neutral tones that work in both light & dark */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -36,15 +37,20 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(128, 128, 128, 0.3);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(128, 128, 128, 0.5);
 }
 
 a {
   text-decoration: none;
   color: inherit;
+}
+
+/* Ensure native date inputs don't break in dark mode */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
 }

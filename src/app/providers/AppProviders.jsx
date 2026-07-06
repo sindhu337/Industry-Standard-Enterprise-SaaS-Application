@@ -3,6 +3,8 @@ import { Provider, useSelector, useDispatch } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { ThemeProvider, CssBaseline, Snackbar, Alert } from '@mui/material'
 import { BrowserRouter } from 'react-router-dom'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 import { store, persistor } from '@/app/store/store'
 import { lightTheme, darkTheme } from '@/theme/theme'
@@ -22,7 +24,9 @@ function ThemeWrapper({ children }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {children}
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        {children}
+      </LocalizationProvider>
       <Snackbar
         open={open}
         autoHideDuration={5000}

@@ -17,15 +17,14 @@ export default function AuditSummaryCards({ summary, loading }) {
   return (
     <Grid container spacing={2}>
       {cards.map(({ key, label, icon: Icon, color, bg }) => (
-        <Grid item xs={6} sm={3} md={3} key={key}>
+        <Grid size={{ xs: 6, sm: 3, md: 3 }} key={key}>
           <Paper
             elevation={0}
             sx={{
-              p: 2.5, borderRadius: 3,
+              p: 2.5, borderRadius: 1.5,
               border: '1px solid', borderColor: 'divider',
               display: 'flex', flexDirection: 'column', gap: 1,
-              transition: 'box-shadow 0.2s',
-              '&:hover': { boxShadow: 4 },
+              transition: 'box-shadow 0.2s'
             }}
           >
             <Box sx={{ width: 40, height: 40, borderRadius: 2, bgcolor: bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

@@ -58,8 +58,8 @@ export default function ProcurementDetails({
   if (loading) {
     return (
       <Box>
-        <Skeleton variant="rounded" height={240} sx={{ mb: 3, borderRadius: 3 }} />
-        <Skeleton variant="rounded" height={180} sx={{ borderRadius: 3 }} />
+        <Skeleton variant="rounded" height={240} sx={{ mb: 3, borderRadius: 1.5 }} />
+        <Skeleton variant="rounded" height={180} sx={{ borderRadius: 1.5 }} />
       </Box>);
 
   }
@@ -103,7 +103,7 @@ export default function ProcurementDetails({
         {}
         <Card
           elevation={0}
-          sx={{ borderRadius: 3, mb: 3, border: '1px solid', borderColor: 'divider' }}>
+          sx={{ borderRadius: 1.5, mb: 3, border: '1px solid', borderColor: 'divider' }}>
           
           <CardContent sx={{ p: 3 }}>
             {}
@@ -164,7 +164,7 @@ export default function ProcurementDetails({
           sx={{
             p: 3,
             mb: 3,
-            borderRadius: 3,
+            borderRadius: 1.5,
             border: '1px solid',
             borderColor: 'warning.main',
             bgcolor: 'action.hover'
@@ -201,7 +201,7 @@ export default function ProcurementDetails({
         {}
         <Card
           elevation={0}
-          sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+          sx={{ borderRadius: 1.5, border: '1px solid', borderColor: 'divider' }}>
           
           <CardContent sx={{ p: 3 }}>
             <Typography
@@ -310,7 +310,7 @@ export default function ProcurementDetails({
         {}
         <Card
           elevation={0}
-          sx={{ borderRadius: 3, mb: 3, border: '1px solid', borderColor: 'divider' }}>
+          sx={{ borderRadius: 1.5, mb: 3, border: '1px solid', borderColor: 'divider' }}>
           
           <CardContent sx={{ p: 3 }}>
             <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 2 }}>
@@ -365,7 +365,7 @@ export default function ProcurementDetails({
         {}
         <Card
           elevation={0}
-          sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+          sx={{ borderRadius: 1.5, border: '1px solid', borderColor: 'divider' }}>
           
           <CardContent sx={{ p: 3 }}>
             <Typography

@@ -30,10 +30,6 @@ export const ROUTES = {
 
   REPORTS: '/reports',
 
-  ADMIN: '/admin',
-
-  NOTIFICATIONS: '/notifications',
-
   APPROVALS: '/approvals',
 
   SETTINGS: '/settings',

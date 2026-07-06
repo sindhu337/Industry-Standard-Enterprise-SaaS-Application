@@ -77,7 +77,7 @@ export default function ComplianceReviewTable({ rows = [], loading = false, onRe
         pageSizeOptions={[10, 25]}
         initialState={{ pagination: { paginationModel: { pageSize: 10, page: 0 } } }}
         sx={{
-          borderRadius: 3,
+          borderRadius: 1.5,
           border: '1px solid',
           borderColor: 'divider',
           '& .MuiDataGrid-columnHeaders': { bgcolor: 'action.hover', fontWeight: 700 },

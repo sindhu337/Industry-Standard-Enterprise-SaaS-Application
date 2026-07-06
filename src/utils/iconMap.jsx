@@ -18,11 +18,13 @@ import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import ManageAccountsRoundedIcon from '@mui/icons-material/ManageAccountsRounded'
 import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded'
+import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded'
 
 const ICON_MAP = {
   Dashboard: DashboardRoundedIcon,
   ShoppingCart: ShoppingCartRoundedIcon,
   CheckCircle: CheckCircleRoundedIcon,
+  Assignment: AssignmentRoundedIcon,
   Business: BusinessRoundedIcon,
   Warning: WarningRoundedIcon,
   VerifiedUser: VerifiedUserRoundedIcon,

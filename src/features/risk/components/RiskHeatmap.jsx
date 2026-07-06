@@ -30,7 +30,7 @@ export default function RiskHeatmap({ risks = [] }) {
   });
 
   return (
-    <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+    <Paper elevation={0} sx={{ p: 3, borderRadius: 1.5, border: '1px solid', borderColor: 'divider' }}>
       <Typography variant="subtitle1" fontWeight={700} gutterBottom>
         Risk Heatmap — Probability × Impact
       </Typography>

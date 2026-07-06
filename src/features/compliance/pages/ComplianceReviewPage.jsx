@@ -94,7 +94,7 @@ export default function ComplianceReviewPage() {
         { label: 'Non-Compliant', value: reviewStats.nonCompliant, color: 'error.main' },
         { label: 'Under Review', value: reviewStats.underReview, color: 'warning.main' },
       ].map((metric) => (
-        <Paper key={metric.label} elevation={0} sx={{ p: 2.5, borderRadius: 3, border: '1px solid', borderColor: 'divider', bgcolor: 'background.paper' }}>
+        <Paper key={metric.label} elevation={0} sx={{ p: 2.5, borderRadius: 1.5, border: '1px solid', borderColor: 'divider', bgcolor: 'background.paper' }}>
           <Typography variant="h5" fontWeight={700} color={metric.color} sx={{ mb: 0.5 }}>
             {metric.value}
           </Typography>
@@ -105,7 +105,7 @@ export default function ComplianceReviewPage() {
       ))}
     </Box>
 
-      <Paper elevation={0} sx={{ p: 2.5, borderRadius: 3, border: '1px solid', borderColor: 'divider', mb: 3 }}>
+      <Paper elevation={0} sx={{ p: 2.5, borderRadius: 1.5, border: '1px solid', borderColor: 'divider', mb: 3 }}>
         <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 1 }}>
           Compliance Review Queue
         </Typography>

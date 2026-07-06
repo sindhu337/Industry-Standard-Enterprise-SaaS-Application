@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Box, Card, CardContent, Grid, Typography, TextField, Button, Chip, Divider } from '@mui/material'
+import { Box, Card, CardContent, Grid, Typography, TextField, Button, Chip, Divider, Stack } from '@mui/material'
 import { Assignment as AssignmentIcon, AttachFile as AttachFileIcon } from '@mui/icons-material'
 import { ComplianceStatusChip } from './ComplianceStatusChip'
 
@@ -12,7 +12,7 @@ export default function ComplianceReviewDetail({ item, onReviewAction, onAddComm
 
   return (
     <Box>
-      <Card elevation={0} sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider', mb: 3 }}>
+      <Card elevation={0} sx={{ borderRadius: 1.5, border: '1px solid', borderColor: 'divider', mb: 3 }}>
         <CardContent sx={{ p: 3 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 2, mb: 2 }}>
             <Box>
@@ -27,17 +27,17 @@ export default function ComplianceReviewDetail({ item, onReviewAction, onAddComm
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>{item.description}</Typography>
           <Divider sx={{ mb: 3 }} />
           <Grid container spacing={2}>
-            <Grid item xs={6} sm={4}><Typography variant="caption" color="text.secondary">Vendor</Typography><Typography variant="subtitle2" fontWeight={700}>{item.vendor}</Typography></Grid>
-            <Grid item xs={6} sm={4}><Typography variant="caption" color="text.secondary">Budget</Typography><Typography variant="subtitle2" fontWeight={700}>{item.amount?.toLocaleString()} {item.currency || 'INR'}</Typography></Grid>
-            <Grid item xs={6} sm={4}><Typography variant="caption" color="text.secondary">Department</Typography><Typography variant="subtitle2" fontWeight={700}>{item.department}</Typography></Grid>
-            <Grid item xs={6} sm={4}><Typography variant="caption" color="text.secondary">Submitted Date</Typography><Typography variant="subtitle2" fontWeight={700}>{item.requestedDate}</Typography></Grid>
-            <Grid item xs={6} sm={4}><Typography variant="caption" color="text.secondary">Reviewed By</Typography><Typography variant="subtitle2" fontWeight={700}>{item.reviewedBy || '—'}</Typography></Grid>
-            <Grid item xs={6} sm={4}><Typography variant="caption" color="text.secondary">Reviewed Date</Typography><Typography variant="subtitle2" fontWeight={700}>{item.reviewedDate || '—'}</Typography></Grid>
+            <Grid size={{xs: 6, sm: 4}}><Typography variant="caption" color="text.secondary">Vendor</Typography><Typography variant="subtitle2" fontWeight={700}>{item.vendor}</Typography></Grid>
+            <Grid size={{xs: 6, sm: 4}}><Typography variant="caption" color="text.secondary">Budget</Typography><Typography variant="subtitle2" fontWeight={700}>{item.amount?.toLocaleString()} {item.currency || 'INR'}</Typography></Grid>
+            <Grid size={{xs: 6, sm: 4}}><Typography variant="caption" color="text.secondary">Department</Typography><Typography variant="subtitle2" fontWeight={700}>{item.department}</Typography></Grid>
+            <Grid size={{xs: 6, sm: 4}}><Typography variant="caption" color="text.secondary">Submitted Date</Typography><Typography variant="subtitle2" fontWeight={700}>{item.requestedDate}</Typography></Grid>
+            <Grid size={{xs: 6, sm: 4}}><Typography variant="caption" color="text.secondary">Reviewed By</Typography><Typography variant="subtitle2" fontWeight={700}>{item.reviewedBy || '—'}</Typography></Grid>
+            <Grid size={{xs: 6, sm: 4}}><Typography variant="caption" color="text.secondary">Reviewed Date</Typography><Typography variant="subtitle2" fontWeight={700}>{item.reviewedDate || '—'}</Typography></Grid>
           </Grid>
         </CardContent>
       </Card>
 
-      <Card elevation={0} sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider', mb: 3 }}>
+      <Card elevation={0} sx={{ borderRadius: 1.5, border: '1px solid', borderColor: 'divider', mb: 3 }}>
         <CardContent sx={{ p: 3 }}>
           <Typography variant="subtitle1" fontWeight={700} sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}><AssignmentIcon /> Review Notes</Typography>
           <TextField
@@ -65,14 +65,14 @@ export default function ComplianceReviewDetail({ item, onReviewAction, onAddComm
         </CardContent>
       </Card>
 
-      <Card elevation={0} sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider', mb: 3 }}>
+      <Card elevation={0} sx={{ borderRadius: 1.5, border: '1px solid', borderColor: 'divider', mb: 3 }}>
         <CardContent sx={{ p: 3 }}>
           <Typography variant="subtitle1" fontWeight={700} sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}><AttachFileIcon /> Attachments</Typography>
           <Typography variant="body2" color="text.secondary">{(item.attachments || []).join(', ') || 'No attachments attached to this request.'}</Typography>
         </CardContent>
       </Card>
 
-      <Card elevation={0} sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+      <Card elevation={0} sx={{ borderRadius: 1.5, border: '1px solid', borderColor: 'divider' }}>
         <CardContent sx={{ p: 3 }}>
           <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 2 }}>Review History</Typography>
           {reviewComments.length ? (

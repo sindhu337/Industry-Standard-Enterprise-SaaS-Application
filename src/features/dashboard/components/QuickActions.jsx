@@ -17,7 +17,7 @@ export default function QuickActions() {
   if (allowedActions.length === 0) return null
 
   return (
-    <Card sx={{ borderRadius: 2.5, boxShadow: 1, border: '1px solid', borderColor: 'divider', height: '100%' }}>
+    <Card sx={{ borderRadius: 1.5, boxShadow: 1, border: '1px solid', borderColor: 'divider', height: '100%' }}>
       <CardContent sx={{ p: 2.5, height: '100%', display: 'flex', flexDirection: 'column' }}>
         <Typography variant="h6" fontWeight="bold" sx={{ mb: 1 }}>
           Quick Access Workbench

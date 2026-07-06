@@ -13,7 +13,7 @@ function ComplianceBar({ score }) {
         variant="determinate"
         value={score}
         color={color}
-        sx={{ flexGrow: 1, height: 6, borderRadius: 3 }}
+        sx={{ flexGrow: 1, height: 6, borderRadius: 1.5 }}
       />
       <Box sx={{ fontSize: '0.75rem', fontWeight: 700, minWidth: 30, color: `${color}.main` }}>
         {score}%
@@ -80,7 +80,7 @@ export default function VendorTable({ rows = [], loading = false }) {
       pageSizeOptions={[10, 25, 50]}
       initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
       sx={{
-        borderRadius: 3,
+        borderRadius: 1.5,
         border: '1px solid',
         borderColor: 'divider',
         '& .MuiDataGrid-columnHeaders': { bgcolor: 'action.hover', fontWeight: 700 },

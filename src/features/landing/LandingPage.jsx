@@ -11,14 +11,16 @@ export default function LandingPage() {
   return (
     <>
       <LandingNavbar />
-      <main>
-        <HeroSection />
-        <FeaturesSection />
-        <WorkflowSection />
-        <RolesSection />
-        <StatisticsSection />
-        <AboutSection />
-        <Footer />
+      <main className="d-flex flex-column align-items-center w-100">
+        <div className="container">
+          <HeroSection />
+          <FeaturesSection />
+          <WorkflowSection />
+          <RolesSection />
+          <StatisticsSection />
+          <AboutSection />
+          <Footer />
+        </div>
       </main>
     </>
   )

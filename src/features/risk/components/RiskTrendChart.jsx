@@ -8,7 +8,7 @@ export default function RiskTrendChart({ data = [] }) {
   const isDark = theme.palette.mode === 'dark'
 
   return (
-    <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+    <Paper elevation={0} sx={{ p: 3, borderRadius: 1.5, border: '1px solid', borderColor: 'divider' }}>
       <Typography variant="subtitle1" fontWeight={700} gutterBottom>
         Risk Trend — Last 6 Months
       </Typography>

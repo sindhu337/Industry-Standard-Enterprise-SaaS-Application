@@ -32,7 +32,7 @@ export default function ComplianceSummaryCards({ summary, loading }) {
       {}
       <Grid item xs={12} sm={6} md={3}>
         <Paper elevation={0} sx={{
-          p: 2.5, borderRadius: 3, border: '1px solid', borderColor: 'divider',
+          p: 2.5, borderRadius: 1.5, border: '1px solid', borderColor: 'divider',
           display: 'flex', flexDirection: 'column', gap: 1, height: '100%',
           transition: 'box-shadow 0.2s', '&:hover': { boxShadow: 4 }
         }}>
@@ -52,7 +52,7 @@ export default function ComplianceSummaryCards({ summary, loading }) {
                 variant="determinate"
                 value={summary?.overallScore ?? 0}
                 color={summary?.overallScore >= 80 ? 'success' : summary?.overallScore >= 60 ? 'warning' : 'error'}
-                sx={{ height: 6, borderRadius: 3, mt: 0.5 }} />
+                sx={{ height: 6, borderRadius: 1.5, mt: 0.5 }} />
               
               </Box>
             </>
@@ -65,7 +65,7 @@ export default function ComplianceSummaryCards({ summary, loading }) {
       {cards.map(({ key, label, icon: Icon, color, bg }) =>
       <Grid item xs={6} sm={3} md={2.25} key={key}>
           <Paper elevation={0} sx={{
-          p: 2.5, borderRadius: 3, border: '1px solid', borderColor: 'divider',
+          p: 2.5, borderRadius: 1.5, border: '1px solid', borderColor: 'divider',
           display: 'flex', flexDirection: 'column', gap: 1,
           transition: 'box-shadow 0.2s', '&:hover': { boxShadow: 4 }
         }}>

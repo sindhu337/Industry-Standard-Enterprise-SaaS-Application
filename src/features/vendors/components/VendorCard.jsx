@@ -40,7 +40,7 @@ export default function VendorCard({ vendor, loading = false }) {
     <Grid container spacing={3}>
       {}
       <Grid item xs={12} md={5}>
-        <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid', borderColor: 'divider', height: '100%' }}>
+        <Paper elevation={0} sx={{ p: 3, borderRadius: 1.5, border: '1px solid', borderColor: 'divider', height: '100%' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
             <Avatar sx={{ width: 56, height: 56, bgcolor: 'primary.main', fontSize: 24, fontWeight: 700 }}>
               {vendor.name?.charAt(0)}
@@ -100,7 +100,7 @@ export default function VendorCard({ vendor, loading = false }) {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
 
           {}
-          <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+          <Paper elevation={0} sx={{ p: 3, borderRadius: 1.5, border: '1px solid', borderColor: 'divider' }}>
             <Typography variant="subtitle2" fontWeight={700} gutterBottom>Performance Overview</Typography>
             <Grid container spacing={2} sx={{ mt: 0.5 }}>
               <Grid item xs={6} sm={3}>
@@ -130,7 +130,7 @@ export default function VendorCard({ vendor, loading = false }) {
           </Paper>
 
           {}
-          <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+          <Paper elevation={0} sx={{ p: 3, borderRadius: 1.5, border: '1px solid', borderColor: 'divider' }}>
             <Typography variant="subtitle2" fontWeight={700} gutterBottom>Contract History</Typography>
             {vendor.contracts?.length ?
             <List dense disablePadding>
@@ -159,7 +159,7 @@ export default function VendorCard({ vendor, loading = false }) {
           </Paper>
 
           {}
-          <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+          <Paper elevation={0} sx={{ p: 3, borderRadius: 1.5, border: '1px solid', borderColor: 'divider' }}>
             <Typography variant="subtitle2" fontWeight={700} gutterBottom>Documents</Typography>
             {vendor.documents?.length ?
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>

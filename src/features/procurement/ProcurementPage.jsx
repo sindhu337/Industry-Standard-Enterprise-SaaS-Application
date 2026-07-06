@@ -163,20 +163,23 @@ export default function ProcurementPage() {
         </Button>
       </Box>
 
-      <Paper sx={{ p: 2.5, mb: 3, display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center', borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+      <Paper sx={{ p: 2.5, mb: 2, display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center', borderRadius: 1.5, border: '1px solid', borderColor: 'divider' }}>
         <TextField
           size="small"
           placeholder="Search requests, IDs, vendors..."
           value={filters.search}
           onChange={handleSearchChange}
-          InputProps={{
-            startAdornment:
-            <InputAdornment position="start">
-                <SearchIcon fontSize="small" color="action" />
-              </InputAdornment>
-
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon fontSize="small" color="action" />
+                </InputAdornment>
+              ),
+            },
           }}
-          sx={{ flexGrow: 1, minWidth: 260 }} />
+          sx={{ flexGrow: 1, minWidth: { xs: '100%', sm: 260 } }}
+        />
         
 
         <TextField
@@ -210,7 +213,7 @@ export default function ProcurementPage() {
         </TextField>
       </Paper>
 
-      <Paper sx={{ width: '100%', borderRadius: 3, overflow: 'hidden', border: '1px solid', borderColor: 'divider' }}>
+      <Paper sx={{ width: '100%', borderRadius: 1.5, overflow: 'hidden', border: '1px solid', borderColor: 'divider' }}>
         <Box sx={{ px: 2.5, py: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
           <Box>
             <Typography variant="subtitle1" fontWeight={700}>Procurement Requisitions</Typography>
@@ -218,29 +221,32 @@ export default function ProcurementPage() {
           </Box>
           <Chip label={`${totalItems} visible`} variant="outlined" sx={{ fontWeight: 700 }} />
         </Box>
-        <Box sx={{ height: 500 }}>
-          <DataGrid
-            rows={filteredItems}
-            columns={columns}
-            loading={loading}
-            pageSizeOptions={[5, 10, 20]}
-            initialState={{
-              pagination: { paginationModel: { pageSize: 10, page: 0 } }
-            }}
-            disableRowSelectionOnClick
-            sx={{
-              border: 'none',
-              '& .MuiDataGrid-columnHeaders': {
-                bgcolor: 'action.hover',
-                borderBottom: '1px solid',
-                borderColor: 'divider'
-              },
-              '& .MuiDataGrid-cell': {
-                borderBottom: '1px solid',
-                borderColor: 'divider'
-              }
-            }} />
-          
+        <Box sx={{ width: '100%', overflowX: 'auto' }}>
+          <Box sx={{ minWidth: 900 }}>
+            <DataGrid
+              rows={filteredItems}
+              columns={columns}
+              loading={loading}
+              pageSizeOptions={[5, 10, 20]}
+              initialState={{
+                pagination: { paginationModel: { pageSize: 10, page: 0 } }
+              }}
+              disableRowSelectionOnClick
+              autoHeight
+              sx={{
+                border: 'none',
+                '& .MuiDataGrid-columnHeaders': {
+                  bgcolor: 'action.hover',
+                  borderBottom: '1px solid',
+                  borderColor: 'divider',
+                },
+                '& .MuiDataGrid-cell': {
+                  borderBottom: '1px solid',
+                  borderColor: 'divider',
+                },
+              }}
+            />
+          </Box>
         </Box>
       </Paper>
     </PageContainer>);

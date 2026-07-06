@@ -21,17 +21,18 @@ export default function DashboardHeader() {
   }
 
   return (
-    <Box sx={{ mb: 4, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: { xs: 'flex-start', md: 'center' }, justifyContent: 'space-between', gap: 2 }}>
+    <Box sx={{ mb: 2, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: { xs: 'flex-start', md: 'center' }, justifyContent: 'space-between', gap: 2 }}>
       <Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap' }}>
-          <Typography variant="h4" fontWeight={800} color="text.primary" letterSpacing="-0.5px">
+          <Typography variant="h3" fontWeight={700} color="text.primary">
             {getGreeting()}, {user?.name || 'User'}
           </Typography>
           <Chip
             label={user?.role || 'Employee'}
             color="primary"
+            variant="outlined"
             size="small"
-            sx={{ fontWeight: 'bold', fontSize: '0.75rem', borderRadius: 1.5 }}
+            sx={{ fontWeight: 500, fontSize: '0.75rem', borderRadius: 1.5 }}
           />
         </Box>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>

@@ -50,18 +50,15 @@ export default function AuditPage() {
   return (
     <PageContainer>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
-        <Box sx={{ width: 44, height: 44, borderRadius: 2, bgcolor: 'primary.main', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <AuditIcon sx={{ color: '#fff', fontSize: 22 }} />
-        </Box>
         <Box>
-          <Typography variant="h6" fontWeight={700} lineHeight={1.2}>Audit Center</Typography>
-          <Typography variant="caption" color="text.secondary">Review compliant procurement requests, add observations, and generate mock audit reports.</Typography>
+          <Typography variant="h3" fontWeight={700} sx={{ lineHeight: 1.2 }}>Audit Center</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>Review compliant procurement requests, add observations, and generate mock audit reports.</Typography>
         </Box>
       </Box>
 
       <AuditSummaryCards summary={auditSummary} loading={loading && !queue.length} />
 
-      <Paper elevation={0} sx={{ mt: 3, borderRadius: 3, border: '1px solid', borderColor: 'divider', p: 2.5 }}>
+      <Paper elevation={0} sx={{ mt: 3, borderRadius: 1.5, border: '1px solid', borderColor: 'divider', p: 2.5 }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
             <Box>
@@ -78,11 +75,11 @@ export default function AuditPage() {
             </Tabs>
           </Box>
 
-          <Box sx={{ mt: 2, minHeight: 500 }}>
+          <Box sx={{ mt: 2 }}>
             {tab === 0 && <AuditQueueTable rows={queue} loading={loading} onMarkAudited={handleMarkAudited} onAddObservation={handleAddObservation} />}
             {tab === 1 && (
               <Box>
-                <Paper elevation={0} sx={{ p: 2.5, borderRadius: 3, border: '1px solid', borderColor: 'divider', mb: 3, bgcolor: 'background.paper' }}>
+                <Paper elevation={0} sx={{ p: 2.5, borderRadius: 1.5, border: '1px solid', borderColor: 'divider', mb: 3, bgcolor: 'background.paper' }}>
                   <Typography variant="subtitle1" fontWeight={700}>Selected Procurement Review</Typography>
                   <Typography variant="body2" color="text.secondary">
                     {selectedItem?.title || 'Select a request from the queue to inspect its lifecycle.'}

@@ -17,15 +17,9 @@ export default function RiskPage() {
     <PageContainer>
       {}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
-        <Box sx={{
-          width: 44, height: 44, borderRadius: 2, bgcolor: 'error.main',
-          display: 'flex', alignItems: 'center', justifyContent: 'center'
-        }}>
-          <ShieldIcon sx={{ color: '#fff', fontSize: 22 }} />
-        </Box>
         <Box>
-          <Typography variant="h6" fontWeight={700} lineHeight={1.2}>Risk Management</Typography>
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant="h3" fontWeight={700} sx={{ lineHeight: 1.2 }}>Risk Management</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
             Enterprise risk register, heatmap, and trend analysis
           </Typography>
         </Box>

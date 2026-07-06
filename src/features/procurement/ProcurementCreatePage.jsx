@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
   Box,
@@ -13,7 +13,9 @@ import {
   Paper,
   Divider,
 } from '@mui/material'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import dayjs from 'dayjs'
 
 import PageContainer from '@/components/common/layout/PageContainer'
 import { createProcurement, updateProcurement } from './procurementSlice'
@@ -36,6 +38,7 @@ export default function ProcurementCreatePage() {
     register,
     handleSubmit,
     setValue,
+    control,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(procurementSchema),
@@ -65,8 +68,15 @@ export default function ProcurementCreatePage() {
   }, [isEditMode, editItem, setValue])
 
   const onSubmit = async (data) => {
+    const formattedData = {
+      ...data,
+      requiredDate: data.requiredDate
+        ? dayjs(data.requiredDate).format('YYYY-MM-DD')
+        : '',
+    }
+
     if (isEditMode) {
-      const result = await dispatch(updateProcurement({ id: editId, data }))
+      const result = await dispatch(updateProcurement({ id: editId, data: formattedData }))
       if (updateProcurement.fulfilled.match(result)) {
         dispatch(showSnackbar({ message: `Procurement Request ${editId} updated successfully.`, severity: 'success' }))
         navigate(ROUTES.PROCUREMENT)
@@ -75,7 +85,7 @@ export default function ProcurementCreatePage() {
       }
     } else {
       const requestPayload = {
-        ...data,
+        ...formattedData,
         requestedBy: user?.name || 'System User',
         requestedById: user?.id || 'u001',
         department: user?.department || 'Operations',
@@ -109,7 +119,7 @@ export default function ProcurementCreatePage() {
         </Typography>
       </Box>
 
-      <Paper sx={{ p: 4, borderRadius: 2.5 }}>
+      <Paper sx={{ p: { xs: 2.5, sm: 4 }, borderRadius: 1.5 }}>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
           <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 2 }}>
             Requisition Details
@@ -234,21 +244,33 @@ export default function ProcurementCreatePage() {
             </Grid>
 
             <Grid item xs={12} sm={6}>
-              <TextField
-                {...register('requiredDate')}
-                label="Required Date"
-                type="date"
-                fullWidth
-                required
-                InputLabelProps={{ shrink: true }}
-                error={Boolean(errors.requiredDate)}
-                helperText={errors.requiredDate?.message}
-                disabled={isSubmitting}
+              <Controller
+                name="requiredDate"
+                control={control}
+                render={({ field }) => (
+                  <DatePicker
+                    label="Required Date *"
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(newValue) => {
+                      field.onChange(newValue ? newValue.toISOString() : '');
+                    }}
+                    disabled={isSubmitting}
+                    slotProps={{
+                      textField: {
+                        fullWidth: true,
+                        error: Boolean(errors.requiredDate),
+                        helperText: errors.requiredDate?.message,
+                      },
+                    }}
+                    format="DD/MM/YYYY"
+                    disablePast
+                  />
+                )}
               />
             </Grid>
           </Grid>
 
-          <Box sx={{ mt: 4, display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
+          <Box sx={{ mt: 4, display: 'flex', gap: 2, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
             <Button
               variant="outlined"
               onClick={() => navigate(ROUTES.PROCUREMENT)}

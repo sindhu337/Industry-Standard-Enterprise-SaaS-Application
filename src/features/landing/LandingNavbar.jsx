@@ -6,6 +6,8 @@ import { toggleTheme } from '@/app/store/slices/uiSlice'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import { ROUTES } from '@/constants/routes'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import AppLogo from '@/components/common/AppLogo'
 
 const navItems = [
   { label: 'Home', id: 'hero' },
@@ -13,7 +15,6 @@ const navItems = [
   { label: 'Workflow', id: 'workflow' },
   { label: 'Roles', id: 'roles' },
   { label: 'About', id: 'about' },
-  { label: 'Contact', id: 'contact' },
 ]
 
 export default function LandingNavbar() {
@@ -21,13 +22,18 @@ export default function LandingNavbar() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const themeMode = useSelector((state) => state.ui.themeMode)
-
-  const appBarStyles = useMemo(
-    () => ({
-      backgroundColor: theme.palette.mode === 'dark' ? 'rgba(15, 23, 42, 0.9)' : 'rgba(255, 255, 255, 0.9)',
-      color: theme.palette.text.primary,
-    }),
-    [theme.palette.mode, theme.palette.text.primary],
+  const { scrollY } = useScroll()
+  
+  // Animate navbar background and shadow on scroll
+  const navBg = useTransform(
+    scrollY,
+    [0, 50],
+    ['transparent', theme.palette.mode === 'dark' ? 'rgba(15, 23, 42, 0.85)' : 'rgba(255, 255, 255, 0.85)']
+  )
+  const navBorder = useTransform(
+    scrollY,
+    [0, 50],
+    ['1px solid transparent', '1px solid rgba(15, 23, 42, 0.08)']
   )
 
   const scrollToSection = (id) => {
@@ -43,52 +49,47 @@ export default function LandingNavbar() {
 
   return (
     <AppBar
+      component={motion.div}
+      style={{ backgroundColor: navBg, borderBottom: navBorder }}
       position="fixed"
       elevation={0}
       sx={{
-        backgroundColor: appBarStyles.backgroundColor,
-        color: appBarStyles.color,
-        borderBottom: '1px solid rgba(15, 23, 42, 0.08)',
-        backdropFilter: 'blur(14px)',
+        backdropFilter: 'blur(16px)',
+        color: 'text.primary',
+        transition: 'none', // handled by framer-motion
       }}
     >
-      <Container maxWidth="xl" sx={{ px: { xs: 2, md: 3 } }}>
-        <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between', minHeight: 76 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, minWidth: 0 }}>
-            <Box
-              sx={{
-                width: 38,
-                height: 38,
-                borderRadius: 2,
-                bgcolor: 'primary.main',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#fff',
-                fontWeight: 700,
-                fontSize: '1rem',
-              }}
-            >
-              G
-            </Box>
-            <Box sx={{ minWidth: 0 }}>
-              <Typography variant="h6" fontWeight={700} noWrap>
+      <Container maxWidth="lg">
+        <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between', minHeight: 80 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, cursor: 'pointer' }} onClick={() => scrollToSection('hero')}>
+            <AppLogo width={40} height={40} />
+            <Box sx={{ minWidth: 0, display: { xs: 'none', sm: 'block' } }}>
+              <Typography variant="h6" fontWeight={800} noWrap sx={{ letterSpacing: '-0.02em', lineHeight: 1.2 }}>
                 e-GRCP
               </Typography>
-              <Typography variant="caption" color="text.secondary" noWrap>
-                Enterprise Governance, Risk, Compliance & Procurement
+              <Typography variant="caption" color="text.secondary" noWrap sx={{ fontWeight: 600 }}>
+                Enterprise Platform
               </Typography>
             </Box>
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
-            <Stack direction="row" spacing={1.5}>
+            <Stack direction="row" spacing={1}>
               {navItems.map((item) => (
                 <Button
                   key={item.id}
-                  color="inherit"
                   onClick={() => scrollToSection(item.id)}
-                  sx={{ textTransform: 'none', color: 'text.primary', fontWeight: 600 }}
+                  sx={{ 
+                    textTransform: 'none', 
+                    color: 'text.secondary', 
+                    fontWeight: 600,
+                    px: 2,
+                    borderRadius: 2,
+                    '&:hover': {
+                      color: 'primary.main',
+                      bgcolor: 'action.hover'
+                    }
+                  }}
                 >
                   {item.label}
                 </Button>
@@ -96,11 +97,25 @@ export default function LandingNavbar() {
             </Stack>
           </Box>
 
-          <Stack direction="row" spacing={1} alignItems="center">
-            <IconButton size="small" color="inherit" onClick={() => dispatch(toggleTheme())}>
-              {themeMode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+          <Stack direction="row" spacing={1.5} alignItems="center">
+            <IconButton size="small" onClick={() => dispatch(toggleTheme())} sx={{ border: '1px solid', borderColor: 'divider' }}>
+              {themeMode === 'dark' ? <LightModeIcon fontSize="small" /> : <DarkModeIcon fontSize="small" />}
             </IconButton>
-            <Button variant="contained" size="medium" onClick={() => navigate(ROUTES.LOGIN)} sx={{ borderRadius: 8, textTransform: 'none' }}>
+            <Button 
+              variant="contained" 
+              size="medium" 
+              onClick={() => navigate(ROUTES.LOGIN)} 
+              sx={{ 
+                borderRadius: 1.5, 
+                textTransform: 'none', 
+                fontWeight: 700,
+                px: 3,
+                boxShadow: 'none',
+                '&:hover': {
+                  boxShadow: `0 4px 12px ${theme.palette.primary.main}40`
+                }
+              }}
+            >
               Sign In
             </Button>
           </Stack>

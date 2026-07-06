@@ -48,14 +48,14 @@ export default function EditProcurementPage() {
           </> :
 
         <>
-            <Typography variant="h5" fontWeight={700} id="edit-page-title">
+            <Typography variant="h3" fontWeight={700} id="edit-page-title">
               Edit Requisition {id && `(${id})`}
             </Typography>
             <Typography
-            variant="caption"
+            variant="body2"
             color="text.secondary"
             display="block"
-            sx={{ mt: 0.25 }}>
+            sx={{ mt: 0.5 }}>
             
               Update the request details and resubmit for approval
             </Typography>
@@ -67,7 +67,7 @@ export default function EditProcurementPage() {
         elevation={0}
         sx={{
           p: { xs: 2.5, sm: 4 },
-          borderRadius: 3,
+          borderRadius: 1.5,
           border: '1px solid',
           borderColor: 'divider'
         }}>

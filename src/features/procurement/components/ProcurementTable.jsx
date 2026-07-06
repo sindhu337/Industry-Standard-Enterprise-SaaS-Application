@@ -166,7 +166,7 @@ export default function ProcurementTable({
       <Paper
         sx={{
           width: '100%',
-          borderRadius: 3,
+          borderRadius: 1.5,
           overflow: 'hidden',
           border: '1px solid',
           borderColor: 'divider'

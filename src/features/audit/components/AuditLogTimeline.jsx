@@ -30,7 +30,7 @@ const getBorderColor = (level) => {
 export default function AuditLogTimeline({ logs = [] }) {
   if (logs.length === 0) {
     return (
-      <Paper elevation={0} sx={{ p: 4, textAlign: 'center', border: '1px solid', borderColor: 'divider', borderRadius: 3 }}>
+      <Paper elevation={0} sx={{ p: 4, textAlign: 'center', border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}>
         <Typography variant="body2" color="text.secondary">No log activity recorded.</Typography>
       </Paper>);
 
@@ -86,7 +86,7 @@ export default function AuditLogTimeline({ logs = [] }) {
               p: 2,
               border: '1px solid',
               borderColor: 'divider',
-              borderRadius: 3,
+              borderRadius: 1.5,
               bgcolor: 'background.paper',
               transition: 'box-shadow 0.2s',
               '&:hover': {

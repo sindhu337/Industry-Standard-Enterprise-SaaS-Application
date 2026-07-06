@@ -31,7 +31,8 @@ export default function ProcurementListPage() {
     loadAll();
   }, [loadAll]);
 
-  const showMyRequests = location.state?.myRequests === true;
+  const isEmployee = authUser?.role === 'Employee';
+  const showMyRequests = isEmployee || location.state?.myRequests === true;
   const visibleRows = showMyRequests ?
   filteredItems.filter((item) => item.requestedById === authUser?.id || item.requestedBy === authUser?.name) :
   filteredItems;
@@ -59,9 +60,8 @@ export default function ProcurementListPage() {
         elevation={0}
         sx={{
           p: 2.5,
-          mt: 2,
-          mb: 2.5,
-          borderRadius: 3,
+          mt: 0,
+          borderRadius: 1.5,
           border: '1px solid',
           borderColor: 'divider'
         }}>

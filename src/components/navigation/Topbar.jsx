@@ -36,6 +36,7 @@ import { toggleTheme, toggleSidebar, toggleSidebarCollapse } from '@/app/store/s
 import { logout } from '@/features/auth/authSlice'
 import { fetchNotifications } from '@/features/notifications/notificationSlice'
 import NotificationPopover from './NotificationPopover'
+import AppLogo from '@/components/common/AppLogo'
 import { ROUTES } from '@/constants/routes'
 import { APP_CONFIG } from '@/constants/appConfig'
 
@@ -123,12 +124,7 @@ export default function Topbar({ height }) {
         </Tooltip>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mr: 3 }}>
-          <ShieldIcon color="primary" sx={{ fontSize: 28 }} />
-          {!isMobile && (
-            <Typography variant="h6" fontWeight="bold" noWrap>
-              {APP_CONFIG.APP_NAME}
-            </Typography>
-          )}
+          <AppLogo width={64} height={64} />
         </Box>
 
         <Box sx={{ flexGrow: 1, maxWidth: 420, mx: 2, display: { xs: 'none', sm: 'block' } }}>
@@ -141,14 +137,14 @@ export default function Topbar({ height }) {
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon fontSize="small" />
+                    <SearchIcon fontSize="small" sx={{ mr: -1.5 }} />
                   </InputAdornment>
                 ),
               },
             }}
             sx={{
               '& .MuiOutlinedInput-root': {
-                borderRadius: 10,
+                borderRadius: 1,
                 bgcolor: 'action.hover',
                 '& fieldset': { border: 'none' },
               },
@@ -204,8 +200,8 @@ export default function Topbar({ height }) {
               elevation: 3,
               sx: {
                 mt: 1.5,
-                minWidth: 200,
-                borderRadius: 2,
+                minWidth: 250,
+                borderRadius: 1.5,
               },
             },
           }}
@@ -230,6 +226,7 @@ export default function Topbar({ height }) {
                 py: 0.2,
                 borderRadius: 1,
                 mt: 0.5,
+                ml: 1 ,
               }}
             >
               {user?.role || 'Employee'}

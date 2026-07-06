@@ -24,11 +24,11 @@ export default function VendorDetailPage() {
         >
           Back to Vendors
         </Button>
-        <Typography variant="h5" fontWeight={700} id="vendor-detail-title">
+        <Typography variant="h3" fontWeight={700} id="vendor-detail-title">
           Vendor Profile
         </Typography>
         {selected && (
-          <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 0.25 }}>
+          <Typography variant="body2" color="text.secondary" display="block" sx={{ mt: 0.5 }}>
             {selected.id} · {selected.category} · {selected.country}
           </Typography>
         )}

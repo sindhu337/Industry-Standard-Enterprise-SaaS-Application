@@ -7,10 +7,11 @@ export default function Footer() {
       component="footer"
       sx={{
         py: 1.5,
-        px: 3,
+        px: { xs: 2, sm: 3 },
         borderTop: '1px solid',
         borderColor: 'divider',
         bgcolor: 'background.paper',
+        textAlign: { xs: 'center', sm: 'left' },
       }}
     >
       <Typography variant="caption" color="text.secondary">

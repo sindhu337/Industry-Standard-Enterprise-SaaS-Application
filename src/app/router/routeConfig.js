@@ -117,25 +117,12 @@ export const routeConfig = [
     lazy: () => import('@/features/audit/AuditPage'),
   },
   {
-    path: ROUTES.ADMIN,
-    key: 'admin',
-    label: 'Administrator Workspace',
-    allowedRoles: [ADMIN],
-    lazy: () => import('@/features/admin/AdminWorkspacePage'),
-  },
-  {
+    id: 'reports',
     path: ROUTES.REPORTS,
     key: 'reports',
     label: 'Reporting Center',
     allowedRoles: [ADMIN, PROCUREMENT_MANAGER, COMPLIANCE_OFFICER, AUDITOR],
     lazy: () => import('@/features/reports/ReportPage'),
-  },
-  {
-    path: ROUTES.NOTIFICATIONS,
-    key: 'notifications',
-    label: 'Notifications',
-    allowedRoles: [ADMIN, EMPLOYEE, PROCUREMENT_MANAGER, COMPLIANCE_OFFICER, AUDITOR],
-    lazy: () => import('@/features/notifications/NotificationPage'),
   },
   {
     path: ROUTES.APPROVALS,

@@ -162,26 +162,26 @@ export default function ApprovalsPage() {
 
   return (
     <PageContainer>
-      <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2, flexWrap: 'wrap' }}>
+      <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2, flexWrap: 'wrap' }}>
         <Box>
-          <Typography variant="h5" fontWeight={700} id="approval-workbench-title">
+          <Typography variant="h3" fontWeight={700} id="approval-workbench-title">
             Approval Workbench
           </Typography>
-          <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 0.5 }}>
+          <Typography variant="body2" color="text.secondary" display="block" sx={{ mt: 0.5 }}>
             Review procurement requests, approve spend, reject exceptions, or send requests back for revision.
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', alignItems: 'center' }}>
           {!canManageApprovals && (
-            <Chip label="Read only" variant="outlined" color="default" sx={{ fontWeight: 700 }} />
+            <Chip label="Read only" variant="outlined" color="default" sx={{ fontWeight: 500 }} />
           )}
-          <Button variant="outlined" startIcon={<RefreshIcon />} onClick={loadAll} sx={{ borderRadius: 2, px: 2.5, fontWeight: 700 }}>
+          <Button variant="outlined" startIcon={<RefreshIcon />} onClick={loadAll} sx={{ borderRadius: 1.5, px: 2, py: 0.5, fontWeight: 700 }}>
             Refresh
           </Button>
         </Box>
       </Box>
 
-      <Paper elevation={0} sx={{ borderRadius: 3, overflow: 'hidden', border: '1px solid', borderColor: 'divider' }}>
+      <Paper elevation={0} sx={{ borderRadius: 1.5, overflow: 'hidden', border: '1px solid', borderColor: 'divider' }}>
         <Box sx={{ px: 2.5, py: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1.5 }}>
           <Box>
             <Typography variant="subtitle1" fontWeight={700}>
@@ -194,31 +194,35 @@ export default function ApprovalsPage() {
           <Chip label={`${rows.length} Requests`} color="primary" variant="outlined" sx={{ fontWeight: 700 }} />
         </Box>
         <Divider />
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          loading={loading}
-          pageSizeOptions={[5, 10, 25]}
-          initialState={{ pagination: { paginationModel: { pageSize: 10, page: 0 } } }}
-          disableRowSelectionOnClick
-          autoHeight
-          sx={{
-            border: 'none',
-            '& .MuiDataGrid-columnHeaders': {
-              bgcolor: 'action.selected',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em',
-            },
-            '& .MuiDataGrid-row:hover': {
-              bgcolor: 'action.hover',
-            },
-            '& .MuiDataGrid-cell': {
-              borderBottom: '1px solid',
-              borderColor: 'divider',
-            },
-          }}
-        />
+        <Box sx={{ width: '100%', overflowX: 'auto' }}>
+          <Box sx={{ minWidth: 1100 }}>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              loading={loading}
+              pageSizeOptions={[5, 10, 25]}
+              initialState={{ pagination: { paginationModel: { pageSize: 10, page: 0 } } }}
+              disableRowSelectionOnClick
+              autoHeight
+              sx={{
+                border: 'none',
+                '& .MuiDataGrid-columnHeaders': {
+                  bgcolor: 'action.selected',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                },
+                '& .MuiDataGrid-row:hover': {
+                  bgcolor: 'action.hover',
+                },
+                '& .MuiDataGrid-cell': {
+                  borderBottom: '1px solid',
+                  borderColor: 'divider',
+                },
+              }}
+            />
+          </Box>
+        </Box>
       </Paper>
 
       <ApprovalDecisionDialog

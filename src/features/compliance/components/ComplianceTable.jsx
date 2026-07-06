@@ -19,7 +19,7 @@ export default function ComplianceTable({ rows = [], loading = false }) {
             variant="determinate"
             value={value}
             color={value >= 85 ? 'success' : value >= 65 ? 'warning' : 'error'}
-            sx={{ flexGrow: 1, height: 6, borderRadius: 3 }}
+            sx={{ flexGrow: 1, height: 6, borderRadius: 1.5 }}
           />
           <Typography variant="caption" fontWeight={700} sx={{ minWidth: 30 }}>{value}%</Typography>
         </Box>
@@ -56,7 +56,7 @@ export default function ComplianceTable({ rows = [], loading = false }) {
       pageSizeOptions={[10, 25]}
       initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
       sx={{
-        borderRadius: 3, border: '1px solid', borderColor: 'divider',
+        borderRadius: 1.5, border: '1px solid', borderColor: 'divider',
         '& .MuiDataGrid-columnHeaders': { bgcolor: 'action.hover', fontWeight: 700 },
         '& .MuiDataGrid-row:hover': { bgcolor: 'action.hover' },
         '& .MuiDataGrid-cell': { display: 'flex', alignItems: 'center' },

@@ -57,23 +57,23 @@ export default function ProcurementDetailsPage() {
           }}>
           
           <Box>
-            <Typography variant="h5" fontWeight={700} id="detail-page-title">
+            <Typography variant="h3" fontWeight={700} id="detail-page-title">
               Requisition Details
             </Typography>
             {selected &&
-            <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 0.25 }}>
+            <Typography variant="body2" color="text.secondary" display="block" sx={{ mt: 0.5 }}>
                 {selected.id} · {selected.department}
               </Typography>
             }
           </Box>
 
           {selected && canEdit(selected) &&
-          <Button
+            <Button
             variant="outlined"
             startIcon={<EditIcon />}
             onClick={() => navigate(`/procurement/${id}/edit`)}
             id="btn-edit-detail"
-            sx={{ borderRadius: 2, fontWeight: 700 }}>
+            sx={{ borderRadius: 1.5, px: 2, py: 0.5, fontWeight: 700 }}>
             
               Edit Requisition
             </Button>

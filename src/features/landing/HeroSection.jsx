@@ -1,21 +1,9 @@
-import { Box, Button, Avatar, Chip, Container, Grid, Stack, Typography, useTheme } from '@mui/material'
+import { Box, Button, Container, Typography, Stack, useTheme, Avatar } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@/constants/routes'
-import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined'
-import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined'
-import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined'
-import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined'
-import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-
-const featureCards = [
-  { label: 'Procurement', icon: <LocalShippingOutlinedIcon fontSize="small" /> },
-  { label: 'Compliance', icon: <VerifiedUserOutlinedIcon fontSize="small" /> },
-  { label: 'Audit', icon: <FactCheckOutlinedIcon fontSize="small" /> },
-  { label: 'Risk', icon: <ShieldOutlinedIcon fontSize="small" /> },
-  { label: 'Reports', icon: <AssessmentOutlinedIcon fontSize="small" /> },
-  { label: 'Role-Based Access', icon: <LockOutlinedIcon fontSize="small" /> },
-]
+import { motion } from 'framer-motion'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import SecurityIcon from '@mui/icons-material/Security'
 
 export default function HeroSection() {
   const theme = useTheme()
@@ -26,92 +14,169 @@ export default function HeroSection() {
       component="section"
       id="hero"
       sx={{
-        pt: { xs: 14, md: 18 },
-        pb: { xs: 8, md: 12 },
-        bgcolor: 'background.default',
+        pt: { xs: 16, md: 24 },
+        pb: { xs: 12, md: 16 },
         position: 'relative',
+        bgcolor: 'background.default',
         overflow: 'hidden',
-        scrollMarginTop: { xs: 88, md: 96 },
       }}
     >
+      {/* Dynamic Background Pattern */}
       <Box
         sx={{
           position: 'absolute',
           inset: 0,
-          background: 'radial-gradient(circle at top left, rgba(79, 70, 229, 0.12), transparent 28%), radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.12), transparent 22%)',
+          opacity: theme.palette.mode === 'dark' ? 0.05 : 0.03,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           pointerEvents: 'none',
         }}
       />
-      <Container maxWidth="xl">
-        <Grid container spacing={4} alignItems="center">
-          <Grid item xs={12} md={6}>
-            <Stack spacing={4} sx={{ maxWidth: 620 }}>
-              <Box>
-                <Typography variant="overline" sx={{ letterSpacing: 2, fontWeight: 700, color: 'primary.main' }}>
-                  Welcome to
-                </Typography>
-                <Typography variant="h2" component="h1" sx={{ fontWeight: 800, lineHeight: 1.05, mt: 1 }}>
-                  Enterprise Governance, Risk, Compliance & Procurement Platform
-                </Typography>
-              </Box>
+      
+      {/* Gradient Glow */}
+      <Box
+        component={motion.div}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5 }}
+        sx={{
+          position: 'absolute',
+          top: '10%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: { xs: '100%', md: '80%' },
+          height: '60%',
+          background: `radial-gradient(ellipse at top, ${theme.palette.primary.main}40, transparent 70%)`,
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+        }}
+      />
 
-              <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 560, lineHeight: 1.75 }}>
-                A unified enterprise platform designed to streamline procurement workflows, ensure compliance, manage organizational risks, perform audits, and provide secure role-based access for modern organizations.
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+        <Stack alignItems="center" spacing={4}>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+          >
+            <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 1, px: 2, py: 1, borderRadius: 8, bgcolor: 'background.paper', border: '1px solid', borderColor: 'divider', mb: 2 }}>
+              <SecurityIcon color="primary" fontSize="small" />
+              <Typography variant="caption" fontWeight={700} color="text.primary">
+                Next-Gen Enterprise Governance Platform
               </Typography>
+            </Box>
+          </motion.div>
 
-              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                <Button variant="contained" size="large" onClick={() => navigate(ROUTES.LOGIN)} sx={{ minWidth: 170 }}>
-                  Get Started
-                </Button>
-                <Button variant="outlined" size="large" onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth', block: 'start' })} sx={{ minWidth: 170 }}>
-                  Learn More
-                </Button>
-              </Stack>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
+          >
+            <Typography 
+              variant="h1" 
+              sx={{ 
+                fontWeight: 900, 
+                lineHeight: 1.1, 
+                fontSize: { xs: '3rem', md: '5rem' },
+                letterSpacing: '-0.02em',
+              }}
+            >
+              Govern, Manage, &<br />
+              <Box component="span" sx={{ color: 'primary.main' }}>
+                Secure Everything.
+              </Box>
+            </Typography>
+          </motion.div>
 
-              <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
-                {featureCards.slice(0, 3).map((feature) => (
-                  <Chip key={feature.label} label={feature.label} icon={feature.icon} color="primary" variant="outlined" />
-                ))}
-              </Stack>
-            </Stack>
-          </Grid>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
+          >
+            <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 700, mx: 'auto', fontWeight: 400, lineHeight: 1.6 }}>
+              A unified enterprise platform designed to streamline procurement workflows, ensure compliance, manage organizational risks, and provide secure role-based access.
+            </Typography>
+          </motion.div>
 
-          <Grid item xs={12} md={6}>
-            <Box sx={{ position: 'relative', width: '100%', minHeight: 440, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Box sx={{ position: 'absolute', inset: 0, borderRadius: '50%', bgcolor: 'primary.light', opacity: 0.15, filter: 'blur(30px)' }} />
-              <Box
-                sx={{
-                  position: 'relative',
-                  width: { xs: '100%', sm: 380 },
-                  maxWidth: 420,
-                  height: { xs: 360, sm: 420 },
-                  borderRadius: '38% 62% 56% 44% / 45% 42% 58% 55%',
-                  bgcolor: 'background.paper',
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  boxShadow: '0 32px 80px rgba(15, 23, 42, 0.12)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexDirection: 'column',
-                  px: 4,
-                  py: 5,
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
+            style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+          >
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center" sx={{ mt: 2 }}>
+              <Button 
+                variant="contained" 
+                size="large" 
+                onClick={() => navigate(ROUTES.LOGIN)} 
+                endIcon={<ArrowForwardIcon />}
+                sx={{ 
+                  py: 1.5, 
+                  px: 4, 
+                  borderRadius: 1.5, 
+                  fontWeight: 700, 
+                  fontSize: '1rem',
+                  boxShadow: `0 8px 24px ${theme.palette.primary.main}40`,
                 }}
               >
-                <Avatar sx={{ width: 80, height: 80, bgcolor: 'primary.main', color: '#fff', mb: 2 }}>
-                  <ShieldOutlinedIcon fontSize="large" />
-                </Avatar>
-                <Typography variant="h6" fontWeight={800} sx={{ color: 'primary.main', mb: 1 }}>
-                  e-GRCP Shield
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', maxWidth: 180 }}>
-                  Secure enterprise governance, risk, compliance, and procurement.
-                </Typography>
-              </Box>
+                Access Platform
+              </Button>
+              <Button 
+                variant="outlined" 
+                size="large" 
+                onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth', block: 'start' })} 
+                sx={{ 
+                  py: 1.5, 
+                  px: 4, 
+                  borderRadius: 1.5, 
+                  fontWeight: 700, 
+                  fontSize: '1rem' 
+                }}
+              >
+                Explore Features
+              </Button>
+            </Stack>
+          </motion.div>
 
+          {/* Interactive Mockup Preview */}
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
+            style={{ width: '100%', marginTop: '64px' }}
+          >
+            <Box 
+              sx={{ 
+                width: '100%', 
+                height: { xs: 300, md: 500 },
+                borderRadius: 3, 
+                bgcolor: 'background.paper',
+                border: '1px solid',
+                borderColor: 'divider',
+                boxShadow: theme.palette.mode === 'dark' ? '0 32px 100px rgba(0,0,0,0.5)' : '0 32px 100px rgba(15, 23, 42, 0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden',
+                position: 'relative'
+              }}
+            >
+              {/* Mock Dashboard Wireframe */}
+              <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: 60, borderBottom: '1px solid', borderColor: 'divider', display: 'flex', alignItems: 'center', px: 3, gap: 2 }}>
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: 'error.main' }} />
+                  <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: 'warning.main' }} />
+                  <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: 'success.main' }} />
+                </Box>
+                <Box sx={{ flexGrow: 1, height: 28, borderRadius: 1, bgcolor: 'action.hover', maxWidth: 400, mx: 'auto' }} />
+              </Box>
+              <Typography variant="h5" color="text.disabled" fontWeight={700}>
+                Dashboard Interface Preview
+              </Typography>
             </Box>
-          </Grid>
-        </Grid>
+          </motion.div>
+
+        </Stack>
       </Container>
     </Box>
   )

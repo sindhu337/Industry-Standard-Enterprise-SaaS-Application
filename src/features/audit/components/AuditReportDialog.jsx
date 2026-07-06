@@ -7,7 +7,7 @@ export default function AuditReportDialog({ open, onClose, item }) {
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>Mock Audit Report</DialogTitle>
       <DialogContent dividers>
-        <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+        <Paper elevation={0} sx={{ p: 3, borderRadius: 1.5, border: '1px solid', borderColor: 'divider' }}>
           <Typography variant="h6" fontWeight={700} sx={{ mb: 1 }}>Procurement Audit Summary</Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>{item.title}</Typography>
           <Grid container spacing={2}>

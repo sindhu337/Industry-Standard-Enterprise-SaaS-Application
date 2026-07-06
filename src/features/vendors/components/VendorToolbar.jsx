@@ -16,19 +16,6 @@ export default function VendorToolbar({ title, subtitle, loading = false }) {
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-        <Box
-          sx={{
-            width: 44,
-            height: 44,
-            borderRadius: 2,
-            bgcolor: 'primary.main',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <StoreIcon sx={{ color: 'primary.contrastText', fontSize: 22 }} />
-        </Box>
         <Box>
           {loading ? (
             <>
@@ -37,11 +24,11 @@ export default function VendorToolbar({ title, subtitle, loading = false }) {
             </>
           ) : (
             <>
-              <Typography variant="h6" fontWeight={700} lineHeight={1.2}>
+              <Typography variant="h3" fontWeight={700} sx={{ lineHeight: 1.2 }}>
                 {title}
               </Typography>
               {subtitle && (
-                <Typography variant="caption" color="text.secondary" display="block">
+                <Typography variant="body2" color="text.secondary" display="block" sx={{ mt: 0.5 }}>
                   {subtitle}
                 </Typography>
               )}
@@ -54,7 +41,7 @@ export default function VendorToolbar({ title, subtitle, loading = false }) {
         variant="contained"
         startIcon={<AddIcon />}
         id="btn-add-vendor"
-        sx={{ borderRadius: 2, fontWeight: 700, whiteSpace: 'nowrap', px: 2.5 }}
+        sx={{ borderRadius: 1.5, fontWeight: 700, whiteSpace: 'nowrap', px: 2, py: 0.5 }}
         onClick={() => navigate('/vendors/create')}
       >
         Add Vendor

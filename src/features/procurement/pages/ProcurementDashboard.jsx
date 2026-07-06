@@ -22,7 +22,7 @@ export default function ProcurementDashboard() {
       <Grid container spacing={3} sx={{ mb: 3 }}>
         {stats.map((metric) => (
           <Grid item xs={12} md={6} key={metric.label}>
-            <Card variant="outlined" sx={{ minHeight: 132, borderRadius: 3, borderColor: 'divider' }}>
+            <Card variant="outlined" sx={{ minHeight: 132, borderRadius: 1.5, borderColor: 'divider' }}>
               <CardContent>
                 <Typography variant="h5" fontWeight={700} gutterBottom color={metric.color}>
                   {metric.value}
@@ -36,14 +36,14 @@ export default function ProcurementDashboard() {
         ))}
       </Grid>
 
-      <Card variant="outlined" sx={{ borderRadius: 3, borderColor: 'divider' }}>
+      <Card variant="outlined" sx={{ borderRadius: 1.5, borderColor: 'divider' }}>
         <CardContent>
           <Typography variant="h6" fontWeight={700} sx={{ mb: 2 }}>
             Recent Requests
           </Typography>
           <Box sx={{ display: 'grid', gap: 2 }}>
             {recentRequests.map((item) => (
-              <Box key={item.id} sx={{ p: 2, borderRadius: 3, bgcolor: 'action.hover' }}>
+              <Box key={item.id} sx={{ p: 2, borderRadius: 1.5, bgcolor: 'action.hover' }}>
                 <Typography variant="subtitle1" fontWeight={700}>
                   {item.title}
                 </Typography>

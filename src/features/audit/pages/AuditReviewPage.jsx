@@ -65,7 +65,7 @@ export default function AuditReviewPage() {
           { label: 'Completed Audits', value: auditStats.completed, color: 'success.main' },
           { label: 'Observations', value: auditStats.observations, color: 'error.main' },
         ].map((metric) => (
-          <Paper key={metric.label} elevation={0} sx={{ p: 2.5, borderRadius: 3, border: '1px solid', borderColor: 'divider', bgcolor: 'background.paper' }}>
+          <Paper key={metric.label} elevation={0} sx={{ p: 2.5, borderRadius: 1.5, border: '1px solid', borderColor: 'divider', bgcolor: 'background.paper' }}>
             <Typography variant="h5" fontWeight={700} color={metric.color} sx={{ mb: 0.5 }}>
               {metric.value}
             </Typography>
@@ -75,7 +75,7 @@ export default function AuditReviewPage() {
           </Paper>
         ))}
       </Box>
-      <Paper elevation={0} sx={{ p: 2.5, borderRadius: 3, border: '1px solid', borderColor: 'divider', mb: 3 }}>
+      <Paper elevation={0} sx={{ p: 2.5, borderRadius: 1.5, border: '1px solid', borderColor: 'divider', mb: 3 }}>
         <Typography variant="subtitle1" fontWeight={700}>Auditor Queue</Typography>
         <Typography variant="body2" color="text.secondary">Only approved and compliant procurement requests are shown.</Typography>
       </Paper>
@@ -83,7 +83,7 @@ export default function AuditReviewPage() {
       <AuditQueueTable rows={queue} loading={loading} onMarkAudited={handleMarkAudited} onAddObservation={handleAddObservation} />
       <Divider sx={{ my: 3 }} />
       <Box sx={{ mb: 3 }}>
-        <Paper elevation={0} sx={{ p: 2.5, borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+        <Paper elevation={0} sx={{ p: 2.5, borderRadius: 1.5, border: '1px solid', borderColor: 'divider' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
             <Box>
               <Typography variant="h6" fontWeight={700}>Audit Review Detail</Typography>

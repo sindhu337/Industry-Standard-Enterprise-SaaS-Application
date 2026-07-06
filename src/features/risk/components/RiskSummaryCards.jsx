@@ -24,7 +24,7 @@ export default function RiskSummaryCards({ summary, loading }) {
           <Paper
             elevation={0}
             sx={{
-              p: 2.5, borderRadius: 3,
+              p: 2.5, borderRadius: 1.5,
               border: '1px solid', borderColor: 'divider',
               display: 'flex', flexDirection: 'column', gap: 1,
               transition: 'box-shadow 0.2s',

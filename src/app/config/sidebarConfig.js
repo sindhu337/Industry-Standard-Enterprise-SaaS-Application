@@ -77,34 +77,11 @@ export const sidebarConfig = [
     requiredPermission: 'reports.view',
   },
   {
-    id: 'notifications',
-    title: 'Notifications',
-    icon: 'Notifications',
-    route: ROUTES.NOTIFICATIONS,
-    allowedRoles: [ADMIN, EMPLOYEE, PROCUREMENT_MANAGER, COMPLIANCE_OFFICER, AUDITOR],
-    badge: 'unread',
-  },
-  {
-    id: 'profile',
-    title: 'Profile',
-    icon: 'Person',
-    route: ROUTES.PROFILE,
-    allowedRoles: [EMPLOYEE],
-  },
-  {
     id: 'settings',
     title: 'Settings',
     icon: 'Settings',
     route: ROUTES.SETTINGS,
     allowedRoles: [ADMIN],
-  },
-  {
-    id: 'user-management',
-    title: 'User Management',
-    icon: 'ManageAccounts',
-    route: ROUTES.ADMIN,
-    allowedRoles: [ADMIN],
-    requiredPermission: 'settings.manageUsers',
   },
 ]
 

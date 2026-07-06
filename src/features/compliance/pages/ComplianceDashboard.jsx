@@ -21,7 +21,7 @@ export default function ComplianceDashboard() {
       <Grid container spacing={3} sx={{ mb: 3 }}>
         {stats.map((metric) => (
           <Grid item xs={12} md={4} key={metric.label}>
-            <Card variant="outlined" sx={{ minHeight: 132, borderRadius: 3, borderColor: 'divider' }}>
+            <Card variant="outlined" sx={{ minHeight: 132, borderRadius: 1.5, borderColor: 'divider' }}>
               <CardContent>
                 <Typography variant="h5" fontWeight={700} gutterBottom color={metric.color}>
                   {metric.value}

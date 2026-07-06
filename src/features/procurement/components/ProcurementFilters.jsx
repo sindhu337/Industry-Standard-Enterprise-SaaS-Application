@@ -1,6 +1,3 @@
-
-
-
 import {
   Box,
   TextField,
@@ -25,7 +22,7 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
   filters.search ||
   filters.status !== 'All' ||
   filters.priority !== 'All' ||
-  filters.department ||
+  filters.department !== 'All' ||
   filters.startDate ||
   filters.endDate;
 
@@ -34,7 +31,7 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
     search: '',
     status: 'All',
     priority: 'All',
-    department: '',
+    department: 'All',
     startDate: '',
     endDate: ''
   });
@@ -54,16 +51,7 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
         placeholder="Search by title, ID, vendor, department…"
         value={filters.search}
         onChange={(e) => onFilterChange({ search: e.target.value })}
-        slotProps={{
-          input: {
-            startAdornment:
-            <InputAdornment position="start">
-                <SearchIcon fontSize="small" color="action" />
-              </InputAdornment>
-
-          }
-        }}
-        sx={{ flexGrow: 1, minWidth: 260 }}
+        sx={{ minWidth: 100 }}
         id="procurement-search" />
       
 
@@ -108,13 +96,12 @@ export default function ProcurementFilters({ filters, onFilterChange }) {
         label="Department"
         value={filters.department || ''}
         onChange={(e) => onFilterChange({ department: e.target.value })}
-        sx={{ minWidth: 160 }}
+        sx={{ minWidth: 200 }}
         id="procurement-filter-dept">
         
-        <MenuItem value="">All Departments</MenuItem>
         {PROCUREMENT_DEPARTMENTS.map((d) =>
         <MenuItem key={d} value={d}>
-            {d}
+            {d === 'All' ? 'All Departments' : d}
           </MenuItem>
         )}
       </TextField>

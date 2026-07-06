@@ -71,12 +71,9 @@ export default function CompliancePage() {
     <PageContainer>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2, mb: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          <Box sx={{ width: 44, height: 44, borderRadius: 2, bgcolor: 'info.main', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <SecurityIcon sx={{ color: '#fff', fontSize: 22 }} />
-          </Box>
           <Box>
-            <Typography variant="h6" fontWeight={700} lineHeight={1.2}>Compliance Officer Review Queue</Typography>
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant="h3" fontWeight={700} sx={{ lineHeight: 1.2 }}>Compliance Officer Review Queue</Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
               Review approved procurement requests, mark them compliant, and request additional information when needed.
             </Typography>
           </Box>
@@ -84,7 +81,7 @@ export default function CompliancePage() {
         <Chip label={summaryLabel} color="success" variant="outlined" sx={{ fontWeight: 700 }} />
       </Box>
 
-      <Paper elevation={0} sx={{ p: 2.5, mb: 3, borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+      <Paper elevation={0} sx={{ p: 2.5, mb: 3, borderRadius: 1.5, border: '1px solid', borderColor: 'divider' }}>
         <ComplianceReviewTable rows={approvedItems} loading={loading} onReviewAction={handleReviewAction} />
       </Paper>
 
